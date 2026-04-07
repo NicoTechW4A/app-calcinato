@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="app">
+<div id="app" data-theme="chiaro" data-fontsize="normale" data-adhd="off" data-contrast="off" data-dyslexia="off">
 
   <!-- TOP BAR -->
   <div class="topbar">
@@ -31,6 +31,9 @@
         <span class="weather-icon" id="weather-icon">--</span>
         <span class="weather-temp" id="weather-temp">--&deg;</span>
       </div>
+    </div>
+    <div class="topbar-settings" id="topbar-settings" onclick="goScreen('settings')">
+      <svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
     </div>
   </div>
 
@@ -120,6 +123,69 @@
     <!-- INFO -->
     <div class="screen" id="scr-info">
       <div class="scroll" id="info-content"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="screen" id="scr-settings">
+      <div class="scroll">
+
+        <div class="sec-lbl" style="margin-top:4px">Aspetto</div>
+        <div class="sett-card">
+          <div class="sett-label">Tema</div>
+          <div class="sett-desc">Scegli il colore di sfondo dell'app</div>
+          <div class="sett-segments" id="seg-theme">
+            <button class="sett-seg active" data-val="chiaro" onclick="setTheme('chiaro')">Chiaro</button>
+            <button class="sett-seg" data-val="scuro" onclick="setTheme('scuro')">Scuro</button>
+            <button class="sett-seg" data-val="blu" onclick="setTheme('blu')">Blu</button>
+          </div>
+        </div>
+
+        <div class="sec-lbl">Accessibilit&agrave;</div>
+
+        <div class="sett-card">
+          <div class="sett-label">Dimensione testo</div>
+          <div class="sett-desc">Ingrandisci il testo per una lettura pi&ugrave; agevole</div>
+          <div class="sett-segments" id="seg-fontsize">
+            <button class="sett-seg" data-val="piccolo" onclick="setFontSize('piccolo')" style="font-size:10px">A</button>
+            <button class="sett-seg active" data-val="normale" onclick="setFontSize('normale')" style="font-size:12px">A</button>
+            <button class="sett-seg" data-val="grande" onclick="setFontSize('grande')" style="font-size:15px">A</button>
+            <button class="sett-seg" data-val="molto-grande" onclick="setFontSize('molto-grande')" style="font-size:18px">A</button>
+          </div>
+        </div>
+
+        <div class="sett-card">
+          <div class="sett-toggle-row">
+            <div class="sett-toggle-info">
+              <div class="sett-label">Modalit&agrave; ADHD</div>
+              <div class="sett-desc" style="margin-bottom:0">Riduce animazioni e distrazioni, rafforza la gerarchia visiva</div>
+            </div>
+            <div class="sett-toggle" id="tog-adhd" onclick="toggleSetting('adhd')"></div>
+          </div>
+        </div>
+
+        <div class="sett-card">
+          <div class="sett-toggle-row">
+            <div class="sett-toggle-info">
+              <div class="sett-label">Alto contrasto</div>
+              <div class="sett-desc" style="margin-bottom:0">Bordi pi&ugrave; marcati e testo pi&ugrave; leggibile</div>
+            </div>
+            <div class="sett-toggle" id="tog-contrast" onclick="toggleSetting('contrast')"></div>
+          </div>
+        </div>
+
+        <div class="sett-card">
+          <div class="sett-toggle-row">
+            <div class="sett-toggle-info">
+              <div class="sett-label">Font dislessia</div>
+              <div class="sett-desc" style="margin-bottom:0">Usa il font OpenDyslexic con spaziatura aumentata</div>
+            </div>
+            <div class="sett-toggle" id="tog-dyslexia" onclick="toggleSetting('dyslexia')"></div>
+          </div>
+        </div>
+
+        <div class="sett-footer">Le impostazioni vengono salvate automaticamente sul dispositivo.</div>
+
+      </div>
     </div>
 
   </div>

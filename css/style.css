@@ -326,3 +326,236 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   text-align:center;padding:20px 12px 8px;
   font-size:10px;color:#bbb;line-height:1.6;
 }
+
+/* ─── TOPBAR SETTINGS GEAR ────────────────────────── */
+.topbar-settings{
+  width:32px;height:32px;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;
+  border-radius:50%;transition:background .15s;
+  margin-left:6px;flex-shrink:0;
+}
+.topbar-settings:active{background:rgba(255,255,255,0.15)}
+.topbar-settings svg{width:20px;height:20px;stroke:#fff;stroke-width:1.4;fill:none;opacity:.75;stroke-linecap:round;stroke-linejoin:round}
+
+/* ═══════════════════════════════════════════════════
+   SETTINGS UI COMPONENTS
+   ═══════════════════════════════════════════════════ */
+.sett-section{margin-bottom:20px}
+.sett-card{
+  background:#fff;border:1px solid var(--gray-border);
+  border-radius:11px;padding:14px;margin-bottom:8px;
+}
+.sett-label{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:3px}
+.sett-desc{font-size:11px;color:var(--gray-txt);margin-bottom:10px;line-height:1.4}
+
+/* Segmented control */
+.sett-segments{
+  display:flex;gap:3px;background:var(--gray-bg);
+  border-radius:8px;padding:3px;
+}
+.sett-seg{
+  flex:1;padding:7px 4px;text-align:center;
+  font-size:11px;font-weight:600;color:var(--gray-txt);
+  border-radius:6px;cursor:pointer;transition:all .15s;
+  border:none;background:transparent;font-family:inherit;
+}
+.sett-seg.active{background:var(--blu);color:#fff;box-shadow:0 1px 4px rgba(0,85,165,0.3)}
+
+/* Toggle switch */
+.sett-toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sett-toggle-info{flex:1;margin-right:12px}
+.sett-toggle{
+  width:46px;height:26px;border-radius:13px;
+  background:#D0D0D0;cursor:pointer;
+  position:relative;transition:background .2s;
+  flex-shrink:0;
+}
+.sett-toggle.on{background:var(--blu)}
+.sett-toggle::after{
+  content:'';position:absolute;
+  top:3px;left:3px;width:20px;height:20px;
+  border-radius:50%;background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,0.2);
+  transition:transform .2s;
+}
+.sett-toggle.on::after{transform:translateX(20px)}
+
+.sett-footer{
+  text-align:center;padding:16px 0 8px;
+  font-size:10px;color:#bbb;line-height:1.5;
+}
+
+/* ═══════════════════════════════════════════════════
+   TEMA SCURO
+   ═══════════════════════════════════════════════════ */
+#app[data-theme="scuro"]{
+  --blu:#4A90D9;
+  --blu-dark:#0D1117;
+  --blu-lt:#1E2A3A;
+  --gray-bg:#121218;
+  --gray-txt:#A0A8B8;
+  --gray-border:#2A2A3E;
+  --dark:#E8E8EC;
+  --white:#1A1A2E;
+  --amber-lt:#2A2418;
+}
+#app[data-theme="scuro"] .topbar{background:#1A1A2E}
+#app[data-theme="scuro"] .navbar{background:#1A1A2E;border-top-color:#2A2A3E}
+#app[data-theme="scuro"] .tab-row{background:#1A1A2E;border-bottom-color:#2A2A3E}
+#app[data-theme="scuro"] .tab{color:#666}
+#app[data-theme="scuro"] .tab.active{color:#4A90D9}
+#app[data-theme="scuro"] .nb span{color:#555}
+#app[data-theme="scuro"] .nb svg{stroke:#555}
+#app[data-theme="scuro"] .nb.active span{color:#4A90D9}
+#app[data-theme="scuro"] .nb.active svg{stroke:#4A90D9}
+#app[data-theme="scuro"] .hero-img{background:#0D1117}
+#app[data-theme="scuro"] .hero-body{background:#1E1E2E}
+#app[data-theme="scuro"] .hero-snippet{color:#A0A8B8}
+#app[data-theme="scuro"] .news-card,
+#app[data-theme="scuro"] .att-card,
+#app[data-theme="scuro"] .cont-card,
+#app[data-theme="scuro"] .info-row,
+#app[data-theme="scuro"] .qcard,
+#app[data-theme="scuro"] .sett-card{background:#1E1E2E;border-color:#2A2A3E}
+#app[data-theme="scuro"] .news-card:active,
+#app[data-theme="scuro"] .att-card:active{background:#252538}
+#app[data-theme="scuro"] .weather-panel{background:#1E1E2E}
+#app[data-theme="scuro"] .weather-day{background:#252538;border-color:#2A2A3E}
+#app[data-theme="scuro"] .weather-day.today{background:#1E2A3A;border-color:#4A90D9}
+#app[data-theme="scuro"] .news-date,
+#app[data-theme="scuro"] .att-cat,
+#app[data-theme="scuro"] .att-meta,
+#app[data-theme="scuro"] .info-prov{color:#666}
+#app[data-theme="scuro"] .article-img{background:#1E2A3A}
+#app[data-theme="scuro"] .article-tag{background:#1E2A3A;color:#6AACEF}
+#app[data-theme="scuro"] .pill-notizia{background:#1E2A3A;color:#6AACEF}
+#app[data-theme="scuro"] .pill-avviso{background:#2A2418;color:#D4A840}
+#app[data-theme="scuro"] .pill-comunicato{background:#1A2A1E;color:#4ABA6A}
+#app[data-theme="scuro"] .plus-badge{background:#2A2418;color:#D4A840}
+#app[data-theme="scuro"] .sett-segments{background:#252538}
+#app[data-theme="scuro"] .sett-toggle{background:#333}
+#app[data-theme="scuro"] .cont-meta-item a{color:#6AACEF}
+#app[data-theme="scuro"] .info-value a{color:#6AACEF}
+#app[data-theme="scuro"] .info-ico{background:#1E2A3A}
+#app[data-theme="scuro"] .qcard-ico{background:#1E2A3A}
+#app[data-theme="scuro"] .qcard-ico svg{stroke:#6AACEF}
+#app[data-theme="scuro"] .topbar-logo{border-color:rgba(255,255,255,0.15)}
+
+/* ═══════════════════════════════════════════════════
+   TEMA BLU
+   ═══════════════════════════════════════════════════ */
+#app[data-theme="blu"]{
+  --gray-bg:#E8F0FA;
+  --gray-border:#B8D0E8;
+  --blu-lt:#D4E6F8;
+}
+#app[data-theme="blu"] .navbar{background:#F0F6FF;border-top-color:#B8D0E8}
+#app[data-theme="blu"] .tab-row{background:#F0F6FF;border-bottom-color:#B8D0E8}
+#app[data-theme="blu"] .news-card,
+#app[data-theme="blu"] .att-card,
+#app[data-theme="blu"] .cont-card,
+#app[data-theme="blu"] .info-row,
+#app[data-theme="blu"] .qcard,
+#app[data-theme="blu"] .sett-card{background:#F0F6FF;border-color:#B8D0E8}
+#app[data-theme="blu"] .hero-body{background:#F0F6FF}
+#app[data-theme="blu"] .weather-panel{background:#F0F6FF}
+#app[data-theme="blu"] .weather-day{background:#E0ECFA;border-color:#B8D0E8}
+#app[data-theme="blu"] .sett-segments{background:#D4E6F8}
+
+/* ═══════════════════════════════════════════════════
+   DIMENSIONE FONT
+   ═══════════════════════════════════════════════════ */
+#app[data-fontsize="piccolo"] .news-title{font-size:11px}
+#app[data-fontsize="piccolo"] .att-nome{font-size:12px}
+#app[data-fontsize="piccolo"] .cont-nome{font-size:12px}
+#app[data-fontsize="piccolo"] .article-title{font-size:15px}
+#app[data-fontsize="piccolo"] .article-body{font-size:12px}
+#app[data-fontsize="piccolo"] .hero-title{font-size:12px}
+#app[data-fontsize="piccolo"] .hero-snippet{font-size:11px}
+#app[data-fontsize="piccolo"] .info-value{font-size:12px}
+#app[data-fontsize="piccolo"] .qcard-lbl{font-size:10px}
+
+#app[data-fontsize="grande"] .news-title{font-size:14px}
+#app[data-fontsize="grande"] .att-nome{font-size:16px}
+#app[data-fontsize="grande"] .cont-nome{font-size:16px}
+#app[data-fontsize="grande"] .article-title{font-size:20px}
+#app[data-fontsize="grande"] .article-body{font-size:15px}
+#app[data-fontsize="grande"] .hero-title{font-size:16px}
+#app[data-fontsize="grande"] .hero-snippet{font-size:14px}
+#app[data-fontsize="grande"] .info-value{font-size:15px}
+#app[data-fontsize="grande"] .qcard-lbl{font-size:13px}
+
+#app[data-fontsize="molto-grande"] .news-title{font-size:16px}
+#app[data-fontsize="molto-grande"] .att-nome{font-size:18px}
+#app[data-fontsize="molto-grande"] .cont-nome{font-size:18px}
+#app[data-fontsize="molto-grande"] .article-title{font-size:22px}
+#app[data-fontsize="molto-grande"] .article-body{font-size:17px}
+#app[data-fontsize="molto-grande"] .hero-title{font-size:18px}
+#app[data-fontsize="molto-grande"] .hero-snippet{font-size:16px}
+#app[data-fontsize="molto-grande"] .info-value{font-size:17px}
+#app[data-fontsize="molto-grande"] .qcard-lbl{font-size:14px}
+#app[data-fontsize="molto-grande"] .pill{font-size:10px}
+#app[data-fontsize="molto-grande"] .sett-label{font-size:15px}
+
+/* ═══════════════════════════════════════════════════
+   MODALITA ADHD
+   ═══════════════════════════════════════════════════ */
+#app[data-adhd="on"] *{animation:none!important;transition:none!important}
+#app[data-adhd="on"] .hero-deco1,
+#app[data-adhd="on"] .hero-deco2{display:none}
+#app[data-adhd="on"] .news-title,
+#app[data-adhd="on"] .att-nome,
+#app[data-adhd="on"] .article-title,
+#app[data-adhd="on"] .cont-nome{font-weight:800}
+#app[data-adhd="on"] .sec-lbl{
+  border-bottom:2px solid var(--blu);
+  padding-bottom:4px;display:inline-block;
+}
+#app[data-adhd="on"] .weather-panel{transition:none}
+
+/* ═══════════════════════════════════════════════════
+   ALTO CONTRASTO
+   ═══════════════════════════════════════════════════ */
+#app[data-contrast="on"]{--gray-txt:#333;--gray-border:#888}
+#app[data-contrast="on"] .news-card,
+#app[data-contrast="on"] .att-card,
+#app[data-contrast="on"] .cont-card,
+#app[data-contrast="on"] .info-row,
+#app[data-contrast="on"] .qcard,
+#app[data-contrast="on"] .sett-card{border-width:2px}
+#app[data-contrast="on"] .news-title,
+#app[data-contrast="on"] .att-nome,
+#app[data-contrast="on"] .article-title,
+#app[data-contrast="on"] .cont-nome{font-weight:800}
+#app[data-contrast="on"] .news-date,
+#app[data-contrast="on"] .att-cat,
+#app[data-contrast="on"] .att-meta{color:#555}
+/* Dark + contrast combo */
+#app[data-contrast="on"][data-theme="scuro"]{--gray-txt:#CCC;--gray-border:#666}
+#app[data-contrast="on"][data-theme="scuro"] .news-date,
+#app[data-contrast="on"][data-theme="scuro"] .att-cat,
+#app[data-contrast="on"][data-theme="scuro"] .att-meta{color:#AAA}
+
+/* ═══════════════════════════════════════════════════
+   FONT DISLESSIA
+   ═══════════════════════════════════════════════════ */
+@font-face{
+  font-family:'OpenDyslexic';
+  src:url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'OpenDyslexic';
+  src:url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Bold.woff') format('woff');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+#app[data-dyslexia="on"],
+#app[data-dyslexia="on"] *{font-family:'OpenDyslexic',sans-serif!important}
+#app[data-dyslexia="on"] .article-body,
+#app[data-dyslexia="on"] .hero-snippet,
+#app[data-dyslexia="on"] .news-title,
+#app[data-dyslexia="on"] .att-cat,
+#app[data-dyslexia="on"] .cont-meta,
+#app[data-dyslexia="on"] .info-value{line-height:1.8;letter-spacing:0.3px}

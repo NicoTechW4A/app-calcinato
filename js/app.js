@@ -46,6 +46,71 @@ let prevScreen='home';
 let currentNewsFilter='tutte';
 let currentAttCat='tutte';
 
+/* ─── IMPOSTAZIONI (localStorage) ────────────────── */
+const SETT_KEY='calcinato-settings';
+const SETT_DEFAULTS={theme:'chiaro',fontsize:'normale',adhd:'off',contrast:'off',dyslexia:'off'};
+
+function loadSettings(){
+  let s=SETT_DEFAULTS;
+  try{ const raw=localStorage.getItem(SETT_KEY); if(raw) s={...SETT_DEFAULTS,...JSON.parse(raw)}; }catch(e){}
+  const app=document.getElementById('app');
+  app.dataset.theme=s.theme;
+  app.dataset.fontsize=s.fontsize;
+  app.dataset.adhd=s.adhd;
+  app.dataset.contrast=s.contrast;
+  app.dataset.dyslexia=s.dyslexia;
+  updateThemeColor(s.theme);
+  return s;
+}
+
+function saveSettings(){
+  const app=document.getElementById('app');
+  const s={theme:app.dataset.theme,fontsize:app.dataset.fontsize,adhd:app.dataset.adhd,contrast:app.dataset.contrast,dyslexia:app.dataset.dyslexia};
+  try{ localStorage.setItem(SETT_KEY,JSON.stringify(s)); }catch(e){}
+}
+
+function updateThemeColor(theme){
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta) meta.content=theme==='scuro'?'#1A1A2E':'#0055A5';
+}
+
+function updateSettingsUI(){
+  const app=document.getElementById('app');
+  // Theme segments
+  document.querySelectorAll('#seg-theme .sett-seg').forEach(b=>{
+    b.classList.toggle('active',b.dataset.val===app.dataset.theme);
+  });
+  // Font size segments
+  document.querySelectorAll('#seg-fontsize .sett-seg').forEach(b=>{
+    b.classList.toggle('active',b.dataset.val===app.dataset.fontsize);
+  });
+  // Toggles
+  ['adhd','contrast','dyslexia'].forEach(key=>{
+    const el=document.getElementById('tog-'+key);
+    if(el) el.classList.toggle('on',app.dataset[key]==='on');
+  });
+}
+
+function setTheme(val){
+  document.getElementById('app').dataset.theme=val;
+  updateThemeColor(val);
+  saveSettings();
+  updateSettingsUI();
+}
+
+function setFontSize(val){
+  document.getElementById('app').dataset.fontsize=val;
+  saveSettings();
+  updateSettingsUI();
+}
+
+function toggleSetting(key){
+  const app=document.getElementById('app');
+  app.dataset[key]=app.dataset[key]==='on'?'off':'on';
+  saveSettings();
+  updateSettingsUI();
+}
+
 /* ─── UTILS ───────────────────────────────────────── */
 function pillClass(tipo){
   if(tipo==='Notizia') return 'pill-notizia';
@@ -248,10 +313,22 @@ function goScreen(id){
   const logo=document.getElementById('topbar-logo');
   const text=document.getElementById('topbar-text');
   const weather=document.getElementById('topbar-weather');
+  const settBtn=document.getElementById('topbar-settings');
   back.classList.remove('visible');
   logo.style.display='block';
   text.style.display='block';
   if(weather) weather.style.display='flex';
+  if(settBtn) settBtn.style.display='flex';
+
+  // Settings uses back mode like article
+  if(id==='settings'){
+    back.classList.add('visible');
+    logo.style.display='none';
+    text.style.display='none';
+    if(weather) weather.style.display='none';
+    if(settBtn) settBtn.style.display='none';
+    updateSettingsUI();
+  }
 
   // close weather panel if open
   document.getElementById('weather-panel').classList.remove('open');
@@ -298,7 +375,8 @@ function openArticle(id){
 }
 
 function goBack(){
-  goScreen(prevScreen==='article'?'news':prevScreen);
+  if(currentScreen==='settings') goScreen(prevScreen==='settings'?'home':prevScreen);
+  else goScreen(prevScreen==='article'?'news':prevScreen);
 }
 
 function setNewsTab(el){
@@ -368,6 +446,7 @@ function toggleWeeklyWeather(){
 }
 
 /* ─── INIT ────────────────────────────────────────── */
+loadSettings();
 renderHero();
 renderNewsList('tutte','home-news-list');
 renderNewsList('tutte','news-list');
