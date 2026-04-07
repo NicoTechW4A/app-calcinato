@@ -516,7 +516,7 @@ function renderInfo(){
   if(!el) return;
   el.innerHTML=`
     <div class="info-header">
-      <div class="info-logo">C</div>
+      <img class="info-logo" src="assets/stemma-calcinato.png" alt="Stemma Calcinato" style="object-fit:cover">
       <div class="info-name">Comune di Calcinato</div>
       <div class="info-prov">Provincia di Brescia \u2014 Lombardia</div>
     </div>
@@ -557,7 +557,8 @@ function renderInfo(){
     </div>
 
     <div class="app-footer">
-      App sviluppata da Premier Srls &times; World4All<br>
+      App sviluppata da Premier Srls<br>
+      per Comune di Calcinato (BS)<br>
       Versione 0.1.0-demo
     </div>`;
 }
