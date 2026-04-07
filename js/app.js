@@ -195,7 +195,8 @@ function submitLogin(){
   const pass=document.getElementById('login-password').value;
   const errEl=document.getElementById('login-error');
 
-  const user=DEMO_USERS.find(u=>u.email===email&&u.password===pass);
+  const allUsers=[...DEMO_USERS,...getPlusUsers()];
+  const user=allUsers.find(u=>u.email===email&&u.password===pass);
   if(!user){
     errEl.classList.add('visible');
     return;
@@ -313,9 +314,199 @@ function renderDashboard(){
     </div>
 
     <button class="btn-primary" onclick="saveDashboard()" style="margin-top:4px">Salva modifiche</button>
+
+    ${plusUser.isAdmin?renderAdminSections():''}
+
     <button class="btn-danger" onclick="logoutPlus()">Esci dall'area Plus</button>
     <div style="height:16px"></div>
   `;
+}
+
+/* ─── ADMIN FUNCTIONS ─────────────────────────────── */
+const PLUS_USERS_KEY='calcinato-plus-users';
+
+function getRequests(){
+  try{ const raw=localStorage.getItem(PLUS_REQUESTS_KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  return [];
+}
+function saveRequests(reqs){
+  localStorage.setItem(PLUS_REQUESTS_KEY,JSON.stringify(reqs));
+}
+
+function getPlusUsers(){
+  // Merge hardcoded DEMO_USERS with localStorage custom users
+  let custom=[];
+  try{ const raw=localStorage.getItem(PLUS_USERS_KEY); if(raw) custom=JSON.parse(raw); }catch(e){}
+  return custom;
+}
+function savePlusUsers(users){
+  localStorage.setItem(PLUS_USERS_KEY,JSON.stringify(users));
+}
+
+function renderAdminSections(){
+  const requests=getRequests();
+  const customUsers=getPlusUsers();
+
+  // Requests section
+  const reqCards=requests.length===0
+    ?'<div style="text-align:center;padding:16px;color:#bbb;font-size:12px">Nessuna richiesta ricevuta</div>'
+    :requests.map((r,i)=>{
+      const statusClass={'nuova':'status-nuova','contattata':'status-contattata','pagata':'status-pagata','attivata':'status-attivata'}[r.stato||'nuova'];
+      const statusLabel=(r.stato||'nuova').charAt(0).toUpperCase()+(r.stato||'nuova').slice(1);
+      return `<div class="req-card">
+        <div class="req-header">
+          <div>
+            <div class="req-nome">${r.nome}</div>
+            <div class="req-attivita">${r.attivita}</div>
+          </div>
+          <span class="status-badge ${statusClass}">${statusLabel}</span>
+        </div>
+        <div class="req-meta">
+          <div class="req-meta-item">
+            <svg viewBox="0 0 12 12"><path d="M2.5 2h2l1 2.5-1.5 1a7 7 0 003 3l1-1.5 2.5 1V10a1 1 0 01-1 1C5 11 1 7 1 3a1 1 0 011-1z"/></svg>
+            ${r.tel}
+          </div>
+          ${r.email?`<div class="req-meta-item">
+            <svg viewBox="0 0 12 12"><rect x="1" y="3" width="10" height="6" rx="1"/><path d="M1 4l5 3 5-3"/></svg>
+            ${r.email}
+          </div>`:''}
+          ${r.note?`<div class="req-meta-item" style="color:var(--gray-txt)">${r.note}</div>`:''}
+        </div>
+        <div class="req-actions">
+          ${(r.stato||'nuova')!=='attivata'?`
+            <button style="background:var(--amber-lt);color:#7D4200" onclick="updateReqStatus(${i},'contattata')">Contattata</button>
+            <button style="background:var(--green-lt);color:#166534" onclick="updateReqStatus(${i},'pagata')">Pagata</button>
+            <button style="background:var(--blu-lt);color:var(--blu)" onclick="updateReqStatus(${i},'attivata')">Attivata</button>
+          `:'<button style="background:var(--gray-bg);color:#aaa" disabled>Completata</button>'}
+        </div>
+      </div>`;
+    }).join('');
+
+  // Users section
+  const allPlusUsers=[...DEMO_USERS.filter(u=>!u.isAdmin),...customUsers];
+  const userCards=allPlusUsers.map((u,i)=>{
+    const att=ATTIVITA[u.attivitaIdx];
+    const initials=(u.nome||u.email).substring(0,2).toUpperCase();
+    const isCustom=i>=DEMO_USERS.filter(x=>!x.isAdmin).length;
+    return `<div class="user-card">
+      <div class="user-avatar">${initials}</div>
+      <div class="user-info">
+        <div class="user-name">${u.nome||'Utente'}</div>
+        <div class="user-email">${u.email}</div>
+        ${att?`<div class="user-att">${att.nome}</div>`:''}
+      </div>
+      ${isCustom?`<button class="user-delete" onclick="deleteCustomUser(${i-DEMO_USERS.filter(x=>!x.isAdmin).length})">
+        <svg viewBox="0 0 14 14"><path d="M2 4h10M5 4V3a1 1 0 011-1h2a1 1 0 011 1v1M9 7v4M5 7v4M3 4l.5 8a1 1 0 001 1h5a1 1 0 001-1L11 4"/></svg>
+      </button>`:''}
+    </div>`;
+  }).join('');
+
+  // Attivita toggle
+  const attToggles=ATTIVITA.map((a,i)=>`
+    <div class="att-toggle-card">
+      <div>
+        <div class="att-toggle-name">${a.nome}</div>
+        <div class="att-toggle-cat">${a.catLabel}</div>
+      </div>
+      <div class="sett-toggle ${a.plus?'on':''}" onclick="toggleAttPlus(${i})" style="flex-shrink:0"></div>
+    </div>`).join('');
+
+  return `
+    <div class="admin-divider"></div>
+    <div class="admin-section-title">Richieste Plus</div>
+    <div class="admin-section-sub">Richieste ricevute dalle attivit\u00e0 locali</div>
+    ${reqCards}
+
+    <div class="admin-divider"></div>
+    <div class="admin-section-title">Gestione Utenti</div>
+    <div class="admin-section-sub">Utenti con accesso alla dashboard Plus</div>
+    ${userCards}
+
+    <div class="dash-card" style="margin-top:10px">
+      <div class="dash-card-title">Crea nuovo utente</div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="new-user-email" placeholder="email@attivita.it" type="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="new-user-pass" placeholder="Minimo 6 caratteri" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nome referente</label>
+        <input class="form-input" id="new-user-nome" placeholder="Mario Rossi">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Attivit\u00e0 associata</label>
+        <select class="form-input" id="new-user-att" style="cursor:pointer">
+          ${ATTIVITA.filter(a=>a.plus).map((a,i)=>`<option value="${ATTIVITA.indexOf(a)}">${a.nome}</option>`).join('')}
+        </select>
+      </div>
+      <button class="btn-primary" onclick="createPlusUser()">Crea utente</button>
+    </div>
+
+    <div class="admin-divider"></div>
+    <div class="admin-section-title">Stato Attivit\u00e0</div>
+    <div class="admin-section-sub">Attiva o disattiva lo status Plus</div>
+    ${attToggles}
+  `;
+}
+
+function updateReqStatus(idx,status){
+  const reqs=getRequests();
+  if(reqs[idx]){ reqs[idx].stato=status; saveRequests(reqs); }
+  renderDashboard();
+  // Scroll to maintain position
+  document.querySelector('#scr-dashboard .scroll').scrollTop=9999;
+}
+
+function createPlusUser(){
+  const email=document.getElementById('new-user-email').value.trim();
+  const pass=document.getElementById('new-user-pass').value.trim();
+  const nome=document.getElementById('new-user-nome').value.trim();
+  const attIdx=parseInt(document.getElementById('new-user-att').value);
+
+  if(!email||!pass||pass.length<6){
+    alert('Inserisci email e password (minimo 6 caratteri)');
+    return;
+  }
+
+  // Check duplicate
+  const existing=[...DEMO_USERS,...getPlusUsers()];
+  if(existing.some(u=>u.email===email)){
+    alert('Esiste gi\u00e0 un utente con questa email');
+    return;
+  }
+
+  const users=getPlusUsers();
+  users.push({email,password:pass,attivitaIdx:attIdx,nome:nome||email});
+  savePlusUsers(users);
+
+  // Also add to DEMO_USERS in memory so login works immediately
+  DEMO_USERS.push({email,password:pass,attivitaIdx:attIdx,nome:nome||email});
+
+  alert('Utente creato! Credenziali: '+email+' / '+pass);
+  renderDashboard();
+  document.querySelector('#scr-dashboard .scroll').scrollTop=9999;
+}
+
+function deleteCustomUser(customIdx){
+  if(!confirm('Eliminare questo utente?')) return;
+  const users=getPlusUsers();
+  const removed=users.splice(customIdx,1)[0];
+  savePlusUsers(users);
+
+  // Remove from in-memory DEMO_USERS too
+  const memIdx=DEMO_USERS.findIndex(u=>u.email===removed.email);
+  if(memIdx>-1) DEMO_USERS.splice(memIdx,1);
+
+  renderDashboard();
+}
+
+function toggleAttPlus(idx){
+  ATTIVITA[idx].plus=!ATTIVITA[idx].plus;
+  renderDashboard();
+  document.querySelector('#scr-dashboard .scroll').scrollTop=9999;
 }
 
 function switchAttivita(idx){
@@ -743,6 +934,8 @@ function toggleWeeklyWeather(){
 /* ─── INIT ────────────────────────────────────────── */
 loadSettings();
 loadPlusSession();
+// Load custom users into memory for login
+getPlusUsers().forEach(u=>{ if(!DEMO_USERS.some(d=>d.email===u.email)) DEMO_USERS.push(u); });
 renderHero();
 renderNewsList('tutte','home-news-list');
 renderNewsList('tutte','news-list');
