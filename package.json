@@ -1,0 +1,25 @@
+{
+  "name": "app-calcinato",
+  "version": "0.1.0",
+  "description": "App Comune di Calcinato — PWA + Capacitor",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "sync": "npx cap sync",
+    "open:ios": "npx cap open ios",
+    "open:android": "npx cap open android",
+    "import:attivita": "node scripts/import-attivita.js"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/push-notifications": "^6.0.0",
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0",
+    "xlsx": "^0.18.5"
+  }
+}

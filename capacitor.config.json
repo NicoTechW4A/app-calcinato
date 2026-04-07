@@ -1,0 +1,13 @@
+{
+  "appId": "it.calcinato.app",
+  "appName": "Comune di Calcinato",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  }
+}
