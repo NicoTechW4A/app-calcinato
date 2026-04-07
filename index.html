@@ -1,79 +1,151 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-  <meta name="theme-color" content="#0055A5">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Comune di Calcinato</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0055A5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Comune di Calcinato</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<div id="app">
 
-  <!-- Header -->
-  <header class="app-header" id="app-header">
-    <button class="header-back" id="btn-back" aria-label="Indietro" style="display:none;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </button>
-    <div class="header-title">
-      <img src="assets/stemma-calcinato.png" alt="Stemma" class="header-stemma" onerror="this.style.display='none'">
-      <span id="header-text">Comune di Calcinato</span>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-back" id="topbar-back" onclick="goBack()">
+      <svg viewBox="0 0 16 16"><path d="M10 13L5 8l5-5"/></svg>
+      Indietro
     </div>
-    <div class="header-spacer"></div>
-  </header>
-
-  <!-- Main content area -->
-  <main class="app-content" id="app-content">
-    <!-- screens loaded here by router -->
-  </main>
-
-  <!-- Bottom tab bar -->
-  <nav class="tab-bar" id="tab-bar">
-    <button class="tab-item active" data-screen="home">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    <div class="topbar-logo" id="topbar-logo">C</div>
+    <div class="topbar-text" id="topbar-text">
+      <div class="t1">Comune di Calcinato</div>
+      <div class="t2">Brescia &mdash; BS</div>
+    </div>
+    <div class="topbar-bell" id="topbar-bell">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M11 2.5a6 6 0 00-6 6v4.5l-1.5 2h15l-1.5-2V8.5a6 6 0 00-6-6z" stroke="#fff" stroke-width="1.4" fill="none"/>
+        <path d="M9 18a2 2 0 004 0" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/>
       </svg>
+    </div>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="screen-wrap">
+
+    <!-- HOME -->
+    <div class="screen active" id="scr-home">
+      <div class="scroll">
+        <div id="home-hero"></div>
+        <div class="sec-lbl">Accesso rapido</div>
+        <div class="quick-grid">
+          <div class="qcard" onclick="goScreen('news')">
+            <div class="qcard-ico"><svg viewBox="0 0 20 20"><rect x="2" y="3" width="16" height="14" rx="2"/><path d="M5 8h10M5 12h6"/></svg></div>
+            <div class="qcard-lbl">Novit&agrave;</div>
+          </div>
+          <div class="qcard" onclick="goScreen('attivita')">
+            <div class="qcard-ico"><svg viewBox="0 0 20 20"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg></div>
+            <div class="qcard-lbl">Attivit&agrave; locali</div>
+          </div>
+          <div class="qcard" onclick="goScreen('contatti')">
+            <div class="qcard-ico"><svg viewBox="0 0 20 20"><rect x="2" y="3" width="16" height="14" rx="2"/><path d="M2 8h16M7 3v5M13 3v5"/></svg></div>
+            <div class="qcard-lbl">Uffici</div>
+          </div>
+          <div class="qcard" onclick="goScreen('info')">
+            <div class="qcard-ico"><svg viewBox="0 0 20 20"><path d="M10 2C7.24 2 5 4.24 5 7c0 4 5 9 5 9s5-5 5-9c0-2.76-2.24-5-5-5z"/><circle cx="10" cy="7" r="2" style="stroke-width:1.2"/></svg></div>
+            <div class="qcard-lbl">Info Comune</div>
+          </div>
+        </div>
+        <div class="sec-lbl">Ultime notizie</div>
+        <div id="home-news-list"></div>
+      </div>
+    </div>
+
+    <!-- NEWS LIST -->
+    <div class="screen" id="scr-news">
+      <div class="tab-row">
+        <div class="tab active" data-filter="tutte" onclick="setNewsTab(this)">Tutte</div>
+        <div class="tab" data-filter="notizie" onclick="setNewsTab(this)">Notizie</div>
+        <div class="tab" data-filter="avvisi" onclick="setNewsTab(this)">Avvisi</div>
+        <div class="tab" data-filter="comunicati" onclick="setNewsTab(this)">Comunicati</div>
+      </div>
+      <div class="scroll" id="news-list"></div>
+    </div>
+
+    <!-- ARTICLE DETAIL -->
+    <div class="screen" id="scr-article">
+      <div class="scroll">
+        <div class="article-img">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><rect width="56" height="56" rx="8" fill="#D4E6F8"/><path d="M8 40l12-14 10 12 8-10 10 12H8z" fill="#0055A5"/></svg>
+        </div>
+        <div class="article-pill" id="art-pill"></div>
+        <div class="article-title" id="art-title"></div>
+        <div class="article-meta" id="art-meta"></div>
+        <div class="article-body" id="art-body"></div>
+        <div class="article-tags" id="art-tags"></div>
+      </div>
+    </div>
+
+    <!-- ATTIVITA -->
+    <div class="screen" id="scr-attivita">
+      <div class="tab-row">
+        <div class="tab active" data-cat="tutte" onclick="setAttTab(this)">Tutte</div>
+        <div class="tab" data-cat="ristorazione" onclick="setAttTab(this)">Ristorazione</div>
+        <div class="tab" data-cat="commercio" onclick="setAttTab(this)">Commercio</div>
+        <div class="tab" data-cat="sport" onclick="setAttTab(this)">Sport</div>
+        <div class="tab" data-cat="salute" onclick="setAttTab(this)">Salute</div>
+        <div class="tab" data-cat="servizi" onclick="setAttTab(this)">Servizi</div>
+      </div>
+      <div class="scroll" id="att-list"></div>
+    </div>
+
+    <!-- CONTATTI -->
+    <div class="screen" id="scr-contatti">
+      <div class="scroll" id="contatti-list"></div>
+    </div>
+
+    <!-- INFO -->
+    <div class="screen" id="scr-info">
+      <div class="scroll" id="info-content"></div>
+    </div>
+
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <button class="nb active" id="nb-home" onclick="goScreen('home')">
+      <svg viewBox="0 0 22 22"><path d="M3 10.5L11 3l8 7.5V19a1 1 0 01-1 1H4a1 1 0 01-1-1v-8.5z"/></svg>
       <span>Home</span>
     </button>
-    <button class="tab-item" data-screen="news">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
-        <line x1="10" y1="6" x2="18" y2="6"></line>
-        <line x1="10" y1="10" x2="18" y2="10"></line>
-        <line x1="10" y1="14" x2="14" y2="14"></line>
-      </svg>
+    <button class="nb" id="nb-news" onclick="goScreen('news')">
+      <svg viewBox="0 0 22 22"><rect x="3" y="4" width="16" height="14" rx="2"/><path d="M6 9h10M6 13h6"/></svg>
       <span>Novit&agrave;</span>
     </button>
-    <button class="tab-item" data-screen="attivita">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-      </svg>
+    <button class="nb" id="nb-attivita" onclick="goScreen('attivita')">
+      <svg viewBox="0 0 22 22"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5"/></svg>
       <span>Attivit&agrave;</span>
     </button>
-    <button class="tab-item" data-screen="contatti">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
-      </svg>
+    <button class="nb" id="nb-contatti" onclick="goScreen('contatti')">
+      <svg viewBox="0 0 22 22"><rect x="3" y="4" width="16" height="14" rx="2"/><path d="M3 9h16M8 4v5M14 4v5"/></svg>
       <span>Contatti</span>
     </button>
-    <button class="tab-item" data-screen="info">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="16" x2="12" y2="12"></line>
-        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-      </svg>
+    <button class="nb" id="nb-info" onclick="goScreen('info')">
+      <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="8"/><path d="M11 10v5M11 8h.01"/></svg>
       <span>Info</span>
     </button>
   </nav>
 
-  <script src="js/app.js"></script>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+</script>
 </body>
 </html>
