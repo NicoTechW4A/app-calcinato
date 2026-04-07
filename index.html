@@ -32,10 +32,10 @@
         <span class="weather-temp" id="weather-temp">--&deg;</span>
       </div>
     </div>
-    <div class="topbar-settings" id="topbar-settings" onclick="goScreen('settings')">
+    <div class="topbar-settings" id="topbar-settings" onclick="goScreen('settings')" style="display:none">
       <svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
     </div>
-    <div class="topbar-user" id="topbar-user" onclick="onUserIconClick()">
+    <div class="topbar-user" id="topbar-user" onclick="onUserIconClick()" style="display:none">
       <svg id="topbar-user-svg" viewBox="0 0 22 22"><path d="M18 19v-1.5a3.5 3.5 0 00-3.5-3.5h-7A3.5 3.5 0 004 17.5V19"/><circle cx="11" cy="8" r="3.5"/></svg>
     </div>
   </div>
@@ -256,6 +256,43 @@
       <div class="scroll" id="dashboard-content"></div>
     </div>
 
+    <!-- SEGNALAZIONI -->
+    <div class="screen" id="scr-segnalazioni">
+      <div class="scroll" id="segnalazioni-content"></div>
+    </div>
+
+  </div>
+
+  <!-- BURGER MENU OVERLAY -->
+  <div class="menu-overlay" id="menu-overlay" onclick="closeMenu()"></div>
+  <div class="menu-panel" id="menu-panel">
+    <div class="menu-header">
+      <span class="menu-title">Menu</span>
+      <span class="menu-close" onclick="closeMenu()">&times;</span>
+    </div>
+    <div class="menu-items">
+      <button class="menu-item" onclick="closeMenu();goScreen('info')">
+        <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="8"/><path d="M11 10v5M11 8h.01"/></svg>
+        <span>Info Comune</span>
+      </button>
+      <button class="menu-item" onclick="closeMenu();goScreen('contatti')">
+        <svg viewBox="0 0 22 22"><rect x="3" y="4" width="16" height="14" rx="2"/><path d="M3 9h16M8 4v5M14 4v5"/></svg>
+        <span>Contatti &amp; Uffici</span>
+      </button>
+      <button class="menu-item" onclick="closeMenu();goScreen('settings')">
+        <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="3"/><path d="M11 1.5v3M11 17.5v3M4.22 4.22l2.12 2.12M15.66 15.66l2.12 2.12M1.5 11h3M17.5 11h3M4.22 17.78l2.12-2.12M15.66 6.34l2.12-2.12"/></svg>
+        <span>Impostazioni</span>
+      </button>
+      <button class="menu-item" onclick="closeMenu();goScreen('segnalazioni')">
+        <svg viewBox="0 0 22 22"><path d="M11 2L2 20h18L11 2z"/><path d="M11 9v4M11 15h.01"/></svg>
+        <span>Segnalazioni</span>
+      </button>
+      <div class="menu-divider"></div>
+      <button class="menu-item" onclick="closeMenu();onUserIconClick()">
+        <svg viewBox="0 0 22 22" id="menu-user-svg"><path d="M18 19v-1.5a3.5 3.5 0 00-3.5-3.5h-7A3.5 3.5 0 004 17.5V19"/><circle cx="11" cy="8" r="3.5"/></svg>
+        <span id="menu-user-label">Area Attivit&agrave; Plus</span>
+      </button>
+    </div>
   </div>
 
   <!-- NAVBAR -->
@@ -272,13 +309,9 @@
       <svg viewBox="0 0 22 22"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5"/></svg>
       <span>Attivit&agrave;</span>
     </button>
-    <button class="nb" id="nb-contatti" onclick="goScreen('contatti')">
-      <svg viewBox="0 0 22 22"><rect x="3" y="4" width="16" height="14" rx="2"/><path d="M3 9h16M8 4v5M14 4v5"/></svg>
-      <span>Contatti</span>
-    </button>
-    <button class="nb" id="nb-info" onclick="goScreen('info')">
-      <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="8"/><path d="M11 10v5M11 8h.01"/></svg>
-      <span>Info</span>
+    <button class="nb" id="nb-menu" onclick="toggleMenu()">
+      <svg viewBox="0 0 22 22"><path d="M4 6h14M4 11h14M4 16h14"/></svg>
+      <span>Menu</span>
     </button>
   </nav>
 

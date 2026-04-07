@@ -572,6 +572,195 @@ function saveDashboard(){
   alert('Modifiche salvate!');
 }
 
+/* ─── BURGER MENU ─────────────────────────────────── */
+function toggleMenu(){
+  document.getElementById('menu-overlay').classList.toggle('open');
+  document.getElementById('menu-panel').classList.toggle('open');
+  updateMenuUserItem();
+}
+function closeMenu(){
+  document.getElementById('menu-overlay').classList.remove('open');
+  document.getElementById('menu-panel').classList.remove('open');
+}
+function updateMenuUserItem(){
+  const label=document.getElementById('menu-user-label');
+  const svg=document.getElementById('menu-user-svg');
+  if(!label||!svg) return;
+  if(plusUser){
+    label.textContent='Dashboard Plus ('+plusUser.nome+')';
+    svg.innerHTML='<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5"/>';
+  } else {
+    label.innerHTML='Area Attivit\u00e0 Plus';
+    svg.innerHTML='<path d="M18 19v-1.5a3.5 3.5 0 00-3.5-3.5h-7A3.5 3.5 0 004 17.5V19"/><circle cx="11" cy="8" r="3.5"/>';
+  }
+}
+
+/* ─── SEGNALAZIONI ────────────────────────────────── */
+const SEGN_SESSION_KEY='calcinato-segn-session';
+const SEGN_LIST_KEY='calcinato-segnalazioni';
+let segnUser=null;
+
+const SEGN_CATEGORIES=[
+  {id:'buche',icon:'\uD83D\uDEA7',label:'Buche stradali'},
+  {id:'illuminazione',icon:'\uD83D\uDCA1',label:'Illuminazione'},
+  {id:'rifiuti',icon:'\uD83D\uDDD1\uFE0F',label:'Rifiuti'},
+  {id:'verde',icon:'\uD83C\uDF33',label:'Verde pubblico'},
+  {id:'vandalismo',icon:'\uD83D\uDEA8',label:'Vandalismo'},
+  {id:'rumore',icon:'\uD83D\uDD0A',label:'Rumore'},
+  {id:'segnaletica',icon:'\u26A0\uFE0F',label:'Segnaletica'},
+  {id:'acqua',icon:'\uD83D\uDCA7',label:'Acqua'},
+  {id:'altro',icon:'\uD83D\uDCDD',label:'Altro'},
+];
+
+function loadSegnSession(){
+  try{ const raw=localStorage.getItem(SEGN_SESSION_KEY); if(raw) segnUser=JSON.parse(raw); }catch(e){}
+}
+
+function saveSegnSession(){
+  if(segnUser) localStorage.setItem(SEGN_SESSION_KEY,JSON.stringify(segnUser));
+  else localStorage.removeItem(SEGN_SESSION_KEY);
+}
+
+function getSegnalazioni(){
+  try{ const raw=localStorage.getItem(SEGN_LIST_KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  return [];
+}
+function saveSegnalazioni(list){
+  localStorage.setItem(SEGN_LIST_KEY,JSON.stringify(list));
+}
+
+function socialLogin(provider){
+  // Demo: simulate social login
+  const names={google:'Mario Rossi',apple:'Luigi Bianchi',facebook:'Anna Verdi'};
+  const emails={google:'mario.rossi@gmail.com',apple:'luigi@icloud.com',facebook:'anna.verdi@facebook.com'};
+  segnUser={nome:names[provider],email:emails[provider],provider};
+  saveSegnSession();
+  renderSegnalazioni();
+}
+
+function logoutSegn(){
+  segnUser=null;
+  saveSegnSession();
+  renderSegnalazioni();
+}
+
+let selectedSegnCat=null;
+
+function selectSegnCat(id){
+  selectedSegnCat=id;
+  document.querySelectorAll('.segn-cat').forEach(el=>{
+    el.classList.toggle('selected',el.dataset.cat===id);
+  });
+}
+
+function submitSegnalazione(){
+  if(!segnUser){ alert('Effettua il login per inviare una segnalazione'); return; }
+  if(!selectedSegnCat){ alert('Seleziona una categoria'); return; }
+  const desc=document.getElementById('segn-desc').value.trim();
+  if(!desc){ alert('Descrivi brevemente il problema'); return; }
+  const indirizzo=document.getElementById('segn-indirizzo').value.trim();
+
+  const list=getSegnalazioni();
+  list.unshift({
+    cat:selectedSegnCat,
+    catLabel:SEGN_CATEGORIES.find(c=>c.id===selectedSegnCat)?.label||selectedSegnCat,
+    desc,
+    indirizzo,
+    user:segnUser.nome,
+    data:new Date().toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}),
+    timestamp:new Date().toISOString()
+  });
+  saveSegnalazioni(list);
+
+  selectedSegnCat=null;
+  renderSegnalazioni();
+}
+
+function renderSegnalazioni(){
+  const el=document.getElementById('segnalazioni-content');
+  if(!el) return;
+
+  let html='';
+
+  if(!segnUser){
+    // Social login screen
+    html=`
+      <div class="segn-login">
+        <div class="segn-login-title">Segnalazioni Comunali</div>
+        <div class="segn-login-sub">Accedi con il tuo account per inviare segnalazioni al Comune di Calcinato</div>
+        <div class="social-buttons">
+          <button class="social-btn social-btn-google" onclick="socialLogin('google')">
+            <svg viewBox="0 0 20 20"><path d="M19.6 10.2c0-.7-.1-1.4-.2-2H10v3.8h5.4c-.2 1.2-1 2.2-2 2.9v2.4h3.3c1.9-1.8 3-4.4 3-7.1z" fill="#4285F4"/><path d="M10 20c2.7 0 5-.9 6.6-2.4l-3.3-2.4c-.9.6-2 1-3.4 1-2.6 0-4.8-1.7-5.6-4.1H1v2.5C2.7 17.8 6.1 20 10 20z" fill="#34A853"/><path d="M4.4 12c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V5.5H1C.4 6.7 0 8.3 0 10s.4 3.3 1 4.5l3.4-2.5z" fill="#FBBC05"/><path d="M10 3.9c1.5 0 2.8.5 3.8 1.5l2.9-2.8C14.9 1 12.7 0 10 0 6.1 0 2.7 2.2 1 5.5l3.4 2.5c.8-2.3 3-4.1 5.6-4.1z" fill="#EA4335"/></svg>
+            Continua con Google
+          </button>
+          <button class="social-btn social-btn-apple" onclick="socialLogin('apple')">
+            <svg viewBox="0 0 20 20"><path d="M17.05 12.54c-.04.98-.37 1.93-.96 2.72-.53.72-1.19 1.29-1.93 1.64-.42.2-.87.35-1.33.44-.35.07-.71.1-1.07.08-.55-.04-1.08-.2-1.56-.47-.48-.27-.91-.62-1.27-1.04-.36.42-.79.77-1.27 1.04-.48.27-1.01.43-1.56.47-.36.02-.72-.01-1.07-.08-.46-.09-.91-.24-1.33-.44-.74-.35-1.4-.92-1.93-1.64-.59-.79-.92-1.74-.96-2.72-.03-.72.08-1.44.32-2.12.24-.68.62-1.3 1.12-1.82.5-.52 1.1-.92 1.77-1.16.5-.18 1.02-.28 1.55-.28.37 0 .74.05 1.1.14.36.1.7.24 1.02.43.32.19.61.42.87.69.26-.27.55-.5.87-.69.32-.19.66-.33 1.02-.43.36-.09.73-.14 1.1-.14.53 0 1.05.1 1.55.28.67.24 1.27.64 1.77 1.16.5.52.88 1.14 1.12 1.82.24.68.35 1.4.32 2.12zM13.2 3.68c-.4.46-.92.8-1.5.97-.04.01-.08.02-.12.02-.04 0-.07-.01-.1-.03.02-.56.18-1.1.47-1.58.29-.48.7-.87 1.18-1.13.06-.03.12-.01.15.04.13.55.1 1.14-.08 1.71z"/></svg>
+            Continua con Apple
+          </button>
+          <button class="social-btn social-btn-facebook" onclick="socialLogin('facebook')">
+            <svg viewBox="0 0 20 20"><path d="M18.9 0H1.1C.5 0 0 .5 0 1.1v17.8c0 .6.5 1.1 1.1 1.1h9.6v-7.7H8.1V9.3h2.6V7.1c0-2.6 1.6-4 3.9-4 1.1 0 2.1.1 2.3.1v2.7h-1.6c-1.3 0-1.5.6-1.5 1.5v1.9h3l-.4 3h-2.6V20h5.1c.6 0 1.1-.5 1.1-1.1V1.1c0-.6-.5-1.1-1.1-1.1z" fill="#1877F2"/></svg>
+            Continua con Facebook
+          </button>
+        </div>
+      </div>`;
+  } else {
+    // Logged in — show form + past segnalazioni
+    const cats=SEGN_CATEGORIES.map(c=>`
+      <button class="segn-cat" data-cat="${c.id}" onclick="selectSegnCat('${c.id}')">
+        <span class="segn-cat-icon">${c.icon}</span>
+        <span class="segn-cat-label">${c.label}</span>
+      </button>`).join('');
+
+    const list=getSegnalazioni();
+    const listHtml=list.length===0?'':`
+      <div class="segn-list">
+        <div class="sec-lbl">Le tue segnalazioni</div>
+        ${list.map(s=>`
+          <div class="segn-card">
+            <div class="segn-card-header">
+              <div class="segn-card-cat">${s.catLabel}</div>
+              <div class="segn-card-date">${s.data}</div>
+            </div>
+            <div class="segn-card-desc">${s.desc}</div>
+            ${s.indirizzo?`<div class="segn-card-user" style="margin-top:4px">\uD83D\uDCCD ${s.indirizzo}</div>`:''}
+          </div>`).join('')}
+      </div>`;
+
+    html=`
+      <div class="sec-lbl" style="margin-top:4px">Segnalazioni Comunali</div>
+
+      <div class="segn-user-bar">
+        <div class="segn-user-avatar">${segnUser.nome.substring(0,2).toUpperCase()}</div>
+        <div class="segn-user-info">
+          <div class="segn-user-name">${segnUser.nome}</div>
+          <div class="segn-user-email">${segnUser.email}</div>
+        </div>
+        <button class="segn-logout" onclick="logoutSegn()">Esci</button>
+      </div>
+
+      <div class="sec-lbl">Cosa vuoi segnalare?</div>
+      <div class="segn-category-grid">${cats}</div>
+
+      <div class="form-group">
+        <label class="form-label">Descrizione *</label>
+        <textarea class="form-textarea" id="segn-desc" placeholder="Descrivi brevemente il problema..." rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Indirizzo / zona</label>
+        <input class="form-input" id="segn-indirizzo" placeholder="Es. Via Roma, angolo Via Garibaldi">
+        <div class="form-hint">Opzionale ma utile per localizzare il problema</div>
+      </div>
+
+      <button class="btn-primary" onclick="submitSegnalazione()">Invia segnalazione</button>
+
+      ${listHtml}
+    `;
+  }
+
+  el.innerHTML=html;
+}
+
 /* ─── UTILS ───────────────────────────────────────── */
 function pillClass(tipo){
   if(tipo==='Notizia') return 'pill-notizia';
@@ -802,7 +991,7 @@ function goScreen(id){
   if(userBtn) userBtn.style.display='flex';
 
   // Back-mode screens
-  const backScreens=['settings','login-plus','richiesta-plus','dashboard'];
+  const backScreens=['settings','login-plus','richiesta-plus','dashboard','contatti','info','segnalazioni'];
   if(backScreens.includes(id)){
     back.classList.add('visible');
     logo.style.display='none';
@@ -812,6 +1001,7 @@ function goScreen(id){
     if(userBtn) userBtn.style.display='none';
     if(id==='settings') updateSettingsUI();
     if(id==='dashboard') renderDashboard();
+    if(id==='segnalazioni') renderSegnalazioni();
   }
 
   // close weather panel if open
@@ -859,7 +1049,7 @@ function openArticle(id){
 }
 
 function goBack(){
-  const backMap={'settings':'home','login-plus':'home','richiesta-plus':'attivita','dashboard':'home','article':'news'};
+  const backMap={'settings':'home','login-plus':'home','richiesta-plus':'attivita','dashboard':'home','article':'news','contatti':'home','info':'home','segnalazioni':'home'};
   const target=backMap[currentScreen];
   if(target) goScreen(prevScreen===currentScreen?target:prevScreen);
   else goScreen(prevScreen||'home');
@@ -934,6 +1124,7 @@ function toggleWeeklyWeather(){
 /* ─── INIT ────────────────────────────────────────── */
 loadSettings();
 loadPlusSession();
+loadSegnSession();
 // Load custom users into memory for login
 getPlusUsers().forEach(u=>{ if(!DEMO_USERS.some(d=>d.email===u.email)) DEMO_USERS.push(u); });
 renderHero();

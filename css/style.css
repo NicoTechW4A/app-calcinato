@@ -326,6 +326,153 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .nb svg{width:22px;height:22px;stroke:#bbb;stroke-width:1.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .nb.active svg{stroke:var(--blu)}
 
+/* ─── BURGER MENU ─────────────────────────────────── */
+.menu-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,0.4);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.menu-overlay.open{opacity:1;pointer-events:auto}
+
+.menu-panel{
+  position:fixed;bottom:0;left:0;right:0;z-index:301;
+  max-width:430px;margin:0 auto;
+  background:#fff;
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
+  box-shadow:0 -8px 32px rgba(0,0,0,0.15);
+  transform:translateY(100%);
+  transition:transform .3s ease;
+  padding:0 0 env(safe-area-inset-bottom);
+}
+.menu-panel.open{transform:translateY(0)}
+
+.menu-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 18px 8px;
+}
+.menu-title{font-size:16px;font-weight:700;color:var(--dark)}
+.menu-close{font-size:24px;color:#aaa;cursor:pointer;line-height:1;padding:4px}
+
+.menu-items{padding:4px 10px 16px}
+.menu-item{
+  display:flex;align-items:center;gap:12px;
+  width:100%;padding:13px 10px;
+  border:none;background:transparent;cursor:pointer;
+  font-family:inherit;font-size:14px;font-weight:500;color:var(--dark);
+  border-radius:10px;transition:background .12s;
+}
+.menu-item:active{background:var(--blu-lt)}
+.menu-item svg{
+  width:22px;height:22px;stroke:var(--blu);stroke-width:1.4;
+  fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;
+}
+.menu-divider{height:1px;background:var(--gray-border);margin:6px 10px}
+
+/* Dark theme menu */
+#app[data-theme="scuro"]~.menu-panel,
+#app[data-theme="scuro"]~.menu-overlay~.menu-panel{background:#1E1E2E}
+#app[data-theme="scuro"]~.menu-panel .menu-title,
+#app[data-theme="scuro"]~.menu-overlay~.menu-panel .menu-title{color:#E8E8EC}
+#app[data-theme="scuro"]~.menu-panel .menu-item,
+#app[data-theme="scuro"]~.menu-overlay~.menu-panel .menu-item{color:#E8E8EC}
+#app[data-theme="scuro"]~.menu-panel .menu-item:active,
+#app[data-theme="scuro"]~.menu-overlay~.menu-panel .menu-item:active{background:#252538}
+#app[data-theme="scuro"]~.menu-panel .menu-divider,
+#app[data-theme="scuro"]~.menu-overlay~.menu-panel .menu-divider{background:#2A2A3E}
+#app[data-theme="scuro"]~.menu-panel .menu-item svg,
+#app[data-theme="scuro"]~.menu-overlay~.menu-panel .menu-item svg{stroke:#6AACEF}
+
+/* Blue theme menu */
+#app[data-theme="blu"]~.menu-panel,
+#app[data-theme="blu"]~.menu-overlay~.menu-panel{background:#F0F6FF}
+
+/* ─── SEGNALAZIONI ────────────────────────────────── */
+.segn-login{text-align:center;padding:20px 0}
+.segn-login-title{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.segn-login-sub{font-size:12px;color:var(--gray-txt);margin-bottom:16px;line-height:1.4}
+
+.social-buttons{display:flex;flex-direction:column;gap:8px;max-width:280px;margin:0 auto}
+.social-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:12px;border:1px solid var(--gray-border);
+  border-radius:10px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:background .12s;font-family:inherit;
+  background:#fff;color:var(--dark);
+}
+.social-btn:active{background:var(--gray-bg)}
+.social-btn svg{width:20px;height:20px;flex-shrink:0}
+.social-btn-google{border-color:#4285F4}
+.social-btn-google svg{fill:#4285F4}
+.social-btn-apple{border-color:#000}
+.social-btn-apple svg{fill:#000}
+.social-btn-facebook{border-color:#1877F2}
+.social-btn-facebook svg{fill:#1877F2}
+
+.segn-user-bar{
+  display:flex;align-items:center;gap:10px;
+  padding:12px;background:#fff;
+  border:1px solid var(--gray-border);border-radius:10px;
+  margin-bottom:16px;
+}
+.segn-user-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--blu-lt);color:var(--blu);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;flex-shrink:0;
+}
+.segn-user-info{flex:1}
+.segn-user-name{font-size:13px;font-weight:600;color:var(--dark)}
+.segn-user-email{font-size:10px;color:#aaa}
+.segn-logout{
+  font-size:11px;color:var(--blu);font-weight:600;
+  cursor:pointer;border:none;background:none;font-family:inherit;
+}
+
+.segn-category-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin-bottom:16px;
+}
+.segn-cat{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:14px 6px;border:1px solid var(--gray-border);
+  border-radius:10px;cursor:pointer;background:#fff;
+  font-family:inherit;transition:all .15s;
+}
+.segn-cat:active,.segn-cat.selected{
+  background:var(--blu-lt);border-color:var(--blu);
+}
+.segn-cat.selected{box-shadow:0 0 0 2px var(--blu)}
+.segn-cat-icon{font-size:22px;line-height:1}
+.segn-cat-label{font-size:10px;font-weight:600;color:var(--dark);text-align:center}
+
+.segn-list{margin-top:20px}
+.segn-card{
+  background:#fff;border:1px solid var(--gray-border);
+  border-radius:10px;padding:12px;margin-bottom:8px;
+}
+.segn-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.segn-card-cat{font-size:12px;font-weight:700;color:var(--blu)}
+.segn-card-date{font-size:10px;color:#bbb}
+.segn-card-desc{font-size:12px;color:var(--gray-txt);line-height:1.5}
+.segn-card-user{font-size:10px;color:#aaa;margin-top:6px}
+
+/* Dark theme segnalazioni */
+#app[data-theme="scuro"] .social-btn{background:#252538;border-color:#2A2A3E;color:#E8E8EC}
+#app[data-theme="scuro"] .segn-user-bar{background:#1E1E2E;border-color:#2A2A3E}
+#app[data-theme="scuro"] .segn-cat{background:#1E1E2E;border-color:#2A2A3E}
+#app[data-theme="scuro"] .segn-cat:active,
+#app[data-theme="scuro"] .segn-cat.selected{background:#1E2A3A;border-color:#4A90D9}
+#app[data-theme="scuro"] .segn-card{background:#1E1E2E;border-color:#2A2A3E}
+#app[data-theme="scuro"] .social-btn-apple svg{fill:#E8E8EC}
+
+/* Blue theme segnalazioni */
+#app[data-theme="blu"] .social-btn{background:#F0F6FF;border-color:#B8D0E8}
+#app[data-theme="blu"] .segn-user-bar{background:#F0F6FF;border-color:#B8D0E8}
+#app[data-theme="blu"] .segn-cat{background:#F0F6FF;border-color:#B8D0E8}
+#app[data-theme="blu"] .segn-card{background:#F0F6FF;border-color:#B8D0E8}
+
 /* ─── FOOTER ──────────────────────────────────────── */
 .app-footer{
   text-align:center;padding:20px 12px 8px;
