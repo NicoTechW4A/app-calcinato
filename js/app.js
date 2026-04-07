@@ -122,6 +122,7 @@ let plusUser=null;
 // Demo credentials
 const DEMO_USERS=[
   {email:'demo@plus.it',password:'demo123',attivitaIdx:0,nome:'Marco Bianchi'}, // Trattoria da Marco
+  {email:'admin@calcinato.app',password:'admin2026',attivitaIdx:0,nome:'Admin Calcinato',isAdmin:true}, // Admin — gestisce tutte
 ];
 
 // Demo Plus extended data
@@ -200,7 +201,7 @@ function submitLogin(){
     return;
   }
   errEl.classList.remove('visible');
-  plusUser={email:user.email,attivitaIdx:user.attivitaIdx,nome:user.nome};
+  plusUser={email:user.email,attivitaIdx:user.attivitaIdx,nome:user.nome,isAdmin:!!user.isAdmin};
   savePlusSession();
   goScreen('dashboard');
 }
@@ -251,10 +252,21 @@ function renderDashboard(){
   const serviziTags=(ext.servizi||[]).map((s,i)=>`
     <span class="tag-item">${s}<span class="tag-remove" onclick="removeServizio(${i})">&times;</span></span>`).join('');
 
+  // Admin: selector to switch between Plus activities
+  const plusActivities=ATTIVITA.map((a,i)=>({idx:i,...a})).filter(a=>a.plus);
+  const adminSelector=plusUser.isAdmin?`
+    <div class="form-group" style="margin-top:8px">
+      <label class="form-label">Gestisci attivit\u00e0</label>
+      <select class="form-input" onchange="switchAttivita(this.value)" style="cursor:pointer">
+        ${plusActivities.map(a=>`<option value="${a.idx}" ${a.idx===plusUser.attivitaIdx?'selected':''}>${a.nome}</option>`).join('')}
+      </select>
+    </div>`:'';
+
   el.innerHTML=`
     <div class="dash-welcome">
       <div class="dash-welcome-name">Ciao, ${plusUser.nome}</div>
       <div class="dash-welcome-sub">Gestisci la scheda Plus di <strong>${att.nome}</strong></div>
+      ${adminSelector}
     </div>
 
     <div class="dash-card">
@@ -304,6 +316,13 @@ function renderDashboard(){
     <button class="btn-danger" onclick="logoutPlus()">Esci dall'area Plus</button>
     <div style="height:16px"></div>
   `;
+}
+
+function switchAttivita(idx){
+  if(!plusUser||!plusUser.isAdmin) return;
+  plusUser.attivitaIdx=parseInt(idx);
+  savePlusSession();
+  renderDashboard();
 }
 
 function getCurrentServizi(){
