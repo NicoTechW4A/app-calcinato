@@ -111,6 +111,257 @@ function toggleSetting(key){
   updateSettingsUI();
 }
 
+/* ═══════════════════════════════════════════════════════
+   PLUS — Autenticazione e Sessione
+   ═══════════════════════════════════════════════════════ */
+const PLUS_SESSION_KEY='calcinato-plus-session';
+const PLUS_REQUESTS_KEY='calcinato-plus-requests';
+const PLUS_DATA_KEY='calcinato-plus-data';
+let plusUser=null;
+
+// Demo credentials
+const DEMO_USERS=[
+  {email:'demo@plus.it',password:'demo123',attivitaIdx:0,nome:'Marco Bianchi'}, // Trattoria da Marco
+];
+
+// Demo Plus extended data
+const PLUS_EXTENDED_DEFAULTS={
+  0:{descrizione:'Trattoria a conduzione familiare dal 1985, specializzata in cucina bresciana e piatti di pesce. Ampio parcheggio e sala per eventi fino a 80 persone.',orari:{Lun:'Chiuso',Mar:'12:00-14:30 / 19:00-22:30',Mer:'12:00-14:30 / 19:00-22:30',Gio:'12:00-14:30 / 19:00-22:30',Ven:'12:00-14:30 / 19:00-23:00',Sab:'12:00-14:30 / 19:00-23:00',Dom:'12:00-15:00'},servizi:['Parcheggio','WiFi gratuito','Sala eventi','Menu bambini','Senza glutine'],email:'info@trattoriadamarco.it',sito:'https://www.trattoriadamarco.it'},
+  2:{descrizione:'Centro fitness completo con sala pesi, corsi di gruppo, piscina coperta e area wellness. Personal trainer qualificati.',orari:{Lun:'06:30-22:00',Mar:'06:30-22:00',Mer:'06:30-22:00',Gio:'06:30-22:00',Ven:'06:30-21:00',Sab:'08:00-18:00',Dom:'09:00-13:00'},servizi:['Sala pesi','Piscina','Corsi di gruppo','Personal trainer','Sauna'],email:'info@fitlife.it',sito:'https://www.fitlife.it'},
+  4:{descrizione:'Ristorante con vista lago, cucina tradizionale bresciana e specialit\u00e0 di pesce di lago. Terrazza estiva panoramica.',orari:{Lun:'Chiuso',Mar:'12:00-14:30 / 19:00-22:30',Mer:'12:00-14:30 / 19:00-22:30',Gio:'12:00-14:30 / 19:00-22:30',Ven:'12:00-14:30 / 19:00-23:00',Sab:'12:00-14:30 / 19:00-23:00',Dom:'12:00-15:00'},servizi:['Terrazza panoramica','Parcheggio','Pesce di lago','Dehors estivo'],email:'info@allagocalcinato.it',sito:''},
+  6:{descrizione:'Centro estetico completo: trattamenti viso e corpo, massaggi, epilazione laser, manicure e pedicure. Prodotti biologici certificati.',orari:{Lun:'09:00-19:00',Mar:'09:00-19:00',Mer:'09:00-19:00',Gio:'09:00-20:00',Ven:'09:00-19:00',Sab:'09:00-17:00',Dom:'Chiuso'},servizi:['Trattamenti viso','Massaggi','Epilazione laser','Manicure','Prodotti bio'],email:'info@centrosole.it',sito:''},
+};
+
+function loadPlusSession(){
+  try{
+    const raw=localStorage.getItem(PLUS_SESSION_KEY);
+    if(raw) plusUser=JSON.parse(raw);
+  }catch(e){}
+  updateUserIcon();
+}
+
+function savePlusSession(){
+  if(plusUser) localStorage.setItem(PLUS_SESSION_KEY,JSON.stringify(plusUser));
+  else localStorage.removeItem(PLUS_SESSION_KEY);
+  updateUserIcon();
+}
+
+function logoutPlus(){
+  plusUser=null;
+  savePlusSession();
+  goScreen('home');
+}
+
+function updateUserIcon(){
+  const svg=document.getElementById('topbar-user-svg');
+  if(!svg) return;
+  if(plusUser){
+    // Dashboard icon (grid)
+    svg.innerHTML='<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5"/>';
+  } else {
+    // User icon
+    svg.innerHTML='<path d="M18 19v-1.5a3.5 3.5 0 00-3.5-3.5h-7A3.5 3.5 0 004 17.5V19"/><circle cx="11" cy="8" r="3.5"/>';
+  }
+}
+
+function onUserIconClick(){
+  if(plusUser) goScreen('dashboard');
+  else goScreen('login-plus');
+}
+
+function getPlusData(idx){
+  // Check localStorage first (user edits), then defaults
+  try{
+    const raw=localStorage.getItem(PLUS_DATA_KEY);
+    if(raw){
+      const all=JSON.parse(raw);
+      if(all[idx]) return all[idx];
+    }
+  }catch(e){}
+  return PLUS_EXTENDED_DEFAULTS[idx]||null;
+}
+
+function savePlusData(idx,data){
+  let all={};
+  try{ const raw=localStorage.getItem(PLUS_DATA_KEY); if(raw) all=JSON.parse(raw); }catch(e){}
+  all[idx]=data;
+  localStorage.setItem(PLUS_DATA_KEY,JSON.stringify(all));
+}
+
+/* ─── LOGIN ──────────────────────────────────────── */
+function submitLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const pass=document.getElementById('login-password').value;
+  const errEl=document.getElementById('login-error');
+
+  const user=DEMO_USERS.find(u=>u.email===email&&u.password===pass);
+  if(!user){
+    errEl.classList.add('visible');
+    return;
+  }
+  errEl.classList.remove('visible');
+  plusUser={email:user.email,attivitaIdx:user.attivitaIdx,nome:user.nome};
+  savePlusSession();
+  goScreen('dashboard');
+}
+
+/* ─── RICHIESTA PLUS ─────────────────────────────── */
+function submitRichiesta(){
+  const nome=document.getElementById('req-nome').value.trim();
+  const attivita=document.getElementById('req-attivita').value.trim();
+  const tel=document.getElementById('req-tel').value.trim();
+  const email=document.getElementById('req-email').value.trim();
+  const note=document.getElementById('req-note').value.trim();
+
+  if(!nome||!attivita||!tel){
+    alert('Compila i campi obbligatori: Nome, Attivit\u00e0 e Telefono');
+    return;
+  }
+
+  // Save to localStorage (demo) — in prod: Supabase INSERT
+  let requests=[];
+  try{ const raw=localStorage.getItem(PLUS_REQUESTS_KEY); if(raw) requests=JSON.parse(raw); }catch(e){}
+  requests.push({nome,attivita,tel,email,note,data:new Date().toISOString()});
+  localStorage.setItem(PLUS_REQUESTS_KEY,JSON.stringify(requests));
+
+  // Show success
+  document.getElementById('richiesta-content').innerHTML=`
+    <div class="success-msg">
+      <div class="success-ico">\u2705</div>
+      <div class="success-title">Richiesta inviata!</div>
+      <div class="success-text">Grazie <strong>${nome}</strong>. Il nostro team ti ricontatter\u00e0 al numero <strong>${tel}</strong> per attivare la scheda Plus di <strong>${attivita}</strong>.</div>
+    </div>`;
+}
+
+/* ─── DASHBOARD ──────────────────────────────────── */
+function renderDashboard(){
+  const el=document.getElementById('dashboard-content');
+  if(!el||!plusUser) return;
+
+  const att=ATTIVITA[plusUser.attivitaIdx];
+  const ext=getPlusData(plusUser.attivitaIdx)||{descrizione:'',orari:{Lun:'',Mar:'',Mer:'',Gio:'',Ven:'',Sab:'',Dom:''},servizi:[],email:'',sito:''};
+
+  const giorniOrari=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+  const orariRows=giorniOrari.map(g=>`
+    <div class="orari-row">
+      <span class="orari-day">${g}</span>
+      <input class="orari-input" data-giorno="${g}" value="${ext.orari[g]||''}" placeholder="es. 09:00-18:00">
+    </div>`).join('');
+
+  const serviziTags=(ext.servizi||[]).map((s,i)=>`
+    <span class="tag-item">${s}<span class="tag-remove" onclick="removeServizio(${i})">&times;</span></span>`).join('');
+
+  el.innerHTML=`
+    <div class="dash-welcome">
+      <div class="dash-welcome-name">Ciao, ${plusUser.nome}</div>
+      <div class="dash-welcome-sub">Gestisci la scheda Plus di <strong>${att.nome}</strong></div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title">Informazioni base</div>
+      <div class="form-group">
+        <label class="form-label">Nome attivit\u00e0</label>
+        <input class="form-input" id="dash-nome" value="${att.nome}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Indirizzo</label>
+        <input class="form-input" id="dash-indirizzo" value="${att.indirizzo}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefono</label>
+        <input class="form-input" id="dash-tel" value="${att.tel}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="dash-email" value="${ext.email||''}">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Sito web</label>
+        <input class="form-input" id="dash-sito" value="${ext.sito||''}">
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title">Descrizione</div>
+      <textarea class="form-textarea" id="dash-desc" rows="4">${ext.descrizione||''}</textarea>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title">Orari di apertura</div>
+      <div class="orari-grid">${orariRows}</div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title">Servizi</div>
+      <div class="tag-list" id="dash-servizi-tags">${serviziTags}</div>
+      <div class="tag-add-row">
+        <input class="tag-add-input" id="dash-new-servizio" placeholder="Aggiungi servizio...">
+        <button class="tag-add-btn" onclick="addServizio()">+</button>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="saveDashboard()" style="margin-top:4px">Salva modifiche</button>
+    <button class="btn-danger" onclick="logoutPlus()">Esci dall'area Plus</button>
+    <div style="height:16px"></div>
+  `;
+}
+
+function getCurrentServizi(){
+  const tags=document.querySelectorAll('#dash-servizi-tags .tag-item');
+  return Array.from(tags).map(t=>t.textContent.replace('\u00d7','').trim());
+}
+
+function addServizio(){
+  const input=document.getElementById('dash-new-servizio');
+  const val=input.value.trim();
+  if(!val) return;
+  input.value='';
+  // Re-render by saving temp and re-rendering
+  const servizi=getCurrentServizi();
+  servizi.push(val);
+  updateServiziUI(servizi);
+}
+
+function removeServizio(idx){
+  const servizi=getCurrentServizi();
+  servizi.splice(idx,1);
+  updateServiziUI(servizi);
+}
+
+function updateServiziUI(servizi){
+  const container=document.getElementById('dash-servizi-tags');
+  container.innerHTML=servizi.map((s,i)=>`
+    <span class="tag-item">${s}<span class="tag-remove" onclick="removeServizio(${i})">&times;</span></span>`).join('');
+}
+
+function saveDashboard(){
+  if(!plusUser) return;
+  const idx=plusUser.attivitaIdx;
+
+  // Update base ATTIVITA data (in-memory)
+  ATTIVITA[idx].nome=document.getElementById('dash-nome').value.trim()||ATTIVITA[idx].nome;
+  ATTIVITA[idx].indirizzo=document.getElementById('dash-indirizzo').value.trim()||ATTIVITA[idx].indirizzo;
+  ATTIVITA[idx].tel=document.getElementById('dash-tel').value.trim()||ATTIVITA[idx].tel;
+
+  // Collect orari
+  const orari={};
+  document.querySelectorAll('.orari-input').forEach(inp=>{
+    orari[inp.dataset.giorno]=inp.value.trim();
+  });
+
+  // Save extended data
+  const ext={
+    descrizione:document.getElementById('dash-desc').value.trim(),
+    orari,
+    servizi:getCurrentServizi(),
+    email:document.getElementById('dash-email').value.trim(),
+    sito:document.getElementById('dash-sito').value.trim(),
+  };
+  savePlusData(idx,ext);
+
+  alert('Modifiche salvate!');
+}
+
 /* ─── UTILS ───────────────────────────────────────── */
 function pillClass(tipo){
   if(tipo==='Notizia') return 'pill-notizia';
@@ -196,11 +447,20 @@ function renderAttivita(cat){
     </div>`;
     return;
   }
-  el.innerHTML=filtered.map(a=>`
-    <div class="att-card">
+  const ctaHtml=(!plusUser)?`
+    <div class="cta-plus" onclick="goScreen('richiesta-plus')">
+      <div class="cta-plus-star">\u2B50</div>
+      <div class="cta-plus-title">La tua attivit\u00e0 su Calcinato?</div>
+      <div class="cta-plus-desc">Con la scheda Plus i cittadini vedranno orari, servizi, foto e contatti diretti della tua attivit\u00e0.</div>
+      <div class="cta-plus-btn">Scopri Plus \u2192</div>
+    </div>`:'';
+
+  let cards=filtered.map((a,i)=>{
+    const isOwn=plusUser&&ATTIVITA.indexOf(a)===plusUser.attivitaIdx;
+    return `<div class="att-card" ${isOwn?'style="border-left:3px solid var(--blu)"':''}>
       <div class="att-header">
         <div>
-          <div class="att-nome">${a.nome}</div>
+          <div class="att-nome">${a.nome} ${isOwn?' <span style="font-size:10px;color:var(--blu);font-weight:400">(La tua)</span>':''}</div>
           <div class="att-cat">${a.catLabel}</div>
         </div>
         ${a.plus?'<div class="plus-badge">Plus</div>':''}
@@ -215,7 +475,14 @@ function renderAttivita(cat){
           ${a.tel}
         </div>
       </div>
-    </div>`).join('');
+    </div>`;
+  });
+
+  // Insert CTA after 3rd card
+  if(ctaHtml&&cards.length>3) cards.splice(3,0,ctaHtml);
+  else if(ctaHtml) cards.push(ctaHtml);
+
+  el.innerHTML=cards.join('');
 }
 
 /* ─── RENDER CONTATTI ─────────────────────────────── */
@@ -320,14 +587,20 @@ function goScreen(id){
   if(weather) weather.style.display='flex';
   if(settBtn) settBtn.style.display='flex';
 
-  // Settings uses back mode like article
-  if(id==='settings'){
+  const userBtn=document.getElementById('topbar-user');
+  if(userBtn) userBtn.style.display='flex';
+
+  // Back-mode screens
+  const backScreens=['settings','login-plus','richiesta-plus','dashboard'];
+  if(backScreens.includes(id)){
     back.classList.add('visible');
     logo.style.display='none';
     text.style.display='none';
     if(weather) weather.style.display='none';
     if(settBtn) settBtn.style.display='none';
-    updateSettingsUI();
+    if(userBtn) userBtn.style.display='none';
+    if(id==='settings') updateSettingsUI();
+    if(id==='dashboard') renderDashboard();
   }
 
   // close weather panel if open
@@ -375,8 +648,10 @@ function openArticle(id){
 }
 
 function goBack(){
-  if(currentScreen==='settings') goScreen(prevScreen==='settings'?'home':prevScreen);
-  else goScreen(prevScreen==='article'?'news':prevScreen);
+  const backMap={'settings':'home','login-plus':'home','richiesta-plus':'attivita','dashboard':'home','article':'news'};
+  const target=backMap[currentScreen];
+  if(target) goScreen(prevScreen===currentScreen?target:prevScreen);
+  else goScreen(prevScreen||'home');
 }
 
 function setNewsTab(el){
@@ -447,6 +722,7 @@ function toggleWeeklyWeather(){
 
 /* ─── INIT ────────────────────────────────────────── */
 loadSettings();
+loadPlusSession();
 renderHero();
 renderNewsList('tutte','home-news-list');
 renderNewsList('tutte','news-list');

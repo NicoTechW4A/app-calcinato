@@ -35,6 +35,9 @@
     <div class="topbar-settings" id="topbar-settings" onclick="goScreen('settings')">
       <svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
     </div>
+    <div class="topbar-user" id="topbar-user" onclick="onUserIconClick()">
+      <svg id="topbar-user-svg" viewBox="0 0 22 22"><path d="M18 19v-1.5a3.5 3.5 0 00-3.5-3.5h-7A3.5 3.5 0 004 17.5V19"/><circle cx="11" cy="8" r="3.5"/></svg>
+    </div>
   </div>
 
   <!-- WEEKLY WEATHER PANEL -->
@@ -186,6 +189,68 @@
         <div class="sett-footer">Le impostazioni vengono salvate automaticamente sul dispositivo.</div>
 
       </div>
+    </div>
+
+    <!-- LOGIN PLUS -->
+    <div class="screen" id="scr-login-plus">
+      <div class="scroll">
+        <div class="login-header">
+          <div class="login-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div class="login-title">Area Attivit&agrave; Plus</div>
+          <div class="login-sub">Accedi per gestire la tua scheda</div>
+        </div>
+        <div class="login-error" id="login-error">Email o password non corretti</div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="login-email" placeholder="tuaemail@esempio.it" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="login-password" placeholder="La tua password" autocomplete="current-password">
+        </div>
+        <button class="btn-primary" onclick="submitLogin()">Accedi</button>
+        <div class="login-demo">Demo: demo@plus.it / demo123</div>
+      </div>
+    </div>
+
+    <!-- RICHIESTA PLUS -->
+    <div class="screen" id="scr-richiesta-plus">
+      <div class="scroll" id="richiesta-content">
+        <div class="sec-lbl" style="margin-top:4px">Diventa Plus</div>
+        <p style="font-size:13px;color:var(--gray-txt);line-height:1.6;margin-bottom:16px;">
+          Con la scheda <strong>Plus</strong> la tua attivit&agrave; avr&agrave; una pagina arricchita con descrizione, orari, servizi, gallery e contatti diretti. Compila il form e verrai ricontattato dal nostro team.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Nome referente *</label>
+          <input class="form-input" type="text" id="req-nome" placeholder="Mario Rossi">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nome attivit&agrave; *</label>
+          <input class="form-input" type="text" id="req-attivita" placeholder="Es. Ristorante Da Mario">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefono *</label>
+          <input class="form-input" type="tel" id="req-tel" placeholder="030 1234567">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="req-email" placeholder="email@esempio.it">
+          <div class="form-hint">Opzionale</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Note</label>
+          <textarea class="form-textarea" id="req-note" placeholder="Informazioni aggiuntive..."></textarea>
+          <div class="form-hint">Opzionale</div>
+        </div>
+        <button class="btn-primary" onclick="submitRichiesta()">Invia richiesta</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD PLUS -->
+    <div class="screen" id="scr-dashboard">
+      <div class="scroll" id="dashboard-content"></div>
     </div>
 
   </div>

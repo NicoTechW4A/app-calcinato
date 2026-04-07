@@ -566,3 +566,176 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 #app[data-dyslexia="on"] .att-cat,
 #app[data-dyslexia="on"] .cont-meta,
 #app[data-dyslexia="on"] .info-value{line-height:1.8;letter-spacing:0.3px}
+
+/* ═══════════════════════════════════════════════════
+   CTA PLUS CARD
+   ═══════════════════════════════════════════════════ */
+.cta-plus{
+  background:linear-gradient(135deg,#F59E0B,#D97706);
+  border-radius:11px;padding:16px;margin-bottom:8px;
+  cursor:pointer;position:relative;overflow:hidden;
+  border:none;
+}
+.cta-plus::after{
+  content:'';position:absolute;top:-20px;right:-20px;
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(255,255,255,0.12);
+}
+.cta-plus-star{font-size:24px;margin-bottom:6px}
+.cta-plus-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
+.cta-plus-desc{font-size:11px;color:rgba(255,255,255,0.85);line-height:1.4;margin-bottom:8px}
+.cta-plus-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(255,255,255,0.2);color:#fff;
+  font-size:11px;font-weight:700;
+  padding:6px 14px;border-radius:6px;
+  border:1px solid rgba(255,255,255,0.3);
+}
+
+/* ═══════════════════════════════════════════════════
+   TOPBAR USER ICON
+   ═══════════════════════════════════════════════════ */
+.topbar-user{
+  width:32px;height:32px;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;
+  border-radius:50%;transition:background .15s;
+  margin-left:4px;flex-shrink:0;
+}
+.topbar-user:active{background:rgba(255,255,255,0.15)}
+.topbar-user svg{width:20px;height:20px;stroke:#fff;stroke-width:1.4;fill:none;opacity:.75;stroke-linecap:round;stroke-linejoin:round}
+
+/* ═══════════════════════════════════════════════════
+   FORMS (Login, Richiesta, Dashboard)
+   ═══════════════════════════════════════════════════ */
+.form-group{margin-bottom:14px}
+.form-label{
+  display:block;font-size:11px;font-weight:600;
+  color:var(--gray-txt);text-transform:uppercase;
+  letter-spacing:0.4px;margin-bottom:5px;
+}
+.form-input,.form-textarea{
+  width:100%;padding:10px 12px;
+  border:1px solid var(--gray-border);
+  border-radius:8px;font-size:14px;font-family:inherit;
+  color:var(--dark);background:#fff;
+  outline:none;transition:border-color .15s;
+}
+.form-input:focus,.form-textarea:focus{border-color:var(--blu)}
+.form-textarea{resize:vertical;min-height:80px}
+.form-hint{font-size:10px;color:#bbb;margin-top:3px}
+
+.btn-primary{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;padding:13px;border:none;border-radius:10px;
+  background:var(--blu);color:#fff;
+  font-size:14px;font-weight:700;font-family:inherit;
+  cursor:pointer;transition:opacity .15s;
+}
+.btn-primary:active{opacity:.8}
+.btn-danger{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;padding:12px;border:2px solid #DC3545;border-radius:10px;
+  background:transparent;color:#DC3545;
+  font-size:13px;font-weight:600;font-family:inherit;
+  cursor:pointer;margin-top:12px;
+}
+
+.success-msg{
+  text-align:center;padding:32px 16px;
+}
+.success-ico{font-size:48px;margin-bottom:12px}
+.success-title{font-size:17px;font-weight:700;color:var(--dark);margin-bottom:6px}
+.success-text{font-size:13px;color:var(--gray-txt);line-height:1.5}
+
+/* ═══════════════════════════════════════════════════
+   LOGIN CARD
+   ═══════════════════════════════════════════════════ */
+.login-header{text-align:center;padding:24px 0 20px}
+.login-icon{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--blu-lt);color:var(--blu);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin:0 auto 12px;
+}
+.login-title{font-size:18px;font-weight:700;color:var(--dark)}
+.login-sub{font-size:12px;color:var(--gray-txt);margin-top:4px}
+.login-error{
+  font-size:12px;color:#DC3545;text-align:center;
+  margin-bottom:10px;display:none;
+}
+.login-error.visible{display:block}
+.login-demo{
+  font-size:10px;color:#bbb;text-align:center;
+  margin-top:16px;line-height:1.5;
+}
+
+/* ═══════════════════════════════════════════════════
+   DASHBOARD
+   ═══════════════════════════════════════════════════ */
+.dash-welcome{
+  padding:12px 0 16px;
+}
+.dash-welcome-name{font-size:18px;font-weight:700;color:var(--dark)}
+.dash-welcome-sub{font-size:12px;color:var(--gray-txt);margin-top:2px}
+
+.dash-card{
+  background:#fff;border:1px solid var(--gray-border);
+  border-radius:11px;padding:14px;margin-bottom:10px;
+}
+.dash-card-title{
+  font-size:12px;font-weight:700;color:var(--blu);
+  text-transform:uppercase;letter-spacing:0.5px;
+  margin-bottom:10px;
+}
+
+/* Orari grid */
+.orari-grid{display:flex;flex-direction:column;gap:6px}
+.orari-row{display:flex;align-items:center;gap:8px}
+.orari-day{width:60px;font-size:12px;font-weight:600;color:var(--dark);flex-shrink:0}
+.orari-input{
+  flex:1;padding:7px 10px;border:1px solid var(--gray-border);
+  border-radius:6px;font-size:12px;font-family:inherit;color:var(--dark);
+  background:#fff;outline:none;
+}
+.orari-input:focus{border-color:var(--blu)}
+
+/* Tag list */
+.tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tag-item{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:6px;
+  background:var(--blu-lt);color:var(--blu);
+  font-size:11px;font-weight:600;
+}
+.tag-remove{
+  cursor:pointer;font-size:14px;line-height:1;
+  color:var(--blu);opacity:.6;
+}
+.tag-remove:hover{opacity:1}
+.tag-add-row{display:flex;gap:6px}
+.tag-add-input{
+  flex:1;padding:6px 10px;border:1px solid var(--gray-border);
+  border-radius:6px;font-size:12px;font-family:inherit;
+  outline:none;
+}
+.tag-add-btn{
+  padding:6px 12px;border:none;border-radius:6px;
+  background:var(--blu);color:#fff;font-size:12px;
+  font-weight:600;cursor:pointer;font-family:inherit;
+}
+
+/* Dark theme overrides for new components */
+#app[data-theme="scuro"] .form-input,
+#app[data-theme="scuro"] .form-textarea,
+#app[data-theme="scuro"] .orari-input,
+#app[data-theme="scuro"] .tag-add-input{background:#252538;border-color:#2A2A3E;color:#E8E8EC}
+#app[data-theme="scuro"] .dash-card{background:#1E1E2E;border-color:#2A2A3E}
+#app[data-theme="scuro"] .login-icon{background:#1E2A3A}
+#app[data-theme="scuro"] .tag-item{background:#1E2A3A;color:#6AACEF}
+
+/* Blue theme overrides */
+#app[data-theme="blu"] .form-input,
+#app[data-theme="blu"] .form-textarea,
+#app[data-theme="blu"] .orari-input,
+#app[data-theme="blu"] .tag-add-input{background:#F0F6FF;border-color:#B8D0E8}
+#app[data-theme="blu"] .dash-card{background:#F0F6FF;border-color:#B8D0E8}
