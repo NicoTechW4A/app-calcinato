@@ -3,14 +3,15 @@
    ═══════════════════════════════════════════════════════ */
 
 /* ─── DATI NEWS ──────────────────────────────────────── */
+const IMG_BASE='https://calcinato-api.municipiumapp.it/s3/1072/media/';
 const NEWS=[
-  {id:0,tipo:"Avviso",titolo:"Risultati del referendum popolare confermativo a Calcinato",data:"24 marzo 2026",snippet:"Si\u0300 61,29% \u2014 No 38,71%. Pubblicati i risultati ufficiali del referendum popolare.",testo:"Si sono concluse le operazioni di scrutinio del referendum popolare confermativo. Il risultato finale registra il 61,29% di voti favorevoli (S\u00ec) e il 38,71% di voti contrari (No). L\u2019Amministrazione Comunale ringrazia tutti i cittadini che hanno partecipato alla consultazione democratica.",tags:["Elezioni","Democrazia"]},
-  {id:1,tipo:"Notizia",titolo:"Consulenza Notarile Aprile 2026 \u2014 Iniziativa gratuita",data:"24 marzo 2026",snippet:"Servizio di consulenza notarile gratuita per tutti i residenti.",testo:"Il Comune di Calcinato mette a disposizione dei cittadini un servizio di consulenza notarile gratuita per il mese di aprile 2026. Il servizio \u00e8 rivolto a tutti i residenti che necessitano di informazioni su atti notarili, successioni, donazioni e altri aspetti giuridici. Per prenotare un appuntamento contattare l\u2019ufficio Servizi Sociali al numero 030/99891.",tags:["Servizi sociali","Assistenza"]},
-  {id:2,tipo:"Avviso",titolo:"Bando di servizio civile universale anno 2026",data:"18 marzo 2026",snippet:"Scadenza bando: 8 aprile alle ore 14:00.",testo:"\u00c8 aperto il bando per la selezione di operatori volontari da impiegare in progetti di Servizio Civile Universale per l\u2019anno 2026. I giovani tra i 18 e i 28 anni possono presentare domanda esclusivamente attraverso la piattaforma DOL (Domanda On Line) accessibile dal sito del Dipartimento per le Politiche Giovanili. Scadenza: 8 aprile 2026 ore 14:00.",tags:["Patrimonio culturale","Giovani"]},
-  {id:3,tipo:"Avviso",titolo:"Servizio mensa scolastica 2026/2027 \u2014 riapertura iscrizioni",data:"13 marzo 2026",snippet:"Iscrizioni aperte fino al 18 aprile 2026.",testo:"\u00c8 possibile inoltrare domanda di iscrizione al servizio mensa scolastica per l\u2019anno scolastico 2026/2027 fino al 18 aprile. Le domande devono essere presentate esclusivamente online tramite il portale dei servizi scolastici del Comune di Calcinato. Per informazioni rivolgersi all\u2019Ufficio Pubblica Istruzione.",tags:["Istruzione","Scuola"]},
-  {id:4,tipo:"Avviso",titolo:"Dote Scuola \u2014 Materiale Didattico a.s. 2026/27",data:"13 marzo 2026",snippet:"Contributo regionale per le spese scolastiche delle famiglie.",testo:"Il bando di Regione Lombardia mette a disposizione un contributo per sostenere le spese delle famiglie nel compimento del percorso scolastico nei sistemi di Istruzione e di Istruzione e Formazione Professionale (IeFP). Le domande devono essere presentate tramite il portale di Regione Lombardia.",tags:["Istruzione","Contributi regionali"]},
-  {id:5,tipo:"Notizia",titolo:"Non solo compiti \u2014 proposta pomeridiana scuola primaria",data:"18 marzo 2026",snippet:"Attivit\u00e0 pomeridiane per bambine e bambini della Scuola Primaria.",testo:"Il Comune di Calcinato propone un\u2019attivit\u00e0 pomeridiana per bambine e bambini della Scuola Primaria. Il progetto \u2018Non solo compiti\u2019 offre supporto scolastico e attivit\u00e0 ludico-educative in un ambiente sicuro e stimolante, dal luned\u00ec al venerd\u00ec. Le iscrizioni sono aperte fino ad esaurimento posti.",tags:["Istruzione","Bambini"]},
-  {id:6,tipo:"Comunicato",titolo:"Servizio Non Solo Compiti a.s. 2026/2027 \u2014 riapertura iscrizioni",data:"13 marzo 2026",snippet:"\u00c8 possibile inoltrare domanda fino al 18 aprile.",testo:"\u00c8 possibile inoltrare domanda di iscrizione al servizio Non Solo Compiti per l\u2019anno scolastico 2026/2027 fino al 18 aprile. Il servizio offre supporto allo studio e attivit\u00e0 educative pomeridiane per gli alunni della scuola primaria. Per informazioni contattare l\u2019Ufficio Pubblica Istruzione.",tags:["Istruzione","Scuola"]},
+  {id:0,tipo:"Avviso",titolo:"Risultati del referendum popolare confermativo a Calcinato",data:"24 marzo 2026",img:null,snippet:"S\u00ec 61,29% \u2014 No 38,71%. Pubblicati i risultati ufficiali del referendum popolare.",testo:"Si sono concluse le operazioni di scrutinio del referendum popolare confermativo. Il risultato finale registra il 61,29% di voti favorevoli (S\u00ec) e il 38,71% di voti contrari (No). L\u2019Amministrazione Comunale ringrazia tutti i cittadini che hanno partecipato alla consultazione democratica.",tags:["Elezioni","Democrazia"]},
+  {id:1,tipo:"Notizia",titolo:"Consulenza Notarile Aprile 2026 \u2014 Iniziativa gratuita",data:"24 marzo 2026",img:IMG_BASE+'notarile.jpg',snippet:"Servizio di consulenza notarile gratuita per tutti i residenti.",testo:"Il Comune di Calcinato mette a disposizione dei cittadini un servizio di consulenza notarile gratuita per il mese di aprile 2026. Il servizio \u00e8 rivolto a tutti i residenti che necessitano di informazioni su atti notarili, successioni, donazioni e altri aspetti giuridici. Per prenotare un appuntamento contattare l\u2019ufficio Servizi Sociali al numero 030/99891.",tags:["Servizi sociali","Assistenza"]},
+  {id:2,tipo:"Avviso",titolo:"Bando di servizio civile universale anno 2026",data:"18 marzo 2026",img:IMG_BASE+'servizio_civile2026_1.jpg',snippet:"Scadenza bando: 8 aprile alle ore 14:00.",testo:"\u00c8 aperto il bando per la selezione di operatori volontari da impiegare in progetti di Servizio Civile Universale per l\u2019anno 2026. I giovani tra i 18 e i 28 anni possono presentare domanda esclusivamente attraverso la piattaforma DOL (Domanda On Line) accessibile dal sito del Dipartimento per le Politiche Giovanili. Scadenza: 8 aprile 2026 ore 14:00.",tags:["Patrimonio culturale","Giovani"]},
+  {id:3,tipo:"Avviso",titolo:"Servizio mensa scolastica 2026/2027 \u2014 riapertura iscrizioni",data:"13 marzo 2026",img:null,snippet:"Iscrizioni aperte fino al 18 aprile 2026.",testo:"\u00c8 possibile inoltrare domanda di iscrizione al servizio mensa scolastica per l\u2019anno scolastico 2026/2027 fino al 18 aprile. Le domande devono essere presentate esclusivamente online tramite il portale dei servizi scolastici del Comune di Calcinato. Per informazioni rivolgersi all\u2019Ufficio Pubblica Istruzione.",tags:["Istruzione","Scuola"]},
+  {id:4,tipo:"Avviso",titolo:"Dote Scuola \u2014 Materiale Didattico a.s. 2026/27",data:"13 marzo 2026",img:null,snippet:"Contributo regionale per le spese scolastiche delle famiglie.",testo:"Il bando di Regione Lombardia mette a disposizione un contributo per sostenere le spese delle famiglie nel compimento del percorso scolastico nei sistemi di Istruzione e di Istruzione e Formazione Professionale (IeFP). Le domande devono essere presentate tramite il portale di Regione Lombardia.",tags:["Istruzione","Contributi regionali"]},
+  {id:5,tipo:"Notizia",titolo:"Non solo compiti \u2014 proposta pomeridiana scuola primaria",data:"18 marzo 2026",img:IMG_BASE+'front.jpg',snippet:"Attivit\u00e0 pomeridiane per bambine e bambini della Scuola Primaria.",testo:"Il Comune di Calcinato propone un\u2019attivit\u00e0 pomeridiana per bambine e bambini della Scuola Primaria. Il progetto \u2018Non solo compiti\u2019 offre supporto scolastico e attivit\u00e0 ludico-educative in un ambiente sicuro e stimolante, dal luned\u00ec al venerd\u00ec. Le iscrizioni sono aperte fino ad esaurimento posti.",tags:["Istruzione","Bambini"]},
+  {id:6,tipo:"Comunicato",titolo:"Rinnovo raccolta porta a porta frazione vegetale",data:"19 febbraio 2026",img:IMG_BASE+'bidone-vegetale.jpg',snippet:"Nuova procedura per il rinnovo dell'iscrizione al servizio.",testo:"\u00c8 possibile rinnovare l\u2019iscrizione al servizio di raccolta porta a porta della frazione vegetale con una nuova procedura semplificata. I cittadini interessati possono rivolgersi all\u2019Ufficio Ambiente del Comune di Calcinato per maggiori informazioni.",tags:["Ambiente","Raccolta"]},
 ];
 
 /* ─── DATI ATTIVITA ──────────────────────────────────── */
@@ -84,9 +85,13 @@ function renderHero(){
 }
 
 /* ─── RENDER NEWS ─────────────────────────────────── */
+function newsThumb(n){
+  if(n.img) return `<img src="${n.img}" alt="" onerror="this.parentNode.innerHTML='${thumbSVG(n.tipo).replace(/'/g,"\\'")}'">`;
+  return thumbSVG(n.tipo);
+}
 function renderNewsCard(n){
   return `<div class="news-card" onclick="openArticle(${n.id})">
-    <div class="news-thumb">${thumbSVG(n.tipo)}</div>
+    <div class="news-thumb">${newsThumb(n)}</div>
     <div class="news-content">
       <div class="pill ${pillClass(n.tipo)}">${n.tipo}</div>
       <div class="news-title">${n.titolo}</div>
@@ -242,11 +247,14 @@ function goScreen(id){
   const back=document.getElementById('topbar-back');
   const logo=document.getElementById('topbar-logo');
   const text=document.getElementById('topbar-text');
-  const bell=document.getElementById('topbar-bell');
+  const weather=document.getElementById('topbar-weather');
   back.classList.remove('visible');
-  logo.style.display='flex';
+  logo.style.display='block';
   text.style.display='block';
-  bell.style.display='flex';
+  if(weather) weather.style.display='flex';
+
+  // close weather panel if open
+  document.getElementById('weather-panel').classList.remove('open');
 
   if(id==='news') renderNewsList(currentNewsFilter,'news-list');
   if(id==='attivita') renderAttivita(currentAttCat);
@@ -259,6 +267,12 @@ function openArticle(id){
   if(!n) return;
   prevScreen=currentScreen;
 
+  const artImg=document.getElementById('art-img');
+  if(n.img){
+    artImg.innerHTML=`<img src="${n.img}" alt="">`;
+  } else {
+    artImg.innerHTML=`<svg width="56" height="56" viewBox="0 0 56 56" fill="none"><rect width="56" height="56" rx="8" fill="#D4E6F8"/><path d="M8 40l12-14 10 12 8-10 10 12H8z" fill="#0055A5"/></svg>`;
+  }
   document.getElementById('art-pill').innerHTML=`<div class="pill ${pillClass(n.tipo)}">${n.tipo}</div>`;
   document.getElementById('art-title').textContent=n.titolo;
   document.getElementById('art-meta').innerHTML=`
@@ -276,12 +290,11 @@ function openArticle(id){
   currentScreen='article';
 
   // topbar back mode
-  const back=document.getElementById('topbar-back');
-  const logo=document.getElementById('topbar-logo');
-  const text=document.getElementById('topbar-text');
-  back.classList.add('visible');
-  logo.style.display='none';
-  text.style.display='none';
+  document.getElementById('topbar-back').classList.add('visible');
+  document.getElementById('topbar-logo').style.display='none';
+  document.getElementById('topbar-text').style.display='none';
+  const w=document.getElementById('topbar-weather');
+  if(w) w.style.display='none';
 }
 
 function goBack(){
@@ -302,8 +315,61 @@ function setAttTab(el){
   renderAttivita(currentAttCat);
 }
 
+/* ─── METEO (Open-Meteo API — gratuita, no API key) ── */
+const WEATHER_ICONS={
+  0:'\u2600\uFE0F',1:'\uD83C\uDF24\uFE0F',2:'\u26C5',3:'\u2601\uFE0F',
+  45:'\uD83C\uDF2B\uFE0F',48:'\uD83C\uDF2B\uFE0F',
+  51:'\uD83C\uDF26\uFE0F',53:'\uD83C\uDF26\uFE0F',55:'\uD83C\uDF27\uFE0F',
+  56:'\uD83C\uDF27\uFE0F',57:'\uD83C\uDF27\uFE0F',
+  61:'\uD83C\uDF27\uFE0F',63:'\uD83C\uDF27\uFE0F',65:'\uD83C\uDF27\uFE0F',
+  66:'\uD83C\uDF27\uFE0F',67:'\uD83C\uDF27\uFE0F',
+  71:'\uD83C\uDF28\uFE0F',73:'\uD83C\uDF28\uFE0F',75:'\uD83C\uDF28\uFE0F',
+  77:'\uD83C\uDF28\uFE0F',
+  80:'\uD83C\uDF26\uFE0F',81:'\uD83C\uDF27\uFE0F',82:'\uD83C\uDF27\uFE0F',
+  85:'\uD83C\uDF28\uFE0F',86:'\uD83C\uDF28\uFE0F',
+  95:'\u26C8\uFE0F',96:'\u26C8\uFE0F',99:'\u26C8\uFE0F'
+};
+const DAY_NAMES=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
+
+function getWeatherIcon(code){ return WEATHER_ICONS[code]||'\u2601\uFE0F'; }
+
+async function loadWeather(){
+  try{
+    const res=await fetch('https://api.open-meteo.com/v1/forecast?latitude=45.4558&longitude=10.4107&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Europe/Rome&forecast_days=7');
+    const d=await res.json();
+
+    // Today in header
+    document.getElementById('weather-icon').textContent=getWeatherIcon(d.current.weather_code);
+    document.getElementById('weather-temp').innerHTML=Math.round(d.current.temperature_2m)+'&deg;';
+
+    // Weekly panel
+    const weekEl=document.getElementById('weather-week');
+    const today=new Date().toISOString().slice(0,10);
+    weekEl.innerHTML=d.daily.time.map((date,i)=>{
+      const dayDate=new Date(date);
+      const isToday=date===today;
+      const dayName=isToday?'Oggi':DAY_NAMES[dayDate.getDay()];
+      return `<div class="weather-day ${isToday?'today':''}">
+        <div class="weather-day-name">${dayName}</div>
+        <div class="weather-day-icon">${getWeatherIcon(d.daily.weather_code[i])}</div>
+        <div class="weather-day-temp">${Math.round(d.daily.temperature_2m_max[i])}&deg;</div>
+        <div class="weather-day-min">${Math.round(d.daily.temperature_2m_min[i])}&deg;</div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    console.warn('Meteo non disponibile:',e);
+    document.getElementById('weather-icon').textContent='\u2601\uFE0F';
+    document.getElementById('weather-temp').innerHTML='--&deg;';
+  }
+}
+
+function toggleWeeklyWeather(){
+  document.getElementById('weather-panel').classList.toggle('open');
+}
+
 /* ─── INIT ────────────────────────────────────────── */
 renderHero();
 renderNewsList('tutte','home-news-list');
 renderNewsList('tutte','news-list');
 renderAttivita('tutte');
+loadWeather();

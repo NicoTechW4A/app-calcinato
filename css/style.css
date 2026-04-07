@@ -47,13 +47,56 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 }
 .topbar-logo{
   width:36px;height:36px;border-radius:50%;
-  background:#fff;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;
-  font-size:15px;font-weight:900;color:var(--blu);
+  background:#fff;
+  flex-shrink:0;
+  object-fit:cover;
+  border:2px solid rgba(255,255,255,0.3);
 }
 .topbar-text .t1{color:#fff;font-size:14px;font-weight:700;line-height:1.2}
 .topbar-text .t2{color:#99BBDD;font-size:11px;margin-top:2px}
-.topbar-bell{margin-left:auto;cursor:pointer;opacity:.85}
+/* ─── WEATHER WIDGET ───────────────────────────────── */
+.topbar-weather{
+  margin-left:auto;cursor:pointer;
+  display:flex;align-items:center;
+  background:rgba(255,255,255,0.12);
+  border-radius:8px;padding:4px 10px;
+  gap:5px;transition:background .15s;
+}
+.topbar-weather:active{background:rgba(255,255,255,0.22)}
+.weather-today{display:flex;align-items:center;gap:5px}
+.weather-icon{font-size:18px;line-height:1}
+.weather-temp{color:#fff;font-size:13px;font-weight:700;letter-spacing:-0.3px}
+
+.weather-panel{
+  position:absolute;top:0;left:0;right:0;
+  background:#fff;z-index:200;
+  border-bottom-left-radius:16px;
+  border-bottom-right-radius:16px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.15);
+  transform:translateY(-100%);
+  transition:transform .3s ease;
+  padding:14px;
+  padding-top:calc(var(--safe-top) + 14px);
+}
+.weather-panel.open{transform:translateY(0)}
+.weather-panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.weather-close{font-size:22px;color:#aaa;cursor:pointer;line-height:1;padding:4px}
+
+.weather-week{display:flex;gap:6px;overflow-x:auto}
+.weather-week::-webkit-scrollbar{display:none}
+.weather-day{
+  flex:1;min-width:56px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:10px 6px;border-radius:10px;
+  background:var(--gray-bg);
+  border:1px solid var(--gray-border);
+}
+.weather-day.today{background:var(--blu-lt);border-color:var(--blu)}
+.weather-day-name{font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:0.3px}
+.weather-day.today .weather-day-name{color:var(--blu)}
+.weather-day-icon{font-size:20px;line-height:1}
+.weather-day-temp{font-size:12px;font-weight:700;color:var(--dark)}
+.weather-day-min{font-size:10px;color:#bbb}
 .topbar-back{
   display:none;align-items:center;gap:6px;
   color:#99BBDD;font-size:12px;cursor:pointer;
@@ -158,6 +201,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   display:flex;align-items:center;justify-content:center;
 }
 .news-thumb svg{width:100%;height:100%}
+.news-thumb img{width:100%;height:100%;object-fit:cover}
 .news-content{flex:1;min-width:0}
 .pill{
   display:inline-block;font-size:9px;font-weight:700;
@@ -178,6 +222,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   overflow:hidden;
 }
 .article-img svg{opacity:.4}
+.article-img img{width:100%;height:100%;object-fit:cover}
 .article-pill{margin-bottom:10px}
 .article-title{font-size:17px;font-weight:700;color:var(--dark);line-height:1.35;margin-bottom:8px}
 .article-meta{font-size:11px;color:#aaa;margin-bottom:14px;display:flex;align-items:center;gap:6px}

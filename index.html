@@ -21,17 +21,26 @@
       <svg viewBox="0 0 16 16"><path d="M10 13L5 8l5-5"/></svg>
       Indietro
     </div>
-    <div class="topbar-logo" id="topbar-logo">C</div>
+    <img class="topbar-logo" id="topbar-logo" src="assets/stemma-calcinato.png" alt="Stemma Calcinato">
     <div class="topbar-text" id="topbar-text">
       <div class="t1">Comune di Calcinato</div>
       <div class="t2">Brescia &mdash; BS</div>
     </div>
-    <div class="topbar-bell" id="topbar-bell">
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M11 2.5a6 6 0 00-6 6v4.5l-1.5 2h15l-1.5-2V8.5a6 6 0 00-6-6z" stroke="#fff" stroke-width="1.4" fill="none"/>
-        <path d="M9 18a2 2 0 004 0" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-      </svg>
+    <div class="topbar-weather" id="topbar-weather" onclick="toggleWeeklyWeather()">
+      <div class="weather-today" id="weather-today">
+        <span class="weather-icon" id="weather-icon">--</span>
+        <span class="weather-temp" id="weather-temp">--&deg;</span>
+      </div>
     </div>
+  </div>
+
+  <!-- WEEKLY WEATHER PANEL -->
+  <div class="weather-panel" id="weather-panel">
+    <div class="weather-panel-header">
+      <span class="sec-lbl" style="margin:0">Meteo Calcinato</span>
+      <span class="weather-close" onclick="toggleWeeklyWeather()">&times;</span>
+    </div>
+    <div class="weather-week" id="weather-week"></div>
   </div>
 
   <!-- SCREENS -->
@@ -79,7 +88,7 @@
     <!-- ARTICLE DETAIL -->
     <div class="screen" id="scr-article">
       <div class="scroll">
-        <div class="article-img">
+        <div class="article-img" id="art-img">
           <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><rect width="56" height="56" rx="8" fill="#D4E6F8"/><path d="M8 40l12-14 10 12 8-10 10 12H8z" fill="#0055A5"/></svg>
         </div>
         <div class="article-pill" id="art-pill"></div>
