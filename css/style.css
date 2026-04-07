@@ -138,11 +138,18 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   cursor:pointer;
 }
 .hero-img{
-  height:140px;background:var(--blu-dark);
+  height:160px;
+  background:var(--blu-dark) url('../assets/hero-calcinato.jpg') center/cover no-repeat;
   display:flex;flex-direction:column;
   justify-content:flex-end;padding:12px;
   position:relative;overflow:hidden;
 }
+.hero-img::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(0,15,40,0.88) 0%, rgba(0,30,70,0.55) 55%, rgba(0,40,80,0.35) 100%);
+  z-index:0;
+}
+.hero-img>*{position:relative;z-index:1}
 .hero-deco1{position:absolute;top:-24px;right:-24px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.06)}
 .hero-deco2{position:absolute;bottom:-36px;right:24px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.04)}
 .hero-cat{
