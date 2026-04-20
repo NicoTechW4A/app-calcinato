@@ -145,29 +145,13 @@ function icon(name, opts = {}) {
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">${ICONS[name] || ICONS.info}</svg>`;
 }
 
-/* ─── STEMMA (SVG) ──────────────────────────────── */
+/* ─── STEMMA (reale dal Comune) ──────────────────── */
 function stemma(size = 40, onDark = false) {
   const border = onDark ? '1.5px solid rgba(255,255,255,0.85)' : '1px solid var(--border)';
   const shadow = onDark ? '0 2px 10px rgba(0,0,0,0.15)' : '0 2px 8px rgba(28, 63, 170, 0.18)';
   return `
-    <div class="stemma" style="width:${size}px;height:${size}px;border-radius:${size*0.28}px;border:${border};box-shadow:${shadow}">
-      <svg width="${size}" height="${size}" viewBox="0 0 40 40" style="display:block">
-        <path d="M5 6 Q5 5 6 5 L34 5 Q35 5 35 6 L35 22 Q35 30 20 37 Q5 30 5 22 Z" fill="#1C3FAA"/>
-        <g fill="#E8A70E">
-          <rect x="12" y="14" width="2.5" height="2.5"/>
-          <rect x="16.5" y="14" width="2.5" height="2.5"/>
-          <rect x="21" y="14" width="2.5" height="2.5"/>
-          <rect x="25.5" y="14" width="2.5" height="2.5"/>
-          <rect x="11" y="16" width="18" height="9"/>
-          <rect x="18" y="10" width="4" height="6"/>
-          <rect x="17" y="8" width="1.5" height="2"/>
-          <rect x="19.25" y="8" width="1.5" height="2"/>
-          <rect x="21.5" y="8" width="1.5" height="2"/>
-        </g>
-        <rect x="18.5" y="19" width="3" height="6" rx="1.5" fill="#1C3FAA"/>
-        <path d="M7 27 Q10 25.5 13 27 T19 27 T25 27 T31 27 T33 27" stroke="#FFFFFF" stroke-width="1.2" fill="none" opacity="0.85"/>
-        <path d="M7 30 Q10 28.5 13 30 T19 30 T25 30 T31 30 T33 30" stroke="#FFFFFF" stroke-width="1.2" fill="none" opacity="0.6"/>
-      </svg>
+    <div class="stemma" style="width:${size}px;height:${size}px;border-radius:${size*0.28}px;border:${border};box-shadow:${shadow};overflow:hidden;padding:4px;background:#fff">
+      <img src="assets/stemma-calcinato.png" alt="Stemma Calcinato" style="width:100%;height:100%;object-fit:contain;display:block">
     </div>`;
 }
 

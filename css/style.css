@@ -119,7 +119,9 @@ img { display: block; max-width: 100%; }
   z-index: 2;
 }
 .topbar.brand {
-  background: transparent;
+  background: var(--primary-deep);
+  position: relative;
+  z-index: 3;
 }
 
 .stemma {
@@ -285,13 +287,13 @@ img { display: block; max-width: 100%; }
 /* ─── Home hero ──────────────────────────────────── */
 .home-hero {
   position: absolute;
-  top: -120px;
+  top: 0;
   left: 0; right: 0;
-  height: 420px;
+  height: 360px;
   background:
-    radial-gradient(ellipse 420px 220px at 20% 20%, var(--primary-bright) 0%, transparent 60%),
-    radial-gradient(ellipse 360px 220px at 120% 50%, var(--t-indigo) 0%, transparent 60%),
-    linear-gradient(180deg, var(--primary) 0%, var(--primary-deep) 90%);
+    radial-gradient(ellipse 420px 220px at 20% 30%, var(--primary-bright) 0%, transparent 60%),
+    radial-gradient(ellipse 360px 220px at 120% 60%, var(--t-indigo) 0%, transparent 60%),
+    linear-gradient(180deg, var(--primary-deep) 0%, var(--primary) 40%, var(--primary-deep) 100%);
   border-bottom-left-radius: 32px;
   border-bottom-right-radius: 32px;
   z-index: 0;
