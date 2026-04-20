@@ -1484,6 +1484,65 @@ img { display: block; max-width: 100%; }
   margin-top: 2px;
 }
 
+/* ─── Form inputs ─────────────────────────────────── */
+.form-field { margin-bottom: 14px; }
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-mute);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  letter-spacing: -0.01em;
+}
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+.form-input::placeholder { color: var(--ink-faint); }
+textarea.form-input { resize: vertical; min-height: 80px; font-family: var(--font-sans); }
+
+/* CTA card "Passa a Plus" */
+.plus-cta-card {
+  background: linear-gradient(135deg, var(--t-yellow) 0%, var(--t-orange) 100%);
+  border-radius: 22px;
+  padding: 20px;
+  color: #fff;
+  margin: 0 20px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  width: calc(100% - 40px);
+}
+.plus-cta-icon {
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.plus-cta-body { flex: 1; }
+.plus-cta-title { font-size: 16px; font-weight: 800; letter-spacing: -0.2px; }
+.plus-cta-sub { font-size: 13px; opacity: 0.85; font-weight: 500; margin-top: 3px; line-height: 1.4; }
+
 /* ─── Utility ─────────────────────────────────────── */
 .page-pad { padding: 4px 20px 16px; }
 .row-icon { flex-shrink: 0; }

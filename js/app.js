@@ -35,6 +35,7 @@ const ATTIVITA = [
     indirizzo:'Via Cairoli 13', tel:'030 963114', orari:'Lun–Ven 8:00–18:00',
     certificata:true, sito:'grafichetagliani.com', email:'lucia@grafichetagliani.com',
     facebook:'https://www.facebook.com/grafichetagliani/',
+    img:'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=800&q=80',
     descrizione:'Attiva nel mondo della stampa da oltre 50 anni. Offre servizi di stampa online e tradizionale: volantini, biglietti da visita, etichette, cartellini, buste, cartoline, locandine.',
     servizi:['Stampa online (SpeedyStampa)','Preventivi personalizzati','Consegna in tutta Italia','Stampa digitale e offset','Grafica e comunicazione'] },
 
@@ -43,51 +44,60 @@ const ATTIVITA = [
     orari:'Mer–Ven e Dom 12:00–14:00 / 18:30–22:00, Sab solo sera',
     certificata:true, sito:'baratello.it',
     facebook:'https://www.facebook.com/al.baratello',
+    img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',
     descrizione:'Ristorante-pizzeria Cascina Al Baratello. Cucina italiana e mediterranea con opzioni vegetariane, vegane e senza glutine. Specialità: pizza fritta, pesce, antipasti, tiramisù.',
     servizi:['Pizza','Cucina italiana','Senza glutine','Vegetariano','Vegano','Parcheggio'] },
 
   { id:2, nome:'Manenti Glass', cat:'servizi', catLabel:'Serramenti e infissi',
     indirizzo:'Via Bixio 38', tel:'030 7994131', orari:'Lun–Ven 8:00–18:00',
+    img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
     certificata:false },
 
   { id:3, nome:'Idroelettrica MCL', cat:'servizi', catLabel:'Impianti idroelettrici',
     indirizzo:'Via Sottopassaggio 1', tel:'030 9636056', orari:'Lun–Ven 8:00–18:00',
+    img:'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80',
     certificata:false, sito:'idroelettricamcl.it' },
 
   { id:4, nome:'Tapita Beer and Grill', cat:'ristorazione', catLabel:'Birreria/Ristopub',
     indirizzo:'Via XX Settembre 11', tel:'030 5231449',
     orari:'Lun–Mar e Ven–Sab 17:30–01:00',
     certificata:false,
-    facebook:'https://www.facebook.com/tapitacalcinato/' },
+    facebook:'https://www.facebook.com/tapitacalcinato/',
+    img:'https://images.unsplash.com/photo-1546549032-9571cd6b27df?w=800&q=80' },
 
   { id:5, nome:'Tecnocasa Calcinato', cat:'servizi', catLabel:'Agenzia immobiliare',
     indirizzo:'Via G. Marconi 22', tel:'030 9174447',
     orari:'Lun–Ven 9:00–12:30 / 15:00–19:00',
-    certificata:false, sito:'calcinato1.tecnocasa.it' },
+    certificata:false, sito:'calcinato1.tecnocasa.it',
+    img:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' },
 
   { id:6, nome:'Atelier Patrizia Concari', cat:'commercio', catLabel:'Abiti sposa e cerimonia',
     indirizzo:'Contrada Cavalletto 7/A, Brescia', tel:'329 4083012',
     orari:'Su appuntamento',
     certificata:false, sito:'patriziaconcari.it',
     facebook:'https://www.facebook.com/concaripatriziastilista',
-    instagram:'https://www.instagram.com/patriziaconcaristilista' },
+    instagram:'https://www.instagram.com/patriziaconcaristilista',
+    img:'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=80' },
 
   { id:7, nome:'Capretti Liscio Internazionale', cat:'ristorazione', catLabel:'Discoteca/Sala da ballo',
     indirizzo:'Via Carlo Alberto 62', tel:'030 963385',
     orari:'Ven–Dom sera, vedi calendario',
     certificata:false, sito:'caprettiliscio.com', email:'info@capretti.info',
-    facebook:'https://www.facebook.com/capretti.liscio' },
+    facebook:'https://www.facebook.com/capretti.liscio',
+    img:'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80' },
 
   { id:8, nome:'Forneria di Valgonio Italo', cat:'commercio', catLabel:'Panetteria',
     indirizzo:'Via Vittorio Emanuele II 58', tel:'030 9636065',
     orari:'Chiusa (gennaio 2026)',
     certificata:true,
+    img:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80',
     descrizione:'Storica panetteria di Calcinato, attiva per oltre 65 anni. Pane fresco, prodotti da forno artigianali, focacce e specialità locali.',
     servizi:['Pane artigianale','Focacce','Dolci da forno','Specialità locali'] },
 
   { id:9, nome:'Pasticceria Lady Rose', cat:'ristorazione', catLabel:'Pasticceria',
     indirizzo:'Via Vittorio Emanuele 6', tel:'030 9969990',
     orari:'Mar–Sab 7:15–12:30 / 15:00–19:00',
+    img:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80',
     certificata:false },
 ];
 
@@ -211,12 +221,35 @@ function tile(iconName, color, size = 44, radius = 12, iconSize = null) {
 }
 
 /* ─── STATE ────────────────────────────────────── */
+/* ─── SEEDED USERS (demo) ──────────────────────── */
+const SEED_USERS = [
+  // Admin Comune — gestisce richieste Plus
+  { email:'admin@comune.calcinato.bs.it', password:'comune2026', nome:'Admin Comune Calcinato', isComuneAdmin:true },
+  // Admin attività Plus — Ristorante Al Baratello
+  { email:'baratello@calcinato.app', password:'baratello2026', nome:'Famiglia Baratello', attivitaId:1 },
+  // Utente cittadino demo
+  { email:'marco@example.com', password:'demo2026', nome:'Marco Rossi' },
+];
+
+function getUsers() {
+  let users = [];
+  try { users = JSON.parse(localStorage.getItem('calc-users') || '[]'); } catch(e) {}
+  if (!users.length) {
+    users = [...SEED_USERS];
+    localStorage.setItem('calc-users', JSON.stringify(users));
+  }
+  return users;
+}
+function saveUsers(users) { localStorage.setItem('calc-users', JSON.stringify(users)); }
+
 const state = {
   stack: JSON.parse(localStorage.getItem('calc-stack') || '[]').length
     ? JSON.parse(localStorage.getItem('calc-stack'))
     : [{ screen: 'home' }],
   tab: localStorage.getItem('calc-tab') || 'home',
-  loggedIn: localStorage.getItem('calc-login') === '1',
+  currentUser: JSON.parse(localStorage.getItem('calc-current-user') || 'null'),
+  loginMode: 'login', // 'login' or 'register'
+  loginError: '',
   newsFilter: 'tutte',
   newsQuery: '',
   attFilter: 'tutte',
@@ -225,6 +258,199 @@ const state = {
   mappaLayer: 'tutto',
   weather: null,
 };
+
+function saveCurrentUser() {
+  if (state.currentUser) localStorage.setItem('calc-current-user', JSON.stringify(state.currentUser));
+  else localStorage.removeItem('calc-current-user');
+}
+
+/* ─── AUTH ACTIONS (called from UI) ────────────── */
+function doLogin() {
+  const email = document.getElementById('login-email')?.value.trim().toLowerCase();
+  const pass = document.getElementById('login-pass')?.value;
+  if (!email || !pass) { state.loginError = 'Compila email e password'; render(); return; }
+  const users = getUsers();
+  const u = users.find(x => x.email.toLowerCase() === email && x.password === pass);
+  if (!u) { state.loginError = 'Email o password non corretti'; render(); return; }
+  state.currentUser = { email: u.email, nome: u.nome, attivitaId: u.attivitaId, isComuneAdmin: u.isComuneAdmin };
+  state.loginError = '';
+  saveCurrentUser();
+  render();
+}
+
+function doRegister() {
+  const nome = document.getElementById('reg-nome')?.value.trim();
+  const email = document.getElementById('reg-email')?.value.trim().toLowerCase();
+  const pass = document.getElementById('reg-pass')?.value;
+  const pass2 = document.getElementById('reg-pass2')?.value;
+  if (!nome || !email || !pass) { state.loginError = 'Compila tutti i campi'; render(); return; }
+  if (pass.length < 6) { state.loginError = 'Password minimo 6 caratteri'; render(); return; }
+  if (pass !== pass2) { state.loginError = 'Le password non coincidono'; render(); return; }
+  const users = getUsers();
+  if (users.some(u => u.email.toLowerCase() === email)) {
+    state.loginError = 'Email già registrata'; render(); return;
+  }
+  users.push({ email, password: pass, nome });
+  saveUsers(users);
+  state.currentUser = { email, nome };
+  state.loginError = '';
+  state.loginMode = 'login';
+  saveCurrentUser();
+  render();
+}
+
+function doLogout() {
+  state.currentUser = null;
+  saveCurrentUser();
+  render();
+}
+
+function switchLoginMode(mode) {
+  state.loginMode = mode;
+  state.loginError = '';
+  render();
+}
+window.doLogin = doLogin;
+window.doRegister = doRegister;
+window.doLogout = doLogout;
+window.switchLoginMode = switchLoginMode;
+
+/* ─── PLUS ADMIN: edit own attivita ─────────────── */
+function saveAttivitaEdits() {
+  const u = state.currentUser;
+  if (!u || u.attivitaId === undefined) return;
+  const a = ATTIVITA[u.attivitaId];
+  if (!a) return;
+  const get = (id) => document.getElementById(id)?.value.trim();
+  a.nome = get('adm-nome') || a.nome;
+  a.indirizzo = get('adm-indirizzo') || a.indirizzo;
+  a.tel = get('adm-tel') || a.tel;
+  a.orari = get('adm-orari') || a.orari;
+  a.sito = get('adm-sito') || a.sito;
+  a.email = get('adm-email') || a.email;
+  a.facebook = get('adm-fb') || a.facebook;
+  a.instagram = get('adm-ig') || a.instagram;
+  a.descrizione = get('adm-descrizione') || a.descrizione;
+  const serviziStr = get('adm-servizi');
+  if (serviziStr !== undefined) a.servizi = serviziStr.split(',').map(s => s.trim()).filter(Boolean);
+  // Persist attivita edits
+  localStorage.setItem('calc-attivita-overrides', JSON.stringify(ATTIVITA.reduce((m, x) => { m[x.id] = x; return m; }, {})));
+  alert('Modifiche salvate!');
+  render();
+}
+window.saveAttivitaEdits = saveAttivitaEdits;
+
+/* ─── PLUS REQUESTS (da attività → Comune) ─────── */
+function getPlusRequests() {
+  try { return JSON.parse(localStorage.getItem('calc-plus-requests') || '[]'); } catch(e) { return []; }
+}
+function savePlusRequests(arr) {
+  localStorage.setItem('calc-plus-requests', JSON.stringify(arr));
+}
+
+function submitPlusRequest() {
+  const nome = document.getElementById('req-nome')?.value.trim();
+  const attivita = document.getElementById('req-attivita')?.value.trim();
+  const email = document.getElementById('req-email')?.value.trim().toLowerCase();
+  const tel = document.getElementById('req-tel')?.value.trim();
+  const note = document.getElementById('req-note')?.value.trim();
+  if (!nome || !attivita || !email || !tel) {
+    alert('Compila tutti i campi obbligatori');
+    return;
+  }
+  const requests = getPlusRequests();
+  requests.push({
+    id: Date.now(),
+    nome, attivita, email, tel, note,
+    data: new Date().toISOString(),
+    stato: 'nuova', // nuova | contattata | attivata
+  });
+  savePlusRequests(requests);
+  alert('Richiesta inviata! Il Comune ti contatterà a breve.');
+  pop();
+}
+window.submitPlusRequest = submitPlusRequest;
+
+function approvePlusRequest(reqId) {
+  const password = prompt('Imposta una password per l\'account Plus (minimo 6 caratteri):');
+  if (!password || password.length < 6) { alert('Password troppo corta'); return; }
+  const requests = getPlusRequests();
+  const req = requests.find(r => r.id === reqId);
+  if (!req) return;
+
+  // Check if an ATTIVITA exists matching the business name (case-insensitive fuzzy)
+  const match = ATTIVITA.find(a => a.nome.toLowerCase().includes(req.attivita.toLowerCase()) ||
+                                    req.attivita.toLowerCase().includes(a.nome.toLowerCase()));
+  let attivitaId;
+  if (match) {
+    attivitaId = match.id;
+    match.certificata = true; // promuovi a Plus
+  } else {
+    // Crea nuova attivita' base
+    const newId = Math.max(...ATTIVITA.map(a => a.id)) + 1;
+    ATTIVITA.push({
+      id: newId,
+      nome: req.attivita,
+      cat: 'servizi',
+      catLabel: 'Attività',
+      indirizzo: '',
+      tel: req.tel,
+      orari: '',
+      certificata: true,
+    });
+    attivitaId = newId;
+  }
+
+  // Crea utente
+  const users = getUsers();
+  if (users.some(u => u.email.toLowerCase() === req.email)) {
+    alert('Un account con questa email esiste già');
+    return;
+  }
+  users.push({ email: req.email, password, nome: req.nome, attivitaId });
+  saveUsers(users);
+
+  // Aggiorna richiesta
+  req.stato = 'attivata';
+  req.password = password;
+  savePlusRequests(requests);
+
+  // Persist attivita
+  localStorage.setItem('calc-attivita-overrides', JSON.stringify(ATTIVITA.reduce((m, x) => { m[x.id] = x; return m; }, {})));
+
+  alert(`Account creato!\nEmail: ${req.email}\nPassword: ${password}\n\nComunica le credenziali all'attività.`);
+  render();
+}
+window.approvePlusRequest = approvePlusRequest;
+
+function rejectPlusRequest(reqId) {
+  if (!confirm('Rifiutare questa richiesta?')) return;
+  const requests = getPlusRequests().filter(r => r.id !== reqId);
+  savePlusRequests(requests);
+  render();
+}
+window.rejectPlusRequest = rejectPlusRequest;
+
+function markContactata(reqId) {
+  const requests = getPlusRequests();
+  const r = requests.find(x => x.id === reqId);
+  if (r) { r.stato = 'contattata'; savePlusRequests(requests); render(); }
+}
+window.markContactata = markContactata;
+
+// Load any saved attivita overrides at boot
+(function loadOverrides(){
+  try {
+    const raw = localStorage.getItem('calc-attivita-overrides');
+    if (raw) {
+      const map = JSON.parse(raw);
+      Object.values(map).forEach(ov => {
+        const idx = ATTIVITA.findIndex(x => x.id === ov.id);
+        if (idx >= 0) Object.assign(ATTIVITA[idx], ov);
+      });
+    }
+  } catch(e) {}
+})();
 
 /* ─── WEATHER (Open-Meteo, no API key needed) ────── */
 const WEATHER_ICONS = {
@@ -302,9 +528,11 @@ const SCREEN_CONFIG = {
   mappa:             { title:'Mappa',            sub:'Punti di interesse',   variant:'light', noPad:true, fullHeight:true },
   uffici:            { title:'Uffici comunali',  sub:'Contatti e orari',     variant:'light', bigTitle:true },
   notifiche:         { title:'Notifiche',        sub:'Aggiornamenti dal Comune', variant:'light', bigTitle:true },
-  profilo:           { title:'Profilo',          sub:'Area riservata',       variant:'light', headerless:() => state.loggedIn },
+  profilo:           { title:'Profilo',          sub:'Area riservata',       variant:'light' },
   segnalazioni:      { title:'Segnalazioni',     sub:'Città che funziona',   variant:'light', bigTitle:true },
   rifiuti:           { title:'Raccolta rifiuti', sub:'Calendario porta a porta', variant:'light', bigTitle:true },
+  'richiesta-plus':  { title:'Passa a Plus',     sub:'Richiesta al Comune',  variant:'light' },
+  'comune-admin':    { title:'Dashboard Comune', sub:'Gestione richieste Plus', variant:'light' },
 };
 
 const ROOT_SCREENS = ['home','news','servizi','attivita','profilo'];
@@ -588,18 +816,7 @@ function renderAttivita() {
         </button>`).join('')}
     </div>
     <div class="activity-list" id="activity-list-items">
-      ${filtered.map(a => `
-        <button class="activity-card" onclick="push('attivita-detail', { id: ${a.id} })">
-          ${tile(catIcon(a.cat), catColor(a.cat), 52, 16)}
-          <div class="activity-body">
-            <div class="activity-name-wrap">
-              <div class="activity-name">${esc(a.nome)}</div>
-              ${a.certificata ? `<span style="color:var(--primary)">${icon('badge', { size:14, stroke:'var(--primary)', sw:2 })}</span>` : ''}
-            </div>
-            <div class="activity-meta">${esc(a.catLabel)} · ${esc(a.indirizzo)}</div>
-          </div>
-          <span class="row-chevron">${icon('chevronR', { size:18, sw:2.2 })}</span>
-        </button>`).join('')}
+      ${filtered.map(a => activityCardHtml(a, catIcon, catColor)).join('')}
     </div>
   `;
 }
@@ -616,9 +833,16 @@ function renderAttivitaListOnly() {
   const catColor = (c) => ({ ristorazione:'orange', commercio:'pink', sport:'green', salute:'red', servizi:'blue' }[c] || 'blue');
   const el = document.getElementById('activity-list-items');
   if (!el) return;
-  el.innerHTML = filtered.map(a => `
+  el.innerHTML = filtered.map(a => activityCardHtml(a, catIcon, catColor)).join('');
+}
+
+function activityCardHtml(a, catIcon, catColor) {
+  const thumb = a.img
+    ? `<div style="width:52px;height:52px;border-radius:16px;background:url('${a.img}') center/cover;flex-shrink:0;position:relative" class="tile-img"></div>`
+    : tile(catIcon(a.cat), catColor(a.cat), 52, 16);
+  return `
     <button class="activity-card" onclick="push('attivita-detail', { id: ${a.id} })">
-      ${tile(catIcon(a.cat), catColor(a.cat), 52, 16)}
+      ${thumb}
       <div class="activity-body">
         <div class="activity-name-wrap">
           <div class="activity-name">${esc(a.nome)}</div>
@@ -627,7 +851,7 @@ function renderAttivitaListOnly() {
         <div class="activity-meta">${esc(a.catLabel)} · ${esc(a.indirizzo)}</div>
       </div>
       <span class="row-chevron">${icon('chevronR', { size:18, sw:2.2 })}</span>
-    </button>`).join('');
+    </button>`;
 }
 window.renderAttivitaListOnly = renderAttivitaListOnly;
 
@@ -667,8 +891,12 @@ function renderAttivitaDetail() {
   const lastIdx = allRows.length - 1;
   const contattiHtml = allRows.map((r, i) => i === lastIdx ? r.replace('<button class="row"', '<button class="row last"') : r).join('');
 
+  const heroHtml = a.img
+    ? `<div class="detail-hero" style="background:url('${a.img}') center/cover no-repeat"></div>`
+    : `<div class="photo-ph detail-hero ${heroTone}"></div>`;
+
   return `
-    <div class="photo-ph detail-hero ${heroTone}"></div>
+    ${heroHtml}
     <div class="detail-body-wrap">
       <div class="detail-header">
         ${tile(catIcon, catColor, 56, 18)}
@@ -684,7 +912,15 @@ function renderAttivitaDetail() {
             <div class="cert-title">Attività certificata Plus</div>
             <div class="cert-sub">Verificata dal Comune di Calcinato</div>
           </div>
-        </div>` : ''}
+        </div>` : `
+        <button class="plus-cta-card" onclick="push('richiesta-plus', { attivita: ${JSON.stringify(a.nome).replace(/"/g,'&quot;')} })" style="margin:18px 0 0;width:100%">
+          <div class="plus-cta-icon">${icon('badge', { size:26, sw:2.2 })}</div>
+          <div class="plus-cta-body">
+            <div class="plus-cta-title">È la tua attività?</div>
+            <div class="plus-cta-sub">Passa a Plus: aggiungi foto, descrizione, orari dettagliati e ottieni il badge di verifica del Comune.</div>
+          </div>
+          ${icon('arrowR', { size:20, sw:2.2 })}
+        </button>`}
       ${descHtml}
       <div style="margin-top:18px" class="row-group-inner">
         ${contattiHtml}
@@ -817,28 +1053,221 @@ function renderNotifiche() {
 
 /* ─── PROFILO ──────────────────────────────────── */
 function renderProfilo() {
-  if (!state.loggedIn) {
+  // Not logged in → show login/register form
+  if (!state.currentUser) {
+    if (state.loginMode === 'register') return renderRegister();
+    return renderLogin();
+  }
+  // Logged as Comune admin → dashboard richieste
+  if (state.currentUser.isComuneAdmin) return renderComuneAdminDashboard();
+  // Logged as admin attività Plus → dashboard scheda
+  if (state.currentUser.attivitaId !== undefined) return renderAdminScheda();
+  // Logged as citizen → normal profile
+  return renderCitizenProfile();
+}
+
+function renderComuneAdminDashboard() {
+  const u = state.currentUser;
+  const requests = getPlusRequests();
+  const nuove = requests.filter(r => r.stato === 'nuova');
+  const contattate = requests.filter(r => r.stato === 'contattata');
+  const attivate = requests.filter(r => r.stato === 'attivata');
+
+  const renderReq = (r) => {
+    const date = new Date(r.data).toLocaleDateString('it-IT', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+    const actions = r.stato === 'nuova' ? `
+      <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">
+        <button style="flex:1;padding:9px;border-radius:10px;background:var(--surface-2);color:var(--ink);font-size:12px;font-weight:700;min-width:100px" onclick="markContactata(${r.id})">Contattata</button>
+        <button style="flex:1;padding:9px;border-radius:10px;background:var(--t-green);color:#fff;font-size:12px;font-weight:700;min-width:100px" onclick="approvePlusRequest(${r.id})">Attiva Plus</button>
+        <button style="padding:9px 12px;border-radius:10px;background:transparent;color:var(--t-red);font-size:12px;font-weight:700" onclick="rejectPlusRequest(${r.id})">Rifiuta</button>
+      </div>` : r.stato === 'contattata' ? `
+      <div style="display:flex;gap:6px;margin-top:12px">
+        <button style="flex:1;padding:9px;border-radius:10px;background:var(--t-green);color:#fff;font-size:12px;font-weight:700" onclick="approvePlusRequest(${r.id})">Attiva Plus (pagamento ricevuto)</button>
+      </div>` : `
+      <div style="margin-top:10px;padding:10px;border-radius:10px;background:#DCF5E8;font-size:12px;color:#006644;font-weight:600">
+        ✓ Attivata — password: <code style="background:#fff;padding:2px 6px;border-radius:4px">${esc(r.password || '—')}</code>
+      </div>`;
     return `
-      <div class="profile-empty">
-        <div class="profile-empty-head">
-          ${stemma(72)}
-          <div class="profile-empty-title">Accedi al tuo profilo</div>
-          <div class="profile-empty-sub">Accedi con SPID o CIE per seguire le tue segnalazioni e ricevere avvisi personalizzati.</div>
+      <div style="background:#fff;border-radius:16px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">
+          <div>
+            <div style="font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-0.2px">${esc(r.attivita)}</div>
+            <div style="font-size:12px;color:var(--ink-mute);margin-top:2px;font-weight:500">${esc(r.nome)} · ${date}</div>
+          </div>
+          ${r.stato === 'nuova' ? pillHtml('avviso', 'Nuova') : r.stato === 'contattata' ? pillHtml('notizia', 'Contattata') : pillHtml('success', 'Attivata')}
         </div>
-        <div class="profile-empty-actions">
-          <button class="btn-login-dark" onclick="state.loggedIn=true; persist(); render()">Entra con SPID</button>
-          <button class="btn-login-light">Entra con CIE</button>
-          <div style="text-align:center;font-size:12px;color:var(--ink-mute);margin-top:8px;font-weight:500">Accesso sicuro e conforme a SPID/CIE</div>
+        <div style="font-size:13px;color:var(--ink-2);margin-top:8px;font-weight:500">
+          <div>📧 ${esc(r.email)}</div>
+          <div>📞 ${esc(r.tel)}</div>
+          ${r.note ? `<div style="margin-top:6px;padding:8px 10px;background:var(--surface-2);border-radius:8px;font-style:italic">${esc(r.note)}</div>` : ''}
+        </div>
+        ${actions}
+      </div>`;
+  };
+
+  const emptyMsg = `<div style="text-align:center;padding:30px 20px;color:var(--ink-mute);font-size:13px">Nessuna richiesta</div>`;
+
+  return `
+    <div style="padding:20px 20px 40px">
+      <div style="background:linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);border-radius:22px;padding:20px;color:#fff;margin-bottom:20px;display:flex;gap:14px;align-items:center">
+        ${tile('building', 'ink', 48, 14)}
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:0.8">Amministrazione</div>
+          <div style="font-size:18px;font-weight:800;letter-spacing:-0.3px;margin-top:3px">${esc(u.nome)}</div>
+          <div style="font-size:12px;opacity:0.8;margin-top:2px">${requests.length} richieste totali · ${nuove.length} nuove</div>
         </div>
       </div>
-    `;
-  }
+
+      <div class="section-label" style="padding:0 0 10px"><span class="title">Richieste nuove</span> ${nuove.length ? `<span class="pill pill-avviso">${nuove.length}</span>` : ''}</div>
+      ${nuove.length ? nuove.map(renderReq).join('') : emptyMsg}
+
+      ${contattate.length ? `
+        <div class="section-label" style="padding:16px 0 10px"><span class="title">In attesa pagamento</span></div>
+        ${contattate.map(renderReq).join('')}
+      ` : ''}
+
+      ${attivate.length ? `
+        <div class="section-label" style="padding:16px 0 10px"><span class="title">Attivate</span></div>
+        ${attivate.map(renderReq).join('')}
+      ` : ''}
+
+      <button style="width:100%;padding:14px;border-radius:14px;background:transparent;margin-top:20px;font-size:14px;font-weight:700;color:var(--t-red)" onclick="doLogout()">Esci</button>
+    </div>
+  `;
+}
+
+function renderRichiestaPlus() {
+  const current = state.stack[state.stack.length - 1];
+  const attivita = current.data?.attivita || '';
+  return `
+    <div style="padding:20px">
+      <div style="background:linear-gradient(135deg, var(--t-yellow) 0%, var(--t-orange) 100%);border-radius:22px;padding:20px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden">
+        <div style="position:relative">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:0.85">Scheda Plus</div>
+          <div style="font-size:24px;font-weight:800;letter-spacing:-0.5px;margin-top:6px;line-height:1.15">Cosa ottieni con Plus</div>
+          <ul style="font-size:14px;font-weight:500;margin-top:14px;padding-left:18px;line-height:1.7">
+            <li>Gallery foto e descrizione estesa</li>
+            <li>Orari dettagliati giorno per giorno</li>
+            <li>Badge di verifica del Comune</li>
+            <li>Eventi, offerte e social linkati</li>
+            <li>Posizione in evidenza nei risultati</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="font-size:13.5px;color:var(--ink-2);line-height:1.6;margin-bottom:20px;font-weight:500">
+        Compila il form per richiedere l'attivazione Plus. Il Comune ti contatterà per concordare il pagamento con le modalità comunali. Al termine riceverai le credenziali per gestire la scheda.
+      </div>
+
+      <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:var(--shadow-sm)">
+        <div class="form-field">
+          <label class="form-label">Nome e cognome *</label>
+          <input class="form-input" id="req-nome" type="text" placeholder="Il tuo nome">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Nome attività *</label>
+          <input class="form-input" id="req-attivita" type="text" value="${esc(attivita)}" placeholder="Es. Ristorante Al Baratello">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Email *</label>
+          <input class="form-input" id="req-email" type="email" placeholder="tu@attivita.it">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Telefono *</label>
+          <input class="form-input" id="req-tel" type="tel" placeholder="030 1234567">
+        </div>
+        <div class="form-field" style="margin-bottom:0">
+          <label class="form-label">Note (opzionale)</label>
+          <textarea class="form-input" id="req-note" rows="3" placeholder="Informazioni aggiuntive..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn-login-dark" onclick="submitPlusRequest()" style="width:100%;margin-top:16px">Invia richiesta al Comune</button>
+    </div>
+  `;
+}
+
+function renderComuneAdmin() {
+  return renderComuneAdminDashboard();
+}
+
+function renderLogin() {
+  const err = state.loginError ? `<div style="background:#FEE4E6;color:#B91C1C;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:14px;text-align:center">${esc(state.loginError)}</div>` : '';
+  return `
+    <div class="profile-empty">
+      <div class="profile-empty-head">
+        ${stemma(72)}
+        <div class="profile-empty-title">Accedi</div>
+        <div class="profile-empty-sub">Entra nel tuo account per seguire le tue segnalazioni, salvare contenuti e ricevere avvisi personalizzati.</div>
+      </div>
+      <div style="padding:0 4px;flex:1">
+        ${err}
+        <div class="form-field">
+          <label class="form-label">Email</label>
+          <input class="form-input" id="login-email" type="email" autocomplete="email" placeholder="tu@esempio.it">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Password</label>
+          <input class="form-input" id="login-pass" type="password" autocomplete="current-password" placeholder="La tua password">
+        </div>
+      </div>
+      <div class="profile-empty-actions">
+        <button class="btn-login-dark" onclick="doLogin()">Entra</button>
+        <button class="btn-login-light" onclick="switchLoginMode('register')">Crea account</button>
+        <div style="text-align:center;font-size:11px;color:var(--ink-mute);margin-top:10px;font-weight:500;line-height:1.5">
+          Demo: <strong>marco@example.com</strong> / demo2026<br>
+          Titolare attività Plus: <strong>baratello@calcinato.app</strong> / baratello2026
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderRegister() {
+  const err = state.loginError ? `<div style="background:#FEE4E6;color:#B91C1C;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:14px;text-align:center">${esc(state.loginError)}</div>` : '';
+  return `
+    <div class="profile-empty">
+      <div class="profile-empty-head">
+        ${stemma(72)}
+        <div class="profile-empty-title">Crea account</div>
+        <div class="profile-empty-sub">Registrati per accedere a tutti i servizi dell'app.</div>
+      </div>
+      <div style="padding:0 4px;flex:1">
+        ${err}
+        <div class="form-field">
+          <label class="form-label">Nome e cognome</label>
+          <input class="form-input" id="reg-nome" type="text" placeholder="Mario Rossi">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Email</label>
+          <input class="form-input" id="reg-email" type="email" autocomplete="email" placeholder="tu@esempio.it">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Password</label>
+          <input class="form-input" id="reg-pass" type="password" autocomplete="new-password" placeholder="Minimo 6 caratteri">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Conferma password</label>
+          <input class="form-input" id="reg-pass2" type="password" autocomplete="new-password" placeholder="Ripeti la password">
+        </div>
+      </div>
+      <div class="profile-empty-actions">
+        <button class="btn-login-dark" onclick="doRegister()">Crea account</button>
+        <button class="btn-login-light" onclick="switchLoginMode('login')">Hai già un account? Accedi</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderCitizenProfile() {
+  const u = state.currentUser;
+  const initials = u.nome.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
   return `
     <div style="padding-bottom:24px">
       <div class="profile-hero">
-        <div class="profile-avatar">MR</div>
-        <div class="profile-name">Marco Rossi</div>
-        <div class="profile-email">marco.rossi@email.it · CF: RSSMRC80...</div>
+        <div class="profile-avatar">${esc(initials)}</div>
+        <div class="profile-name">${esc(u.nome)}</div>
+        <div class="profile-email">${esc(u.email)}</div>
       </div>
       <div style="padding:0 20px">
         <div class="row-group-inner">
@@ -852,8 +1281,59 @@ function renderProfilo() {
           ${rowHtml({ icon:'lock',     color:'ink',    title:'Privacy',      sub:'Gestisci i dati' })}
           ${rowHtml({ icon:'settings', color:'indigo', title:'Impostazioni', sub:'Lingua, tema, accessibilità', last:true })}
         </div>
-        <button style="width:100%;padding:14px;border-radius:14px;background:transparent;margin-top:20px;font-size:14px;font-weight:700;color:var(--t-red)" onclick="state.loggedIn=false; persist(); render()">Esci</button>
+        <button style="width:100%;padding:14px;border-radius:14px;background:transparent;margin-top:20px;font-size:14px;font-weight:700;color:var(--t-red)" onclick="doLogout()">Esci</button>
       </div>
+    </div>
+  `;
+}
+
+function renderAdminScheda() {
+  const u = state.currentUser;
+  const a = ATTIVITA.find(x => x.id === u.attivitaId);
+  if (!a) return '<div style="padding:40px;text-align:center;color:var(--ink-mute)">Attività non trovata</div>';
+  const serviziStr = (a.servizi || []).join(', ');
+  return `
+    <div style="padding:20px 20px 40px">
+      <div style="background:linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);border-radius:22px;padding:20px;color:#fff;margin-bottom:20px;display:flex;gap:14px;align-items:center">
+        ${tile('badge', 'whiteGlass', 48, 14).replace('var(--t-whiteGlass)', 'rgba(255,255,255,0.18)')}
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:0.8">Area Titolare · Plus</div>
+          <div style="font-size:18px;font-weight:800;letter-spacing:-0.3px;margin-top:3px">${esc(u.nome)}</div>
+          <div style="font-size:12px;opacity:0.8;margin-top:2px">Gestisci la scheda di <strong>${esc(a.nome)}</strong></div>
+        </div>
+      </div>
+
+      <div class="section-label" style="padding:0 0 10px"><span class="title">Informazioni base</span></div>
+      <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:16px">
+        <div class="form-field"><label class="form-label">Nome attività</label><input class="form-input" id="adm-nome" value="${esc(a.nome)}"></div>
+        <div class="form-field"><label class="form-label">Indirizzo</label><input class="form-input" id="adm-indirizzo" value="${esc(a.indirizzo)}"></div>
+        <div class="form-field"><label class="form-label">Telefono</label><input class="form-input" id="adm-tel" value="${esc(a.tel)}"></div>
+        <div class="form-field"><label class="form-label">Orari</label><input class="form-input" id="adm-orari" value="${esc(a.orari)}"></div>
+        <div class="form-field"><label class="form-label">Sito web</label><input class="form-input" id="adm-sito" value="${esc(a.sito || '')}"></div>
+        <div class="form-field"><label class="form-label">Email</label><input class="form-input" id="adm-email" value="${esc(a.email || '')}"></div>
+      </div>
+
+      <div class="section-label" style="padding:0 0 10px"><span class="title">Social</span></div>
+      <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:16px">
+        <div class="form-field"><label class="form-label">Facebook URL</label><input class="form-input" id="adm-fb" value="${esc(a.facebook || '')}"></div>
+        <div class="form-field"><label class="form-label">Instagram URL</label><input class="form-input" id="adm-ig" value="${esc(a.instagram || '')}"></div>
+      </div>
+
+      <div class="section-label" style="padding:0 0 10px"><span class="title">Scheda Plus</span></div>
+      <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:20px">
+        <div class="form-field">
+          <label class="form-label">Descrizione estesa</label>
+          <textarea class="form-input" id="adm-descrizione" rows="4" style="resize:vertical">${esc(a.descrizione || '')}</textarea>
+        </div>
+        <div class="form-field" style="margin-bottom:0">
+          <label class="form-label">Servizi / Tag (separati da virgola)</label>
+          <textarea class="form-input" id="adm-servizi" rows="2" style="resize:vertical" placeholder="es. Parcheggio, WiFi, Menu bambini">${esc(serviziStr)}</textarea>
+        </div>
+      </div>
+
+      <button class="btn-login-dark" onclick="saveAttivitaEdits()" style="width:100%">Salva modifiche</button>
+      <button class="btn-login-light" onclick="push('attivita-detail', { id: ${a.id} })" style="width:100%;margin-top:10px">Vedi la tua scheda</button>
+      <button style="width:100%;padding:14px;border-radius:14px;background:transparent;margin-top:14px;font-size:14px;font-weight:700;color:var(--t-red)" onclick="doLogout()">Esci</button>
     </div>
   `;
 }
@@ -1042,6 +1522,8 @@ function render() {
     case 'profilo':           bodyHtml = renderProfilo(); break;
     case 'segnalazioni':      bodyHtml = renderSegnalazioni(); break;
     case 'rifiuti':           bodyHtml = renderRifiuti(); break;
+    case 'richiesta-plus':    bodyHtml = renderRichiestaPlus(); break;
+    case 'comune-admin':      bodyHtml = renderComuneAdmin(); break;
     default:                  bodyHtml = renderHome();
   }
 
