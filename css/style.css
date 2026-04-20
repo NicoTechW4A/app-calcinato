@@ -185,6 +185,32 @@ img { display: block; max-width: 100%; }
   border-color: var(--primary);
 }
 
+/* ─── Weather widget in topbar ──────────────────── */
+.topbar-weather {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 11px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  flex-shrink: 0;
+  height: 40px;
+}
+.topbar.brand .topbar-weather {
+  background: rgba(255,255,255,0.22);
+  border: 1px solid rgba(255,255,255,0.35);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+.topbar-weather .icon { font-size: 16px; line-height: 1; }
+.topbar-weather .temp {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
 /* Back button (for detail screens) */
 .backbtn-floating {
   position: absolute;

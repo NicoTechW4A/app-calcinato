@@ -189,7 +189,32 @@ const state = {
   attQuery: '',
   segnTab: 'mie',
   mappaLayer: 'tutto',
+  weather: null,
 };
+
+/* ─── WEATHER (Open-Meteo, no API key needed) ────── */
+const WEATHER_ICONS = {
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+  51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',
+  71:'🌨️',73:'🌨️',75:'🌨️',80:'🌦️',81:'🌧️',82:'🌧️',
+  95:'⛈️',96:'⛈️',99:'⛈️'
+};
+function weatherIcon(code) { return WEATHER_ICONS[code] || '☀️'; }
+
+async function loadWeather() {
+  try {
+    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=45.4558&longitude=10.4107&current=temperature_2m,weather_code&timezone=Europe/Rome');
+    const d = await res.json();
+    state.weather = {
+      temp: Math.round(d.current.temperature_2m),
+      code: d.current.weather_code,
+    };
+    // Update weather badges in DOM
+    document.querySelectorAll('.topbar-weather').forEach(el => {
+      el.innerHTML = `<span class="icon">${weatherIcon(state.weather.code)}</span><span class="temp">${state.weather.temp}°</span>`;
+    });
+  } catch (e) { /* silent */ }
+}
 
 function persist() {
   localStorage.setItem('calc-stack', JSON.stringify(state.stack));
@@ -485,10 +510,6 @@ function renderServizi() {
   ];
   return `
     <div style="padding-top:4px;padding-bottom:24px">
-      <div class="page-title">
-        <h1>Servizi</h1>
-        <div class="sub">Tutto quello che puoi fare dal tuo comune</div>
-      </div>
       ${gruppi.map(g => `
         <div class="section-label"><span class="title">${esc(g.label)}</span></div>
         <div class="row-group"><div class="row-group-inner">
@@ -671,11 +692,7 @@ function renderMappa() {
 function renderUffici() {
   const colors = ['indigo','blue','teal','purple','orange','green'];
   return `
-    <div class="page-title">
-      <h1>Uffici</h1>
-      <div class="sub">Orari, contatti e prenotazioni</div>
-    </div>
-    <div class="uffici-list">
+    <div class="uffici-list" style="padding-top:16px">
       ${UFFICI.map((u, i) => {
         const color = colors[i % colors.length];
         const aperto = i % 2 === 0;
@@ -716,10 +733,7 @@ function renderNotifiche() {
   const colorMap = { avviso:'orange', rifiuti:'green', notizia:'indigo', segnalazione:'pink' };
   const nonLette = NOTIFICHE.filter(n => !n.letto).length;
   return `
-    <div class="page-title">
-      <h1>Notifiche</h1>
-      <div class="sub">${nonLette} non lette</div>
-    </div>
+    <div style="padding:12px 20px 8px;font-size:13px;color:var(--ink-mute);font-weight:500">${nonLette} non lette</div>
     <div style="padding:0 20px 24px">
       ${Object.entries(raggruppate).map(([gruppo, items]) => `
         <div class="notif-section">
@@ -799,12 +813,7 @@ function renderSegnalazioni() {
     { icon:'sign',    color:'blue',   label:'Segnaletica' },
   ];
   return `
-    <div style="padding-bottom:24px">
-      <div class="page-title">
-        <h1>Segnalazioni</h1>
-        <div class="sub">Aiuta a migliorare la tua città</div>
-      </div>
-
+    <div style="padding-bottom:24px;padding-top:12px">
       <div class="segn-cta">
         <button class="segn-cta-card">
           <div class="segn-cta-icon">${icon('plus', { size:28, sw:2.2 })}</div>
@@ -857,12 +866,7 @@ function renderRifiuti() {
   const prossimo = giorni.find(g => g.tipo) || giorni[0];
   const info = prossimo.tipo ? RIFIUTI_TIPI[prossimo.tipo] : null;
   return `
-    <div style="padding-bottom:24px">
-      <div class="page-title">
-        <h1>Raccolta rifiuti</h1>
-        <div class="sub">Via Roma · Zona A · porta a porta</div>
-      </div>
-
+    <div style="padding-bottom:24px;padding-top:12px">
       ${info ? `
         <div class="rifiuti-hero-wrap">
           <div class="rifiuti-hero" style="background:${info.colore}">
@@ -915,13 +919,21 @@ function render() {
   const cfg = SCREEN_CONFIG[current.screen] || SCREEN_CONFIG.home;
   const isRoot = state.stack.length === 1 && ROOT_SCREENS.includes(current.screen);
 
+  // Weather pill (reused in all topbars)
+  const weatherHtml = state.weather
+    ? `<div class="topbar-weather"><span class="icon">${weatherIcon(state.weather.code)}</span><span class="temp">${state.weather.temp}°</span></div>`
+    : `<div class="topbar-weather"><span class="icon">☀️</span><span class="temp">—</span></div>`;
+
   // Render header
   let headerHtml = '';
   const headerless = typeof cfg.headerless === 'function' ? cfg.headerless() : cfg.headerless;
+  const hasBack = state.stack.length > 1;
+
   if (headerless) {
+    // Floating back button over hero
     headerHtml = `<button class="backbtn-floating" onclick="pop()">${icon('chevronL', { size:20, sw:2 })}</button>`;
   } else if (cfg.fullHeader) {
-    // Brand header (home)
+    // Brand header (home) — blue gradient background
     headerHtml = `
       <div class="topbar brand">
         <button style="background:transparent;padding:0" onclick="resetTo('profilo'); state.tab='profilo'; persist(); render()">${stemma(44, true)}</button>
@@ -929,38 +941,28 @@ function render() {
           <div class="title">${esc(cfg.title)}</div>
           <div class="sub">${esc(cfg.sub)}</div>
         </div>
-        <button class="topbar-btn">${icon('search', { size:18, sw:2 })}</button>
-        <button class="topbar-btn" onclick="push('notifiche')">
-          ${icon('bell', { size:18, sw:2 })}
-          <span class="badge-dot"></span>
-        </button>
-      </div>`;
-  } else if (cfg.bigTitle || isRoot) {
-    // Simple top bar without back button for root screens
-    headerHtml = `
-      <div class="topbar">
-        ${stemma(44)}
-        <div class="topbar-text">
-          <div class="title">${esc(cfg.title)}</div>
-          <div class="sub">${esc(cfg.sub)}</div>
-        </div>
+        ${weatherHtml}
         <button class="topbar-btn" onclick="push('notifiche')">
           ${icon('bell', { size:18, sw:2 })}
           <span class="badge-dot"></span>
         </button>
       </div>`;
   } else {
-    // Light top bar with back button
+    // Unified light top bar — with back button if deep, stemma if root
     headerHtml = `
-      <div class="topbar simple">
-        ${state.stack.length > 1 ? `<button class="back-btn" onclick="pop()">${icon('chevronL', { size:20, sw:2 })}</button>` : ''}
-        <div style="flex:1;min-width:0">
-          <div style="font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.2px;line-height:1.1">${esc(cfg.title)}</div>
-          <div style="font-size:11px;color:var(--ink-mute);margin-top:2px;letter-spacing:0.3px">${esc(cfg.sub)}</div>
+      <div class="topbar">
+        ${hasBack
+          ? `<button class="topbar-btn" onclick="pop()">${icon('chevronL', { size:20, sw:2 })}</button>`
+          : stemma(44)
+        }
+        <div class="topbar-text">
+          <div class="title">${esc(cfg.title)}</div>
+          <div class="sub">${esc(cfg.sub)}</div>
         </div>
-        <button style="background:transparent;padding:6px;position:relative;color:var(--ink)" onclick="push('notifiche')">
-          ${icon('bell', { size:22, sw:1.6 })}
-          <span style="position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--t-orange);border:1.5px solid #fff"></span>
+        ${weatherHtml}
+        <button class="topbar-btn" onclick="push('notifiche')">
+          ${icon('bell', { size:18, sw:2 })}
+          <span class="badge-dot"></span>
         </button>
       </div>`;
   }
@@ -989,10 +991,11 @@ function render() {
 
   document.getElementById('screen-host').innerHTML = `${headerHtml}${scrollHtml}`;
 
-  // Render tab bar (hide when in deep screen)
+  // Render tab bar — always visible except on headerless deep screens
   const tabbar = document.getElementById('tabbar');
-  const showTabs = state.stack.length === 1;
-  if (showTabs) {
+  if (headerless) {
+    tabbar.style.display = 'none';
+  } else {
     tabbar.style.display = 'flex';
     const items = [
       { id:'home',     icon:'home',      label:'Home' },
@@ -1002,15 +1005,13 @@ function render() {
       { id:'profilo',  icon:'user',      label:'Profilo' },
     ];
     tabbar.innerHTML = items.map(it => {
-      const on = state.tab === it.id;
+      const on = state.tab === it.id && state.stack.length === 1;
       return `
         <button class="tab ${on?'active':''}" onclick="goTab('${it.id}')">
           <div class="tab-icon-wrap">${icon(it.icon, { size:20, sw: on?2.2:2, fill: on?'currentColor':'none' })}</div>
           <span class="tab-label">${esc(it.label)}</span>
         </button>`;
     }).join('');
-  } else {
-    tabbar.style.display = 'none';
   }
 
   // Scroll to top on screen change
@@ -1020,3 +1021,4 @@ function render() {
 
 /* ─── INIT ─────────────────────────────────────── */
 render();
+loadWeather();
