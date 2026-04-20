@@ -1,1134 +1,1022 @@
 /* ═══════════════════════════════════════════════════════
-   App Comune di Calcinato — JS
+   Comune di Calcinato — Vanilla JS app (Revolut-style)
    ═══════════════════════════════════════════════════════ */
 
-/* ─── DATI NEWS ──────────────────────────────────────── */
-const IMG_BASE='https://calcinato-api.municipiumapp.it/s3/1072/media/';
-const NEWS=[
-  {id:0,tipo:"Avviso",titolo:"Risultati del referendum popolare confermativo a Calcinato",data:"24 marzo 2026",img:null,snippet:"S\u00ec 61,29% \u2014 No 38,71%. Pubblicati i risultati ufficiali del referendum popolare.",testo:"Si sono concluse le operazioni di scrutinio del referendum popolare confermativo. Il risultato finale registra il 61,29% di voti favorevoli (S\u00ec) e il 38,71% di voti contrari (No). L\u2019Amministrazione Comunale ringrazia tutti i cittadini che hanno partecipato alla consultazione democratica.",tags:["Elezioni","Democrazia"]},
-  {id:1,tipo:"Notizia",titolo:"Consulenza Notarile Aprile 2026 \u2014 Iniziativa gratuita",data:"24 marzo 2026",img:IMG_BASE+'notarile.jpg',snippet:"Servizio di consulenza notarile gratuita per tutti i residenti.",testo:"Il Comune di Calcinato mette a disposizione dei cittadini un servizio di consulenza notarile gratuita per il mese di aprile 2026. Il servizio \u00e8 rivolto a tutti i residenti che necessitano di informazioni su atti notarili, successioni, donazioni e altri aspetti giuridici. Per prenotare un appuntamento contattare l\u2019ufficio Servizi Sociali al numero 030/99891.",tags:["Servizi sociali","Assistenza"]},
-  {id:2,tipo:"Avviso",titolo:"Bando di servizio civile universale anno 2026",data:"18 marzo 2026",img:IMG_BASE+'servizio_civile2026_1.jpg',snippet:"Scadenza bando: 8 aprile alle ore 14:00.",testo:"\u00c8 aperto il bando per la selezione di operatori volontari da impiegare in progetti di Servizio Civile Universale per l\u2019anno 2026. I giovani tra i 18 e i 28 anni possono presentare domanda esclusivamente attraverso la piattaforma DOL (Domanda On Line) accessibile dal sito del Dipartimento per le Politiche Giovanili. Scadenza: 8 aprile 2026 ore 14:00.",tags:["Patrimonio culturale","Giovani"]},
-  {id:3,tipo:"Avviso",titolo:"Servizio mensa scolastica 2026/2027 \u2014 riapertura iscrizioni",data:"13 marzo 2026",img:null,snippet:"Iscrizioni aperte fino al 18 aprile 2026.",testo:"\u00c8 possibile inoltrare domanda di iscrizione al servizio mensa scolastica per l\u2019anno scolastico 2026/2027 fino al 18 aprile. Le domande devono essere presentate esclusivamente online tramite il portale dei servizi scolastici del Comune di Calcinato. Per informazioni rivolgersi all\u2019Ufficio Pubblica Istruzione.",tags:["Istruzione","Scuola"]},
-  {id:4,tipo:"Avviso",titolo:"Dote Scuola \u2014 Materiale Didattico a.s. 2026/27",data:"13 marzo 2026",img:null,snippet:"Contributo regionale per le spese scolastiche delle famiglie.",testo:"Il bando di Regione Lombardia mette a disposizione un contributo per sostenere le spese delle famiglie nel compimento del percorso scolastico nei sistemi di Istruzione e di Istruzione e Formazione Professionale (IeFP). Le domande devono essere presentate tramite il portale di Regione Lombardia.",tags:["Istruzione","Contributi regionali"]},
-  {id:5,tipo:"Notizia",titolo:"Non solo compiti \u2014 proposta pomeridiana scuola primaria",data:"18 marzo 2026",img:IMG_BASE+'front.jpg',snippet:"Attivit\u00e0 pomeridiane per bambine e bambini della Scuola Primaria.",testo:"Il Comune di Calcinato propone un\u2019attivit\u00e0 pomeridiana per bambine e bambini della Scuola Primaria. Il progetto \u2018Non solo compiti\u2019 offre supporto scolastico e attivit\u00e0 ludico-educative in un ambiente sicuro e stimolante, dal luned\u00ec al venerd\u00ec. Le iscrizioni sono aperte fino ad esaurimento posti.",tags:["Istruzione","Bambini"]},
-  {id:6,tipo:"Comunicato",titolo:"Rinnovo raccolta porta a porta frazione vegetale",data:"19 febbraio 2026",img:IMG_BASE+'bidone-vegetale.jpg',snippet:"Nuova procedura per il rinnovo dell'iscrizione al servizio.",testo:"\u00c8 possibile rinnovare l\u2019iscrizione al servizio di raccolta porta a porta della frazione vegetale con una nuova procedura semplificata. I cittadini interessati possono rivolgersi all\u2019Ufficio Ambiente del Comune di Calcinato per maggiori informazioni.",tags:["Ambiente","Raccolta"]},
+/* ─── DATA ───────────────────────────────────────── */
+const NEWS = [
+  { id:0, tipo:'Avviso', titolo:'Risultati del referendum popolare confermativo', data:'24 marzo 2026',
+    snippet:'Sì 61,29% — No 38,71%. Pubblicati i risultati ufficiali.',
+    testo:"Si sono concluse le operazioni di scrutinio del referendum popolare confermativo tenutosi domenica 22 marzo 2026. Il risultato finale registra il 61,29% di voti favorevoli (Sì) e il 38,71% di voti contrari (No), con un'affluenza alle urne del 54,3% degli aventi diritto.\n\nL'Amministrazione Comunale ringrazia tutti i cittadini che hanno partecipato alla consultazione democratica e desidera sottolineare l'importanza della partecipazione attiva alla vita della comunità. I risultati dettagliati per seggio sono disponibili presso l'Ufficio Elettorale.",
+    tags:['Elezioni','Democrazia','Referendum'], categoria:'Elettorale', hero:'warm' },
+  { id:1, tipo:'Notizia', titolo:'Consulenza Notarile Aprile 2026 — Iniziativa gratuita', data:'24 marzo 2026',
+    snippet:'Servizio di consulenza notarile gratuita per tutti i residenti.',
+    testo:"Il Comune di Calcinato, in collaborazione con il Consiglio Notarile di Brescia, mette a disposizione dei cittadini un servizio di consulenza notarile gratuita per il mese di aprile 2026.\n\nIl servizio è rivolto a tutti i residenti che necessitano di informazioni preliminari su atti notarili, successioni, donazioni, compravendite immobiliari e altri aspetti giuridici. Gli appuntamenti si svolgeranno presso la sede municipale, Piazza Aldo Moro 1.\n\nPer prenotare contattare l'Ufficio Servizi Sociali al numero 030/99891-214.",
+    tags:['Servizi sociali','Assistenza legale'], categoria:'Servizi al cittadino', hero:'slate' },
+  { id:2, tipo:'Avviso', titolo:'Bando di Servizio Civile Universale — Anno 2026', data:'18 marzo 2026',
+    snippet:'Scadenza bando: 8 aprile 2026 alle ore 14:00.',
+    testo:"È aperto il bando per la selezione di operatori volontari da impiegare in progetti di Servizio Civile Universale per l'anno 2026 presso il Comune di Calcinato.\n\nI giovani di età compresa tra i 18 e i 28 anni non compiuti possono presentare domanda esclusivamente attraverso la piattaforma DOL, previa autenticazione con SPID di secondo livello.\n\nScadenza tassativa: 8 aprile 2026, ore 14:00.",
+    tags:['Giovani','Volontariato','Bandi'], categoria:'Giovani', hero:'blue' },
+  { id:3, tipo:'Avviso', titolo:'Servizio mensa scolastica 2026/2027 — Riapertura iscrizioni', data:'13 marzo 2026',
+    snippet:'Iscrizioni aperte fino al 18 aprile 2026.',
+    testo:"È possibile inoltrare domanda di iscrizione al servizio mensa scolastica per l'anno scolastico 2026/2027 fino al 18 aprile 2026.\n\nLe domande devono essere presentate esclusivamente online tramite il Portale dei Servizi Scolastici del Comune di Calcinato, previa autenticazione con SPID, CIE o CNS.",
+    tags:['Istruzione','Scuola','Mensa'], categoria:'Istruzione', hero:'orange' },
+  { id:4, tipo:'Comunicato', titolo:'Dote Scuola — Materiale Didattico a.s. 2026/27', data:'13 marzo 2026',
+    snippet:'Contributo regionale per le spese scolastiche delle famiglie.',
+    testo:"Il bando di Regione Lombardia 'Dote Scuola — Materiale Didattico' mette a disposizione un contributo economico a sostegno delle famiglie per l'acquisto di libri di testo e dotazioni tecnologiche.\n\nPossono accedere al contributo le famiglie con ISEE non superiore a 15.748,78 €, con figli iscritti ai corsi di istruzione secondaria.",
+    tags:['Istruzione','Contributi regionali'], categoria:'Istruzione', hero:'purple' },
+  { id:5, tipo:'Notizia', titolo:'"Non solo compiti" — Proposta pomeridiana scuola primaria', data:'18 marzo 2026',
+    snippet:'Attività pomeridiane per bambine e bambini della Scuola Primaria.',
+    testo:"Il Comune di Calcinato, in collaborazione con la Cooperativa Tempo Libero, propone un'attività pomeridiana strutturata.\n\nIl progetto 'Non solo compiti' offre supporto allo studio individualizzato, attività ludico-educative, laboratori creativi e momenti di socializzazione. Attivo dal lunedì al venerdì dalle 14:00 alle 18:00.",
+    tags:['Istruzione','Bambini','Doposcuola'], categoria:'Istruzione', hero:'pink' },
 ];
 
-/* ─── DATI ATTIVITA ──────────────────────────────────── */
-const ATTIVITA=[
-  {nome:"Trattoria da Marco",cat:"ristorazione",catLabel:"Ristorazione",indirizzo:"Via Roma 14",tel:"030 9988123",plus:true},
-  {nome:"Farmacia Centrale",cat:"salute",catLabel:"Salute",indirizzo:"P.za Aldo Moro 3",tel:"030 9988001",plus:false},
-  {nome:"Palestra FitLife",cat:"sport",catLabel:"Sport e benessere",indirizzo:"Via Industriale 7",tel:"030 9988055",plus:true},
-  {nome:"Ferramenta Rossi",cat:"commercio",catLabel:"Commercio",indirizzo:"Via Brescia 22",tel:"030 9988042",plus:false},
-  {nome:"Ristorante Al Lago",cat:"ristorazione",catLabel:"Ristorazione",indirizzo:"Via Lago 5",tel:"030 9988099",plus:true},
-  {nome:"Studio Legale Bianchi",cat:"servizi",catLabel:"Servizi professionali",indirizzo:"Corso Italia 5",tel:"030 9988077",plus:false},
-  {nome:"Centro Estetico Sole",cat:"salute",catLabel:"Benessere",indirizzo:"Via Milano 18",tel:"030 9988033",plus:true},
-  {nome:"Supermercato Coop",cat:"commercio",catLabel:"Commercio",indirizzo:"Via Industriale 3",tel:"030 9988011",plus:false},
-  {nome:"Bar Centrale",cat:"ristorazione",catLabel:"Bar e caff\u00e8",indirizzo:"P.za Aldo Moro 7",tel:"030 9988022",plus:false},
-  {nome:"Autofficina Galli",cat:"servizi",catLabel:"Servizi auto",indirizzo:"Via Mantova 12",tel:"030 9988088",plus:false},
+const ATTIVITA = [
+  { id:0, nome:'Trattoria da Marco',   cat:'ristorazione', catLabel:'Ristorazione',   indirizzo:'Via Roma 14',         tel:'030 998 8123', orari:'Mar–Dom 12:00–14:30, 19:00–22:30', certificata:true, sito:'trattoriadamarco.it' },
+  { id:1, nome:'Farmacia Centrale',    cat:'salute',       catLabel:'Salute',         indirizzo:'Piazza Aldo Moro 3',  tel:'030 998 8001', orari:'Lun–Sab 8:30–19:30',                certificata:false },
+  { id:2, nome:'Palestra FitLife',     cat:'sport',        catLabel:'Sport e benessere', indirizzo:'Via Industriale 7',tel:'030 998 8055', orari:'Lun–Ven 7:00–22:00, Sab 9:00–20:00', certificata:true },
+  { id:3, nome:'Ferramenta Rossi',     cat:'commercio',    catLabel:'Commercio',      indirizzo:'Via Brescia 22',      tel:'030 998 8042', orari:'Lun–Sab 8:00–12:00, 15:00–19:00',   certificata:false },
+  { id:4, nome:'Ristorante Al Lago',   cat:'ristorazione', catLabel:'Ristorazione',   indirizzo:'Via Lago 5',          tel:'030 998 8099', orari:'Mer–Lun 12:00–15:00, 19:00–23:00',  certificata:true },
+  { id:5, nome:'Studio Legale Bianchi',cat:'servizi',      catLabel:'Servizi professionali', indirizzo:'Corso Italia 5', tel:'030 998 8077', orari:'Lun–Ven 9:00–13:00, 14:30–18:30', certificata:false },
+  { id:6, nome:'Centro Estetico Sole', cat:'salute',       catLabel:'Benessere',      indirizzo:'Via Milano 18',       tel:'030 998 8033', orari:'Mar–Sab 9:00–19:00',                certificata:true },
+  { id:7, nome:'Bar Centrale',         cat:'ristorazione', catLabel:'Bar e caffè',    indirizzo:'Piazza Aldo Moro 7',  tel:'030 998 8022', orari:'Tutti i giorni 6:30–20:00',         certificata:false },
 ];
 
-/* ─── DATI CONTATTI ──────────────────────────────────── */
-const CONTATTI=[
-  {nome:"Municipio \u2014 Centralino",tel:"030 9989811",email:"protocollo@comune.calcinato.bs.it",indirizzo:"Piazza Municipio, 1 \u2014 25011 Calcinato (BS)"},
-  {nome:"Ufficio Anagrafe",tel:"030 9989830",email:"anagrafe@comune.calcinato.bs.it"},
-  {nome:"Ufficio Tributi",tel:"030 9989840",email:"tributi@comune.calcinato.bs.it"},
-  {nome:"Ufficio Tecnico \u2014 Urbanistica",tel:"030 9989850",email:"urbanistica@comune.calcinato.bs.it"},
-  {nome:"Ufficio Servizi Sociali",tel:"030 9989860",email:"servizisociali@comune.calcinato.bs.it"},
-  {nome:"Polizia Locale",tel:"030 9989870",email:"polizialocale@comune.calcinato.bs.it"},
-  {nome:"Ufficio Ragioneria",tel:"030 9989820",email:"ragioneria@comune.calcinato.bs.it"},
-  {nome:"URP \u2014 Relazioni con il Pubblico",tel:"030 9989811",email:"urp@comune.calcinato.bs.it"},
+const UFFICI = [
+  { nome:'Anagrafe e Stato Civile', indirizzo:'Piazza Aldo Moro 1', tel:'030 998 91-201', email:'anagrafe@comune.calcinato.bs.it', orari:'Lun–Ven 8:30–12:30, Gio 16:00–18:00' },
+  { nome:'Ufficio Tributi',         indirizzo:'Piazza Aldo Moro 1', tel:'030 998 91-215', email:'tributi@comune.calcinato.bs.it',  orari:'Lun, Mer, Ven 9:00–12:30' },
+  { nome:'Ufficio Tecnico',         indirizzo:'Via Trento 2',       tel:'030 998 91-230', email:'tecnico@comune.calcinato.bs.it',  orari:'Mar, Gio 9:00–12:30, 15:00–17:00' },
+  { nome:'Servizi Sociali',         indirizzo:'Via Roma 8',         tel:'030 998 91-214', email:'sociali@comune.calcinato.bs.it',  orari:'Lun–Ven 9:00–12:00 su appuntamento' },
+  { nome:'Polizia Locale',          indirizzo:'Via Brescia 10',     tel:'030 998 91-320', email:'polizia@comune.calcinato.bs.it',  orari:'Lun–Sab 8:00–13:00, 15:00–19:00' },
+  { nome:'Pubblica Istruzione',     indirizzo:'Piazza Aldo Moro 1', tel:'030 998 91-218', email:'scuola@comune.calcinato.bs.it',   orari:'Lun, Mer 9:00–12:00' },
 ];
 
-/* ─── STATO ───────────────────────────────────────── */
-let currentScreen='home';
-let prevScreen='home';
-let currentNewsFilter='tutte';
-let currentAttCat='tutte';
-
-/* ─── IMPOSTAZIONI (localStorage) ────────────────── */
-const SETT_KEY='calcinato-settings';
-const SETT_DEFAULTS={theme:'chiaro',fontsize:'normale',adhd:'off',contrast:'off',dyslexia:'off'};
-
-function loadSettings(){
-  let s=SETT_DEFAULTS;
-  try{ const raw=localStorage.getItem(SETT_KEY); if(raw) s={...SETT_DEFAULTS,...JSON.parse(raw)}; }catch(e){}
-  const app=document.getElementById('app');
-  app.dataset.theme=s.theme;
-  app.dataset.fontsize=s.fontsize;
-  app.dataset.adhd=s.adhd;
-  app.dataset.contrast=s.contrast;
-  app.dataset.dyslexia=s.dyslexia;
-  updateThemeColor(s.theme);
-  return s;
-}
-
-function saveSettings(){
-  const app=document.getElementById('app');
-  const s={theme:app.dataset.theme,fontsize:app.dataset.fontsize,adhd:app.dataset.adhd,contrast:app.dataset.contrast,dyslexia:app.dataset.dyslexia};
-  try{ localStorage.setItem(SETT_KEY,JSON.stringify(s)); }catch(e){}
-}
-
-function updateThemeColor(theme){
-  const meta=document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.content=theme==='scuro'?'#1A1A2E':'#0055A5';
-}
-
-function updateSettingsUI(){
-  const app=document.getElementById('app');
-  // Theme segments
-  document.querySelectorAll('#seg-theme .sett-seg').forEach(b=>{
-    b.classList.toggle('active',b.dataset.val===app.dataset.theme);
-  });
-  // Font size segments
-  document.querySelectorAll('#seg-fontsize .sett-seg').forEach(b=>{
-    b.classList.toggle('active',b.dataset.val===app.dataset.fontsize);
-  });
-  // Toggles
-  ['adhd','contrast','dyslexia'].forEach(key=>{
-    const el=document.getElementById('tog-'+key);
-    if(el) el.classList.toggle('on',app.dataset[key]==='on');
-  });
-}
-
-function setTheme(val){
-  document.getElementById('app').dataset.theme=val;
-  updateThemeColor(val);
-  saveSettings();
-  updateSettingsUI();
-}
-
-function setFontSize(val){
-  document.getElementById('app').dataset.fontsize=val;
-  saveSettings();
-  updateSettingsUI();
-}
-
-function toggleSetting(key){
-  const app=document.getElementById('app');
-  app.dataset[key]=app.dataset[key]==='on'?'off':'on';
-  saveSettings();
-  updateSettingsUI();
-}
-
-/* ═══════════════════════════════════════════════════════
-   PLUS — Autenticazione e Sessione
-   ═══════════════════════════════════════════════════════ */
-const PLUS_SESSION_KEY='calcinato-plus-session';
-const PLUS_REQUESTS_KEY='calcinato-plus-requests';
-const PLUS_DATA_KEY='calcinato-plus-data';
-let plusUser=null;
-
-// Demo credentials
-const DEMO_USERS=[
-  {email:'demo@plus.it',password:'demo123',attivitaIdx:0,nome:'Marco Bianchi'}, // Trattoria da Marco
-  {email:'admin@calcinato.app',password:'admin2026',attivitaIdx:0,nome:'Admin Calcinato',isAdmin:true}, // Admin — gestisce tutte
+const NOTIFICHE = [
+  { id:0, tipo:'rifiuti', titolo:'Domani: raccolta PLASTICA',           testo:'Esporre il contenitore entro le 6:00.',                      data:'Oggi, 07:00',  letto:false },
+  { id:1, tipo:'avviso',  titolo:'Bando Servizio Civile',                testo:'Scadenza domanda: 8 aprile, ore 14:00.',                     data:'Ieri, 18:30',  letto:false },
+  { id:2, tipo:'notizia', titolo:'Consulenza notarile gratuita',         testo:'Aperte le prenotazioni per aprile 2026.',                    data:'Ieri, 10:15',  letto:false },
+  { id:3, tipo:'segnalazione', titolo:'Segnalazione #2847 in lavorazione', testo:"La buca in Via Roma è stata presa in carico dall'Ufficio Tecnico.", data:'2 giorni fa',  letto:true },
+  { id:4, tipo:'notizia', titolo:'Risultati del referendum',             testo:'Pubblicati i risultati ufficiali della consultazione.',      data:'3 giorni fa',  letto:true },
+  { id:5, tipo:'rifiuti', titolo:'Cambio calendario — Pasquetta',        testo:'Lunedì 13 aprile raccolta sospesa, recupero martedì.',       data:'5 giorni fa',  letto:true },
 ];
 
-// Demo Plus extended data
-const PLUS_EXTENDED_DEFAULTS={
-  0:{descrizione:'Trattoria a conduzione familiare dal 1985, specializzata in cucina bresciana e piatti di pesce. Ampio parcheggio e sala per eventi fino a 80 persone.',orari:{Lun:'Chiuso',Mar:'12:00-14:30 / 19:00-22:30',Mer:'12:00-14:30 / 19:00-22:30',Gio:'12:00-14:30 / 19:00-22:30',Ven:'12:00-14:30 / 19:00-23:00',Sab:'12:00-14:30 / 19:00-23:00',Dom:'12:00-15:00'},servizi:['Parcheggio','WiFi gratuito','Sala eventi','Menu bambini','Senza glutine'],email:'info@trattoriadamarco.it',sito:'https://www.trattoriadamarco.it'},
-  2:{descrizione:'Centro fitness completo con sala pesi, corsi di gruppo, piscina coperta e area wellness. Personal trainer qualificati.',orari:{Lun:'06:30-22:00',Mar:'06:30-22:00',Mer:'06:30-22:00',Gio:'06:30-22:00',Ven:'06:30-21:00',Sab:'08:00-18:00',Dom:'09:00-13:00'},servizi:['Sala pesi','Piscina','Corsi di gruppo','Personal trainer','Sauna'],email:'info@fitlife.it',sito:'https://www.fitlife.it'},
-  4:{descrizione:'Ristorante con vista lago, cucina tradizionale bresciana e specialit\u00e0 di pesce di lago. Terrazza estiva panoramica.',orari:{Lun:'Chiuso',Mar:'12:00-14:30 / 19:00-22:30',Mer:'12:00-14:30 / 19:00-22:30',Gio:'12:00-14:30 / 19:00-22:30',Ven:'12:00-14:30 / 19:00-23:00',Sab:'12:00-14:30 / 19:00-23:00',Dom:'12:00-15:00'},servizi:['Terrazza panoramica','Parcheggio','Pesce di lago','Dehors estivo'],email:'info@allagocalcinato.it',sito:''},
-  6:{descrizione:'Centro estetico completo: trattamenti viso e corpo, massaggi, epilazione laser, manicure e pedicure. Prodotti biologici certificati.',orari:{Lun:'09:00-19:00',Mar:'09:00-19:00',Mer:'09:00-19:00',Gio:'09:00-20:00',Ven:'09:00-19:00',Sab:'09:00-17:00',Dom:'Chiuso'},servizi:['Trattamenti viso','Massaggi','Epilazione laser','Manicure','Prodotti bio'],email:'info@centrosole.it',sito:''},
+const RIFIUTI_CAL = [
+  { giorno:'Lun', num:20, mese:'apr', tipo:null },
+  { giorno:'Mar', num:21, mese:'apr', tipo:'umido' },
+  { giorno:'Mer', num:22, mese:'apr', tipo:'carta' },
+  { giorno:'Gio', num:23, mese:'apr', tipo:'umido' },
+  { giorno:'Ven', num:24, mese:'apr', tipo:'plastica' },
+  { giorno:'Sab', num:25, mese:'apr', tipo:null },
+  { giorno:'Dom', num:26, mese:'apr', tipo:null },
+  { giorno:'Lun', num:27, mese:'apr', tipo:'indifferenziato' },
+  { giorno:'Mar', num:28, mese:'apr', tipo:'umido' },
+  { giorno:'Mer', num:29, mese:'apr', tipo:'vetro' },
+  { giorno:'Gio', num:30, mese:'apr', tipo:'umido' },
+  { giorno:'Ven', num:1,  mese:'mag', tipo:'plastica' },
+  { giorno:'Sab', num:2,  mese:'mag', tipo:null },
+  { giorno:'Dom', num:3,  mese:'mag', tipo:null },
+];
+const RIFIUTI_TIPI = {
+  umido:           { nome:'Umido organico',    colore:'#6F4E37', icon:'leaf' },
+  carta:           { nome:'Carta e cartone',   colore:'#1E58A0', icon:'paper' },
+  plastica:        { nome:'Plastica e metalli',colore:'#D9A441', icon:'bottle' },
+  vetro:           { nome:'Vetro',             colore:'#2E7D5B', icon:'glass' },
+  indifferenziato: { nome:'Indifferenziato',   colore:'#5A6475', icon:'bag' },
 };
 
-function loadPlusSession(){
-  try{
-    const raw=localStorage.getItem(PLUS_SESSION_KEY);
-    if(raw) plusUser=JSON.parse(raw);
-  }catch(e){}
-  updateUserIcon();
+const SEGNALAZIONI_UTENTE = [
+  { id:2847, tipo:'Buca stradale',      indirizzo:'Via Roma, angolo Via Marconi', data:'18 apr 2026', stato:'in-lavorazione' },
+  { id:2802, tipo:'Cestino danneggiato',indirizzo:'Parco della Rimembranza',      data:'5 apr 2026',  stato:'risolta' },
+  { id:2745, tipo:'Illuminazione',      indirizzo:'Via Lago 5',                   data:'22 mar 2026', stato:'risolta' },
+];
+
+/* ─── ICONS (SVG paths, 24x24, stroke 1.6) ──────── */
+const ICONS = {
+  home:       '<path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>',
+  newspaper:  '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h6M7 13h6M7 17h4M16 9h2M16 13h2M16 17h2"/>',
+  grid:       '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  user:       '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>',
+  bell:       '<path d="M18 15V10a6 6 0 0 0-12 0v5l-2 2v1h16v-1z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  plus:       '<path d="M12 5v14M5 12h14"/>',
+  search:     '<circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/>',
+  chevronR:   '<path d="M9 6l6 6-6 6"/>',
+  chevronL:   '<path d="M15 6l-9 6 9 6"/>',
+  arrowR:     '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  close:      '<path d="M6 6l12 12M18 6L6 18"/>',
+  calendar:   '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  map:        '<path d="M9 4l-6 2v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/>',
+  pin:        '<path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',
+  phone:      '<path d="M4 5c0-1 1-2 2-2h2l2 5-2 1c1 3 3 5 6 6l1-2 5 2v2c0 1-1 2-2 2-9 0-16-7-16-16z"/>',
+  mail:       '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  clock:      '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  document:   '<path d="M7 3h8l4 4v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5M9 13h7M9 17h5"/>',
+  building:   '<rect x="4" y="4" width="16" height="17" rx="1"/><path d="M8 8h2M14 8h2M8 12h2M14 12h2M8 16h2M14 16h2M10 21v-3h4v3"/>',
+  megaphone:  '<path d="M3 11v2l10 4V7L3 11zM13 8l6-3v14l-6-3"/>',
+  alert:      '<circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>',
+  info:       '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  trash:      '<path d="M4 7h16M10 7V4h4v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/>',
+  recycle:    '<path d="M7 19l-3-5 4-2M17 19h5l-2-5M17 5l3 5-4 2M7 5H2l2 5"/><path d="M12 3v4"/>',
+  warning:    '<path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4M12 18h.01"/>',
+  badge:      '<path d="M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6l9-4z"/><path d="M8 12l3 3 5-6"/>',
+  fork:       '<path d="M6 3v6a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3M8 11v10M16 3s-3 3-3 7 3 4 3 4v7"/>',
+  bag:        '<path d="M6 7h12l-1 14H7L6 7zM9 7V4a3 3 0 0 1 6 0v3"/>',
+  store:      '<path d="M3 7l1-3h16l1 3v2a3 3 0 0 1-5 2 3 3 0 0 1-4 0 3 3 0 0 1-4 0 3 3 0 0 1-5-2V7zM5 11v9h14v-9"/>',
+  dumbbell:   '<path d="M3 10v4M7 7v10M17 7v10M21 10v4M7 12h10"/>',
+  heart:      '<path d="M12 20s-8-5-8-12a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 7-8 12-8 12z"/>',
+  briefcase:  '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/>',
+  road:       '<path d="M4 21L8 3M20 21l-4-18M12 5v2M12 11v2M12 17v2"/>',
+  bulb:       '<path d="M9 18h6M10 21h4M8 14a6 6 0 1 1 8 0c-1 1-1 2-1 3H9c0-1 0-2-1-3z"/>',
+  tree:       '<path d="M12 3L6 12h3l-3 5h12l-3-5h3L12 3zM12 17v4"/>',
+  paint:      '<path d="M3 3h8v6H3zM11 6h4a3 3 0 0 1 3 3v3M15 14v3a2 2 0 0 1-2 2h-2v3h4"/>',
+  sign:       '<path d="M12 3v18M4 6h12l3 3-3 3H4V6zM8 14h10l3 3-3 3H8v-6z"/>',
+  leaf:       '<path d="M5 19c0-9 7-14 15-14-1 8-6 15-15 14zM5 19l7-7"/>',
+  paper:      '<path d="M6 3h9l4 4v14H6V3z"/><path d="M14 3v5h5"/>',
+  bottle:     '<path d="M10 3h4v3l2 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-3V3z"/>',
+  glass:      '<path d="M6 3h12l-1 8a5 5 0 0 1-10 0L6 3zM12 16v5M9 21h6"/>',
+  lock:       '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  settings:   '<circle cx="12" cy="12" r="3"/><path d="M12 2l1.5 2.5h3l1 3 2.5 1.5-1 3 1 3-2.5 1.5-1 3h-3L12 22l-1.5-2.5h-3l-1-3L4 15l1-3-1-3 2.5-1.5 1-3h3L12 2z"/>',
+  external:   '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  share:      '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8 11l8-4M8 13l8 4"/>',
+  bookmark:   '<path d="M6 3h12v18l-6-4-6 4V3z"/>',
+  eye:        '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+};
+
+function icon(name, opts = {}) {
+  const { size = 24, stroke = 'currentColor', sw = 1.6, fill = 'none' } = opts;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">${ICONS[name] || ICONS.info}</svg>`;
 }
 
-function savePlusSession(){
-  if(plusUser) localStorage.setItem(PLUS_SESSION_KEY,JSON.stringify(plusUser));
-  else localStorage.removeItem(PLUS_SESSION_KEY);
-  updateUserIcon();
-}
-
-function logoutPlus(){
-  plusUser=null;
-  savePlusSession();
-  goScreen('home');
-}
-
-function updateUserIcon(){
-  const svg=document.getElementById('topbar-user-svg');
-  if(!svg) return;
-  if(plusUser){
-    // Dashboard icon (grid)
-    svg.innerHTML='<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5"/>';
-  } else {
-    // User icon
-    svg.innerHTML='<path d="M18 19v-1.5a3.5 3.5 0 00-3.5-3.5h-7A3.5 3.5 0 004 17.5V19"/><circle cx="11" cy="8" r="3.5"/>';
-  }
-}
-
-function onUserIconClick(){
-  if(plusUser) goScreen('dashboard');
-  else goScreen('login-plus');
-}
-
-function getPlusData(idx){
-  // Check localStorage first (user edits), then defaults
-  try{
-    const raw=localStorage.getItem(PLUS_DATA_KEY);
-    if(raw){
-      const all=JSON.parse(raw);
-      if(all[idx]) return all[idx];
-    }
-  }catch(e){}
-  return PLUS_EXTENDED_DEFAULTS[idx]||null;
-}
-
-function savePlusData(idx,data){
-  let all={};
-  try{ const raw=localStorage.getItem(PLUS_DATA_KEY); if(raw) all=JSON.parse(raw); }catch(e){}
-  all[idx]=data;
-  localStorage.setItem(PLUS_DATA_KEY,JSON.stringify(all));
-}
-
-/* ─── LOGIN ──────────────────────────────────────── */
-function submitLogin(){
-  const email=document.getElementById('login-email').value.trim();
-  const pass=document.getElementById('login-password').value;
-  const errEl=document.getElementById('login-error');
-
-  const allUsers=[...DEMO_USERS,...getPlusUsers()];
-  const user=allUsers.find(u=>u.email===email&&u.password===pass);
-  if(!user){
-    errEl.classList.add('visible');
-    return;
-  }
-  errEl.classList.remove('visible');
-  plusUser={email:user.email,attivitaIdx:user.attivitaIdx,nome:user.nome,isAdmin:!!user.isAdmin};
-  savePlusSession();
-  goScreen('dashboard');
-}
-
-/* ─── RICHIESTA PLUS ─────────────────────────────── */
-function submitRichiesta(){
-  const nome=document.getElementById('req-nome').value.trim();
-  const attivita=document.getElementById('req-attivita').value.trim();
-  const tel=document.getElementById('req-tel').value.trim();
-  const email=document.getElementById('req-email').value.trim();
-  const note=document.getElementById('req-note').value.trim();
-
-  if(!nome||!attivita||!tel){
-    alert('Compila i campi obbligatori: Nome, Attivit\u00e0 e Telefono');
-    return;
-  }
-
-  // Save to localStorage (demo) — in prod: Supabase INSERT
-  let requests=[];
-  try{ const raw=localStorage.getItem(PLUS_REQUESTS_KEY); if(raw) requests=JSON.parse(raw); }catch(e){}
-  requests.push({nome,attivita,tel,email,note,data:new Date().toISOString()});
-  localStorage.setItem(PLUS_REQUESTS_KEY,JSON.stringify(requests));
-
-  // Show success
-  document.getElementById('richiesta-content').innerHTML=`
-    <div class="success-msg">
-      <div class="success-ico">\u2705</div>
-      <div class="success-title">Richiesta inviata!</div>
-      <div class="success-text">Grazie <strong>${nome}</strong>. Il nostro team ti ricontatter\u00e0 al numero <strong>${tel}</strong> per attivare la scheda Plus di <strong>${attivita}</strong>.</div>
+/* ─── STEMMA (SVG) ──────────────────────────────── */
+function stemma(size = 40, onDark = false) {
+  const border = onDark ? '1.5px solid rgba(255,255,255,0.85)' : '1px solid var(--border)';
+  const shadow = onDark ? '0 2px 10px rgba(0,0,0,0.15)' : '0 2px 8px rgba(28, 63, 170, 0.18)';
+  return `
+    <div class="stemma" style="width:${size}px;height:${size}px;border-radius:${size*0.28}px;border:${border};box-shadow:${shadow}">
+      <svg width="${size}" height="${size}" viewBox="0 0 40 40" style="display:block">
+        <path d="M5 6 Q5 5 6 5 L34 5 Q35 5 35 6 L35 22 Q35 30 20 37 Q5 30 5 22 Z" fill="#1C3FAA"/>
+        <g fill="#E8A70E">
+          <rect x="12" y="14" width="2.5" height="2.5"/>
+          <rect x="16.5" y="14" width="2.5" height="2.5"/>
+          <rect x="21" y="14" width="2.5" height="2.5"/>
+          <rect x="25.5" y="14" width="2.5" height="2.5"/>
+          <rect x="11" y="16" width="18" height="9"/>
+          <rect x="18" y="10" width="4" height="6"/>
+          <rect x="17" y="8" width="1.5" height="2"/>
+          <rect x="19.25" y="8" width="1.5" height="2"/>
+          <rect x="21.5" y="8" width="1.5" height="2"/>
+        </g>
+        <rect x="18.5" y="19" width="3" height="6" rx="1.5" fill="#1C3FAA"/>
+        <path d="M7 27 Q10 25.5 13 27 T19 27 T25 27 T31 27 T33 27" stroke="#FFFFFF" stroke-width="1.2" fill="none" opacity="0.85"/>
+        <path d="M7 30 Q10 28.5 13 30 T19 30 T25 30 T31 30 T33 30" stroke="#FFFFFF" stroke-width="1.2" fill="none" opacity="0.6"/>
+      </svg>
     </div>`;
 }
 
-/* ─── DASHBOARD ──────────────────────────────────── */
-function renderDashboard(){
-  const el=document.getElementById('dashboard-content');
-  if(!el||!plusUser) return;
-
-  const att=ATTIVITA[plusUser.attivitaIdx];
-  const ext=getPlusData(plusUser.attivitaIdx)||{descrizione:'',orari:{Lun:'',Mar:'',Mer:'',Gio:'',Ven:'',Sab:'',Dom:''},servizi:[],email:'',sito:''};
-
-  const giorniOrari=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
-  const orariRows=giorniOrari.map(g=>`
-    <div class="orari-row">
-      <span class="orari-day">${g}</span>
-      <input class="orari-input" data-giorno="${g}" value="${ext.orari[g]||''}" placeholder="es. 09:00-18:00">
-    </div>`).join('');
-
-  const serviziTags=(ext.servizi||[]).map((s,i)=>`
-    <span class="tag-item">${s}<span class="tag-remove" onclick="removeServizio(${i})">&times;</span></span>`).join('');
-
-  // Admin: selector to switch between Plus activities
-  const plusActivities=ATTIVITA.map((a,i)=>({idx:i,...a})).filter(a=>a.plus);
-  const adminSelector=plusUser.isAdmin?`
-    <div class="form-group" style="margin-top:8px">
-      <label class="form-label">Gestisci attivit\u00e0</label>
-      <select class="form-input" onchange="switchAttivita(this.value)" style="cursor:pointer">
-        ${plusActivities.map(a=>`<option value="${a.idx}" ${a.idx===plusUser.attivitaIdx?'selected':''}>${a.nome}</option>`).join('')}
-      </select>
-    </div>`:'';
-
-  el.innerHTML=`
-    <div class="dash-welcome">
-      <div class="dash-welcome-name">Ciao, ${plusUser.nome}</div>
-      <div class="dash-welcome-sub">Gestisci la scheda Plus di <strong>${att.nome}</strong></div>
-      ${adminSelector}
-    </div>
-
-    <div class="dash-card">
-      <div class="dash-card-title">Informazioni base</div>
-      <div class="form-group">
-        <label class="form-label">Nome attivit\u00e0</label>
-        <input class="form-input" id="dash-nome" value="${att.nome}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Indirizzo</label>
-        <input class="form-input" id="dash-indirizzo" value="${att.indirizzo}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Telefono</label>
-        <input class="form-input" id="dash-tel" value="${att.tel}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input class="form-input" id="dash-email" value="${ext.email||''}">
-      </div>
-      <div class="form-group" style="margin-bottom:0">
-        <label class="form-label">Sito web</label>
-        <input class="form-input" id="dash-sito" value="${ext.sito||''}">
-      </div>
-    </div>
-
-    <div class="dash-card">
-      <div class="dash-card-title">Descrizione</div>
-      <textarea class="form-textarea" id="dash-desc" rows="4">${ext.descrizione||''}</textarea>
-    </div>
-
-    <div class="dash-card">
-      <div class="dash-card-title">Orari di apertura</div>
-      <div class="orari-grid">${orariRows}</div>
-    </div>
-
-    <div class="dash-card">
-      <div class="dash-card-title">Servizi</div>
-      <div class="tag-list" id="dash-servizi-tags">${serviziTags}</div>
-      <div class="tag-add-row">
-        <input class="tag-add-input" id="dash-new-servizio" placeholder="Aggiungi servizio...">
-        <button class="tag-add-btn" onclick="addServizio()">+</button>
-      </div>
-    </div>
-
-    <button class="btn-primary" onclick="saveDashboard()" style="margin-top:4px">Salva modifiche</button>
-
-    ${plusUser.isAdmin?renderAdminSections():''}
-
-    <button class="btn-danger" onclick="logoutPlus()">Esci dall'area Plus</button>
-    <div style="height:16px"></div>
-  `;
+function tile(iconName, color, size = 44, radius = 12, iconSize = null) {
+  const s = iconSize || Math.round(size * 0.5);
+  return `<div class="tile tile-${color}" style="width:${size}px;height:${size}px;border-radius:${radius}px">${icon(iconName, { size: s, sw: 2 })}</div>`;
 }
 
-/* ─── ADMIN FUNCTIONS ─────────────────────────────── */
-const PLUS_USERS_KEY='calcinato-plus-users';
+/* ─── STATE ────────────────────────────────────── */
+const state = {
+  stack: JSON.parse(localStorage.getItem('calc-stack') || '[]').length
+    ? JSON.parse(localStorage.getItem('calc-stack'))
+    : [{ screen: 'home' }],
+  tab: localStorage.getItem('calc-tab') || 'home',
+  loggedIn: localStorage.getItem('calc-login') === '1',
+  newsFilter: 'tutte',
+  newsQuery: '',
+  attFilter: 'tutte',
+  attQuery: '',
+  segnTab: 'mie',
+  mappaLayer: 'tutto',
+};
 
-function getRequests(){
-  try{ const raw=localStorage.getItem(PLUS_REQUESTS_KEY); if(raw) return JSON.parse(raw); }catch(e){}
-  return [];
-}
-function saveRequests(reqs){
-  localStorage.setItem(PLUS_REQUESTS_KEY,JSON.stringify(reqs));
+function persist() {
+  localStorage.setItem('calc-stack', JSON.stringify(state.stack));
+  localStorage.setItem('calc-tab', state.tab);
+  localStorage.setItem('calc-login', state.loggedIn ? '1' : '0');
 }
 
-function getPlusUsers(){
-  // Merge hardcoded DEMO_USERS with localStorage custom users
-  let custom=[];
-  try{ const raw=localStorage.getItem(PLUS_USERS_KEY); if(raw) custom=JSON.parse(raw); }catch(e){}
-  return custom;
+/* ─── NAVIGATION ───────────────────────────────── */
+function push(screen, data) {
+  state.stack.push({ screen, data });
+  render();
 }
-function savePlusUsers(users){
-  localStorage.setItem(PLUS_USERS_KEY,JSON.stringify(users));
+function pop() {
+  if (state.stack.length > 1) {
+    state.stack.pop();
+    render();
+  }
+}
+function resetTo(screen) {
+  state.stack = [{ screen }];
+  render();
+}
+function goTab(id) {
+  state.tab = id;
+  const map = { home:'home', news:'news', servizi:'servizi', attivita:'attivita', profilo:'profilo' };
+  state.stack = [{ screen: map[id] || 'home' }];
+  render();
 }
 
-function renderAdminSections(){
-  const requests=getRequests();
-  const customUsers=getPlusUsers();
+window.push = push;
+window.pop = pop;
+window.resetTo = resetTo;
+window.goTab = goTab;
 
-  // Requests section
-  const reqCards=requests.length===0
-    ?'<div style="text-align:center;padding:16px;color:#bbb;font-size:12px">Nessuna richiesta ricevuta</div>'
-    :requests.map((r,i)=>{
-      const statusClass={'nuova':'status-nuova','contattata':'status-contattata','pagata':'status-pagata','attivata':'status-attivata'}[r.stato||'nuova'];
-      const statusLabel=(r.stato||'nuova').charAt(0).toUpperCase()+(r.stato||'nuova').slice(1);
-      return `<div class="req-card">
-        <div class="req-header">
-          <div>
-            <div class="req-nome">${r.nome}</div>
-            <div class="req-attivita">${r.attivita}</div>
-          </div>
-          <span class="status-badge ${statusClass}">${statusLabel}</span>
+/* ─── HELPERS ──────────────────────────────────── */
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function pillHtml(tone, text) {
+  return `<span class="pill pill-${tone}">${esc(text)}</span>`;
+}
+
+/* ─── SCREEN CONFIGS ───────────────────────────── */
+const SCREEN_CONFIG = {
+  home:              { title:'Calcinato',        sub:'Brescia · BS',         variant:'brand',  fullHeader:true },
+  news:              { title:'Novità',           sub:'Notizie e avvisi',     variant:'light' },
+  article:           { headerless:true },
+  servizi:           { title:'Servizi',          sub:'Comune di Calcinato',  variant:'light', bigTitle:true },
+  attivita:          { title:'Attività locali',  sub:'Directory del territorio', variant:'light' },
+  'attivita-detail': { headerless:true },
+  mappa:             { title:'Mappa',            sub:'Punti di interesse',   variant:'light', noPad:true, fullHeight:true },
+  uffici:            { title:'Uffici comunali',  sub:'Contatti e orari',     variant:'light', bigTitle:true },
+  notifiche:         { title:'Notifiche',        sub:'Aggiornamenti dal Comune', variant:'light', bigTitle:true },
+  profilo:           { title:'Profilo',          sub:'Area riservata',       variant:'light', headerless:() => state.loggedIn },
+  segnalazioni:      { title:'Segnalazioni',     sub:'Città che funziona',   variant:'light', bigTitle:true },
+  rifiuti:           { title:'Raccolta rifiuti', sub:'Calendario porta a porta', variant:'light', bigTitle:true },
+};
+
+const ROOT_SCREENS = ['home','news','servizi','attivita','profilo'];
+
+/* ═══════════════════════════════════════════════════
+   SCREEN RENDERERS
+   ═══════════════════════════════════════════════════ */
+
+/* ─── HOME ─────────────────────────────────────── */
+function renderHome() {
+  const prossima = RIFIUTI_CAL.find(r => r.tipo);
+  const tipoInfo = prossima ? RIFIUTI_TIPI[prossima.tipo] : null;
+  const segnalAperte = SEGNALAZIONI_UTENTE.filter(s => s.stato === 'in-lavorazione');
+  const bandiAttivi = NEWS.filter(n => n.tipo === 'Avviso').length;
+
+  const quickBtns = [
+    { icon:'recycle', label:'Rifiuti',  onClick:"push('rifiuti')" },
+    { icon:'warning', label:'Segnala',  onClick:"push('segnalazioni')" },
+    { icon:'map',     label:'Mappa',    onClick:"push('mappa')" },
+    { icon:'grid',    label:'Altro',    onClick:"resetTo('servizi'); state.tab='servizi'; persist(); render()" },
+  ];
+
+  const pickupCard = tipoInfo ? `
+    <div class="home-pickup">
+      <button class="pickup-card" onclick="push('rifiuti')">
+        <div class="pickup-icon" style="background:${tipoInfo.colore}">${icon(tipoInfo.icon, { size:26, sw:2.1 })}</div>
+        <div class="pickup-body">
+          <div class="pickup-over">Domani · ${prossima.giorno} ${prossima.num} ${prossima.mese}</div>
+          <div class="pickup-title">${tipoInfo.nome}</div>
+          <div class="pickup-note">Esporre entro le 6:00</div>
         </div>
-        <div class="req-meta">
-          <div class="req-meta-item">
-            <svg viewBox="0 0 12 12"><path d="M2.5 2h2l1 2.5-1.5 1a7 7 0 003 3l1-1.5 2.5 1V10a1 1 0 01-1 1C5 11 1 7 1 3a1 1 0 011-1z"/></svg>
-            ${r.tel}
-          </div>
-          ${r.email?`<div class="req-meta-item">
-            <svg viewBox="0 0 12 12"><rect x="1" y="3" width="10" height="6" rx="1"/><path d="M1 4l5 3 5-3"/></svg>
-            ${r.email}
-          </div>`:''}
-          ${r.note?`<div class="req-meta-item" style="color:var(--gray-txt)">${r.note}</div>`:''}
-        </div>
-        <div class="req-actions">
-          ${(r.stato||'nuova')!=='attivata'?`
-            <button style="background:var(--amber-lt);color:#7D4200" onclick="updateReqStatus(${i},'contattata')">Contattata</button>
-            <button style="background:var(--green-lt);color:#166534" onclick="updateReqStatus(${i},'pagata')">Pagata</button>
-            <button style="background:var(--blu-lt);color:var(--blu)" onclick="updateReqStatus(${i},'attivata')">Attivata</button>
-          `:'<button style="background:var(--gray-bg);color:#aaa" disabled>Completata</button>'}
-        </div>
-      </div>`;
-    }).join('');
+        <span style="color:var(--ink-faint)">${icon('chevronR', { size:20, sw:2.2 })}</span>
+      </button>
+    </div>` : '';
 
-  // Users section
-  const allPlusUsers=[...DEMO_USERS.filter(u=>!u.isAdmin),...customUsers];
-  const userCards=allPlusUsers.map((u,i)=>{
-    const att=ATTIVITA[u.attivitaIdx];
-    const initials=(u.nome||u.email).substring(0,2).toUpperCase();
-    const isCustom=i>=DEMO_USERS.filter(x=>!x.isAdmin).length;
-    return `<div class="user-card">
-      <div class="user-avatar">${initials}</div>
-      <div class="user-info">
-        <div class="user-name">${u.nome||'Utente'}</div>
-        <div class="user-email">${u.email}</div>
-        ${att?`<div class="user-att">${att.nome}</div>`:''}
-      </div>
-      ${isCustom?`<button class="user-delete" onclick="deleteCustomUser(${i-DEMO_USERS.filter(x=>!x.isAdmin).length})">
-        <svg viewBox="0 0 14 14"><path d="M2 4h10M5 4V3a1 1 0 011-1h2a1 1 0 011 1v1M9 7v4M5 7v4M3 4l.5 8a1 1 0 001 1h5a1 1 0 001-1L11 4"/></svg>
-      </button>`:''}
-    </div>`;
-  }).join('');
-
-  // Attivita toggle
-  const attToggles=ATTIVITA.map((a,i)=>`
-    <div class="att-toggle-card">
-      <div>
-        <div class="att-toggle-name">${a.nome}</div>
-        <div class="att-toggle-cat">${a.catLabel}</div>
-      </div>
-      <div class="sett-toggle ${a.plus?'on':''}" onclick="toggleAttPlus(${i})" style="flex-shrink:0"></div>
-    </div>`).join('');
+  const newsHtml = NEWS.slice(0, 3).map(n => newsCard(n)).join('');
 
   return `
-    <div class="admin-divider"></div>
-    <div class="admin-section-title">Richieste Plus</div>
-    <div class="admin-section-sub">Richieste ricevute dalle attivit\u00e0 locali</div>
-    ${reqCards}
+    <div style="padding-bottom:24px;position:relative;background:var(--bg)">
+      <div class="home-hero">
+        <svg viewBox="0 0 400 420" preserveAspectRatio="none">
+          <circle cx="340" cy="120" r="2" fill="#fff"/>
+          <circle cx="60" cy="260" r="1.6" fill="#fff"/>
+          <circle cx="280" cy="220" r="1.2" fill="#fff"/>
+          <circle cx="150" cy="100" r="1.4" fill="#fff"/>
+          <circle cx="100" cy="170" r="1" fill="#fff"/>
+          <circle cx="320" cy="290" r="1.8" fill="#fff"/>
+          <path d="M -30 380 Q 200 320 430 380" stroke="#fff" stroke-width="0.8" fill="none"/>
+        </svg>
+      </div>
 
-    <div class="admin-divider"></div>
-    <div class="admin-section-title">Gestione Utenti</div>
-    <div class="admin-section-sub">Utenti con accesso alla dashboard Plus</div>
-    ${userCards}
+      <div class="home-top">
+        <div class="home-daylabel">${currentDayLabel()}</div>
+        <div class="home-greet">Buongiorno, Marco</div>
+        <div class="home-sub">Ecco cosa succede oggi nel tuo comune.</div>
 
-    <div class="dash-card" style="margin-top:10px">
-      <div class="dash-card-title">Crea nuovo utente</div>
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input class="form-input" id="new-user-email" placeholder="email@attivita.it" type="email">
+        <div class="home-quickgrid">
+          ${quickBtns.map(b => `
+            <button class="home-quickbtn" onclick="${b.onClick}">
+              <div class="home-quicktile">${icon(b.icon, { size:24, sw:2.1 })}</div>
+              <span class="home-quicklabel">${b.label}</span>
+            </button>`).join('')}
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input class="form-input" id="new-user-pass" placeholder="Minimo 6 caratteri" type="text">
+
+      ${pickupCard}
+
+      <div class="home-summary">
+        <div class="sec-small summary-label">In sintesi</div>
+        <div class="summary-grid">
+          <button class="summary-tile" onclick="push('segnalazioni')">
+            <div class="summary-tile-icon" style="background:var(--t-orange)">${icon('warning', { size:16, sw:2.2 })}</div>
+            <div><div class="summary-value">${segnalAperte.length}</div><div class="summary-label-small">Segnalazioni aperte</div></div>
+          </button>
+          <button class="summary-tile" style="background:#E5E9FB" onclick="resetTo('news'); state.tab='news'; persist(); render()">
+            <div class="summary-tile-icon" style="background:var(--t-indigo)">${icon('document', { size:16, sw:2.2 })}</div>
+            <div><div class="summary-value">${bandiAttivi}</div><div class="summary-label-small">Bandi attivi</div></div>
+          </button>
+          <button class="summary-tile" style="background:#DCF2E3" onclick="resetTo('news'); state.tab='news'; persist(); render()">
+            <div class="summary-tile-icon" style="background:var(--t-green)">${icon('calendar', { size:16, sw:2.2 })}</div>
+            <div><div class="summary-value">3</div><div class="summary-label-small">Eventi a breve</div></div>
+          </button>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Nome referente</label>
-        <input class="form-input" id="new-user-nome" placeholder="Mario Rossi">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Attivit\u00e0 associata</label>
-        <select class="form-input" id="new-user-att" style="cursor:pointer">
-          ${ATTIVITA.filter(a=>a.plus).map((a,i)=>`<option value="${ATTIVITA.indexOf(a)}">${a.nome}</option>`).join('')}
-        </select>
-      </div>
-      <button class="btn-primary" onclick="createPlusUser()">Crea utente</button>
+
+      <div class="section-label"><span class="title">Servizi</span><button class="action" onclick="resetTo('servizi'); state.tab='servizi'; persist(); render()">Tutti i servizi</button></div>
+      <div class="row-group"><div class="row-group-inner">
+        ${rowHtml({ icon:'map',      color:'teal',   title:'Mappa del territorio',    sub:'Punti di interesse, uffici, scuole',  onClick:"push('mappa')" })}
+        ${rowHtml({ icon:'building', color:'indigo', title:'Uffici comunali',         sub:'Orari, contatti, prenotazioni',       onClick:"push('uffici')" })}
+        ${rowHtml({ icon:'document', color:'yellow', title:'Bandi e avvisi pubblici', sub:`${bandiAttivi} bandi attivi`,         onClick:"resetTo('news'); state.tab='news'; persist(); render()" })}
+        ${rowHtml({ icon:'store',    color:'pink',   title:'Attività locali',         sub:`${ATTIVITA.length} esercizi sul territorio`, last:true, onClick:"resetTo('attivita'); state.tab='attivita'; persist(); render()" })}
+      </div></div>
+
+      <div class="section-label"><span class="title">Novità</span><button class="action" onclick="resetTo('news'); state.tab='news'; persist(); render()">Vedi tutte</button></div>
+      <div class="news-list">${newsHtml}</div>
     </div>
-
-    <div class="admin-divider"></div>
-    <div class="admin-section-title">Stato Attivit\u00e0</div>
-    <div class="admin-section-sub">Attiva o disattiva lo status Plus</div>
-    ${attToggles}
   `;
 }
 
-function updateReqStatus(idx,status){
-  const reqs=getRequests();
-  if(reqs[idx]){ reqs[idx].stato=status; saveRequests(reqs); }
-  renderDashboard();
-  // Scroll to maintain position
-  document.querySelector('#scr-dashboard .scroll').scrollTop=9999;
+function currentDayLabel() {
+  const days = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+  const months = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+  const d = new Date();
+  return `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]}`;
 }
 
-function createPlusUser(){
-  const email=document.getElementById('new-user-email').value.trim();
-  const pass=document.getElementById('new-user-pass').value.trim();
-  const nome=document.getElementById('new-user-nome').value.trim();
-  const attIdx=parseInt(document.getElementById('new-user-att').value);
-
-  if(!email||!pass||pass.length<6){
-    alert('Inserisci email e password (minimo 6 caratteri)');
-    return;
-  }
-
-  // Check duplicate
-  const existing=[...DEMO_USERS,...getPlusUsers()];
-  if(existing.some(u=>u.email===email)){
-    alert('Esiste gi\u00e0 un utente con questa email');
-    return;
-  }
-
-  const users=getPlusUsers();
-  users.push({email,password:pass,attivitaIdx:attIdx,nome:nome||email});
-  savePlusUsers(users);
-
-  // Also add to DEMO_USERS in memory so login works immediately
-  DEMO_USERS.push({email,password:pass,attivitaIdx:attIdx,nome:nome||email});
-
-  alert('Utente creato! Credenziali: '+email+' / '+pass);
-  renderDashboard();
-  document.querySelector('#scr-dashboard .scroll').scrollTop=9999;
-}
-
-function deleteCustomUser(customIdx){
-  if(!confirm('Eliminare questo utente?')) return;
-  const users=getPlusUsers();
-  const removed=users.splice(customIdx,1)[0];
-  savePlusUsers(users);
-
-  // Remove from in-memory DEMO_USERS too
-  const memIdx=DEMO_USERS.findIndex(u=>u.email===removed.email);
-  if(memIdx>-1) DEMO_USERS.splice(memIdx,1);
-
-  renderDashboard();
-}
-
-function toggleAttPlus(idx){
-  ATTIVITA[idx].plus=!ATTIVITA[idx].plus;
-  renderDashboard();
-  document.querySelector('#scr-dashboard .scroll').scrollTop=9999;
-}
-
-function switchAttivita(idx){
-  if(!plusUser||!plusUser.isAdmin) return;
-  plusUser.attivitaIdx=parseInt(idx);
-  savePlusSession();
-  renderDashboard();
-}
-
-function getCurrentServizi(){
-  const tags=document.querySelectorAll('#dash-servizi-tags .tag-item');
-  return Array.from(tags).map(t=>t.textContent.replace('\u00d7','').trim());
-}
-
-function addServizio(){
-  const input=document.getElementById('dash-new-servizio');
-  const val=input.value.trim();
-  if(!val) return;
-  input.value='';
-  // Re-render by saving temp and re-rendering
-  const servizi=getCurrentServizi();
-  servizi.push(val);
-  updateServiziUI(servizi);
-}
-
-function removeServizio(idx){
-  const servizi=getCurrentServizi();
-  servizi.splice(idx,1);
-  updateServiziUI(servizi);
-}
-
-function updateServiziUI(servizi){
-  const container=document.getElementById('dash-servizi-tags');
-  container.innerHTML=servizi.map((s,i)=>`
-    <span class="tag-item">${s}<span class="tag-remove" onclick="removeServizio(${i})">&times;</span></span>`).join('');
-}
-
-function saveDashboard(){
-  if(!plusUser) return;
-  const idx=plusUser.attivitaIdx;
-
-  // Update base ATTIVITA data (in-memory)
-  ATTIVITA[idx].nome=document.getElementById('dash-nome').value.trim()||ATTIVITA[idx].nome;
-  ATTIVITA[idx].indirizzo=document.getElementById('dash-indirizzo').value.trim()||ATTIVITA[idx].indirizzo;
-  ATTIVITA[idx].tel=document.getElementById('dash-tel').value.trim()||ATTIVITA[idx].tel;
-
-  // Collect orari
-  const orari={};
-  document.querySelectorAll('.orari-input').forEach(inp=>{
-    orari[inp.dataset.giorno]=inp.value.trim();
-  });
-
-  // Save extended data
-  const ext={
-    descrizione:document.getElementById('dash-desc').value.trim(),
-    orari,
-    servizi:getCurrentServizi(),
-    email:document.getElementById('dash-email').value.trim(),
-    sito:document.getElementById('dash-sito').value.trim(),
-  };
-  savePlusData(idx,ext);
-
-  alert('Modifiche salvate!');
-}
-
-/* ─── BURGER MENU ─────────────────────────────────── */
-function toggleMenu(){
-  document.getElementById('menu-overlay').classList.toggle('open');
-  document.getElementById('menu-panel').classList.toggle('open');
-  updateMenuUserItem();
-}
-function closeMenu(){
-  document.getElementById('menu-overlay').classList.remove('open');
-  document.getElementById('menu-panel').classList.remove('open');
-}
-function updateMenuUserItem(){
-  const label=document.getElementById('menu-user-label');
-  const svg=document.getElementById('menu-user-svg');
-  if(!label||!svg) return;
-  if(plusUser){
-    label.textContent='Dashboard Plus ('+plusUser.nome+')';
-    svg.innerHTML='<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5"/>';
-  } else {
-    label.innerHTML='Area Attivit\u00e0 Plus';
-    svg.innerHTML='<path d="M18 19v-1.5a3.5 3.5 0 00-3.5-3.5h-7A3.5 3.5 0 004 17.5V19"/><circle cx="11" cy="8" r="3.5"/>';
-  }
-}
-
-/* ─── SEGNALAZIONI ────────────────────────────────── */
-const SEGN_SESSION_KEY='calcinato-segn-session';
-const SEGN_LIST_KEY='calcinato-segnalazioni';
-let segnUser=null;
-
-const SEGN_CATEGORIES=[
-  {id:'buche',icon:'\uD83D\uDEA7',label:'Buche stradali'},
-  {id:'illuminazione',icon:'\uD83D\uDCA1',label:'Illuminazione'},
-  {id:'rifiuti',icon:'\uD83D\uDDD1\uFE0F',label:'Rifiuti'},
-  {id:'verde',icon:'\uD83C\uDF33',label:'Verde pubblico'},
-  {id:'vandalismo',icon:'\uD83D\uDEA8',label:'Vandalismo'},
-  {id:'rumore',icon:'\uD83D\uDD0A',label:'Rumore'},
-  {id:'segnaletica',icon:'\u26A0\uFE0F',label:'Segnaletica'},
-  {id:'acqua',icon:'\uD83D\uDCA7',label:'Acqua'},
-  {id:'altro',icon:'\uD83D\uDCDD',label:'Altro'},
-];
-
-function loadSegnSession(){
-  try{ const raw=localStorage.getItem(SEGN_SESSION_KEY); if(raw) segnUser=JSON.parse(raw); }catch(e){}
-}
-
-function saveSegnSession(){
-  if(segnUser) localStorage.setItem(SEGN_SESSION_KEY,JSON.stringify(segnUser));
-  else localStorage.removeItem(SEGN_SESSION_KEY);
-}
-
-function getSegnalazioni(){
-  try{ const raw=localStorage.getItem(SEGN_LIST_KEY); if(raw) return JSON.parse(raw); }catch(e){}
-  return [];
-}
-function saveSegnalazioni(list){
-  localStorage.setItem(SEGN_LIST_KEY,JSON.stringify(list));
-}
-
-function socialLogin(provider){
-  // Demo: simulate social login
-  const names={google:'Mario Rossi',apple:'Luigi Bianchi',facebook:'Anna Verdi'};
-  const emails={google:'mario.rossi@gmail.com',apple:'luigi@icloud.com',facebook:'anna.verdi@facebook.com'};
-  segnUser={nome:names[provider],email:emails[provider],provider};
-  saveSegnSession();
-  renderSegnalazioni();
-}
-
-function logoutSegn(){
-  segnUser=null;
-  saveSegnSession();
-  renderSegnalazioni();
-}
-
-let selectedSegnCat=null;
-
-function selectSegnCat(id){
-  selectedSegnCat=id;
-  document.querySelectorAll('.segn-cat').forEach(el=>{
-    el.classList.toggle('selected',el.dataset.cat===id);
-  });
-}
-
-function submitSegnalazione(){
-  if(!segnUser){ alert('Effettua il login per inviare una segnalazione'); return; }
-  if(!selectedSegnCat){ alert('Seleziona una categoria'); return; }
-  const desc=document.getElementById('segn-desc').value.trim();
-  if(!desc){ alert('Descrivi brevemente il problema'); return; }
-  const indirizzo=document.getElementById('segn-indirizzo').value.trim();
-
-  const list=getSegnalazioni();
-  list.unshift({
-    cat:selectedSegnCat,
-    catLabel:SEGN_CATEGORIES.find(c=>c.id===selectedSegnCat)?.label||selectedSegnCat,
-    desc,
-    indirizzo,
-    user:segnUser.nome,
-    data:new Date().toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}),
-    timestamp:new Date().toISOString()
-  });
-  saveSegnalazioni(list);
-
-  selectedSegnCat=null;
-  renderSegnalazioni();
-}
-
-function renderSegnalazioni(){
-  const el=document.getElementById('segnalazioni-content');
-  if(!el) return;
-
-  let html='';
-
-  if(!segnUser){
-    // Social login screen
-    html=`
-      <div class="segn-login">
-        <div class="segn-login-title">Segnalazioni Comunali</div>
-        <div class="segn-login-sub">Accedi con il tuo account per inviare segnalazioni al Comune di Calcinato</div>
-        <div class="social-buttons">
-          <button class="social-btn social-btn-google" onclick="socialLogin('google')">
-            <svg viewBox="0 0 20 20"><path d="M19.6 10.2c0-.7-.1-1.4-.2-2H10v3.8h5.4c-.2 1.2-1 2.2-2 2.9v2.4h3.3c1.9-1.8 3-4.4 3-7.1z" fill="#4285F4"/><path d="M10 20c2.7 0 5-.9 6.6-2.4l-3.3-2.4c-.9.6-2 1-3.4 1-2.6 0-4.8-1.7-5.6-4.1H1v2.5C2.7 17.8 6.1 20 10 20z" fill="#34A853"/><path d="M4.4 12c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V5.5H1C.4 6.7 0 8.3 0 10s.4 3.3 1 4.5l3.4-2.5z" fill="#FBBC05"/><path d="M10 3.9c1.5 0 2.8.5 3.8 1.5l2.9-2.8C14.9 1 12.7 0 10 0 6.1 0 2.7 2.2 1 5.5l3.4 2.5c.8-2.3 3-4.1 5.6-4.1z" fill="#EA4335"/></svg>
-            Continua con Google
-          </button>
-          <button class="social-btn social-btn-apple" onclick="socialLogin('apple')">
-            <svg viewBox="0 0 20 20"><path d="M17.05 12.54c-.04.98-.37 1.93-.96 2.72-.53.72-1.19 1.29-1.93 1.64-.42.2-.87.35-1.33.44-.35.07-.71.1-1.07.08-.55-.04-1.08-.2-1.56-.47-.48-.27-.91-.62-1.27-1.04-.36.42-.79.77-1.27 1.04-.48.27-1.01.43-1.56.47-.36.02-.72-.01-1.07-.08-.46-.09-.91-.24-1.33-.44-.74-.35-1.4-.92-1.93-1.64-.59-.79-.92-1.74-.96-2.72-.03-.72.08-1.44.32-2.12.24-.68.62-1.3 1.12-1.82.5-.52 1.1-.92 1.77-1.16.5-.18 1.02-.28 1.55-.28.37 0 .74.05 1.1.14.36.1.7.24 1.02.43.32.19.61.42.87.69.26-.27.55-.5.87-.69.32-.19.66-.33 1.02-.43.36-.09.73-.14 1.1-.14.53 0 1.05.1 1.55.28.67.24 1.27.64 1.77 1.16.5.52.88 1.14 1.12 1.82.24.68.35 1.4.32 2.12zM13.2 3.68c-.4.46-.92.8-1.5.97-.04.01-.08.02-.12.02-.04 0-.07-.01-.1-.03.02-.56.18-1.1.47-1.58.29-.48.7-.87 1.18-1.13.06-.03.12-.01.15.04.13.55.1 1.14-.08 1.71z"/></svg>
-            Continua con Apple
-          </button>
-          <button class="social-btn social-btn-facebook" onclick="socialLogin('facebook')">
-            <svg viewBox="0 0 20 20"><path d="M18.9 0H1.1C.5 0 0 .5 0 1.1v17.8c0 .6.5 1.1 1.1 1.1h9.6v-7.7H8.1V9.3h2.6V7.1c0-2.6 1.6-4 3.9-4 1.1 0 2.1.1 2.3.1v2.7h-1.6c-1.3 0-1.5.6-1.5 1.5v1.9h3l-.4 3h-2.6V20h5.1c.6 0 1.1-.5 1.1-1.1V1.1c0-.6-.5-1.1-1.1-1.1z" fill="#1877F2"/></svg>
-            Continua con Facebook
-          </button>
-        </div>
-      </div>`;
-  } else {
-    // Logged in — show form + past segnalazioni
-    const cats=SEGN_CATEGORIES.map(c=>`
-      <button class="segn-cat" data-cat="${c.id}" onclick="selectSegnCat('${c.id}')">
-        <span class="segn-cat-icon">${c.icon}</span>
-        <span class="segn-cat-label">${c.label}</span>
-      </button>`).join('');
-
-    const list=getSegnalazioni();
-    const listHtml=list.length===0?'':`
-      <div class="segn-list">
-        <div class="sec-lbl">Le tue segnalazioni</div>
-        ${list.map(s=>`
-          <div class="segn-card">
-            <div class="segn-card-header">
-              <div class="segn-card-cat">${s.catLabel}</div>
-              <div class="segn-card-date">${s.data}</div>
-            </div>
-            <div class="segn-card-desc">${s.desc}</div>
-            ${s.indirizzo?`<div class="segn-card-user" style="margin-top:4px">\uD83D\uDCCD ${s.indirizzo}</div>`:''}
-          </div>`).join('')}
-      </div>`;
-
-    html=`
-      <div class="sec-lbl" style="margin-top:4px">Segnalazioni Comunali</div>
-
-      <div class="segn-user-bar">
-        <div class="segn-user-avatar">${segnUser.nome.substring(0,2).toUpperCase()}</div>
-        <div class="segn-user-info">
-          <div class="segn-user-name">${segnUser.nome}</div>
-          <div class="segn-user-email">${segnUser.email}</div>
-        </div>
-        <button class="segn-logout" onclick="logoutSegn()">Esci</button>
+function rowHtml({ icon: ic, color, title, sub, onClick, last, right }) {
+  const chevron = onClick ? `<span class="row-chevron">${icon('chevronR', { size:18, sw:2.2 })}</span>` : '';
+  const rightHtml = right !== undefined ? right : chevron;
+  return `
+    <button class="row${last ? ' last' : ''}" ${onClick ? `onclick="${onClick}"` : ''}>
+      ${ic ? `<div class="row-icon">${tile(ic, color, 40, 12)}</div>` : ''}
+      <div class="row-body">
+        <div class="row-title">${esc(title)}</div>
+        ${sub ? `<div class="row-sub">${esc(sub)}</div>` : ''}
       </div>
+      ${rightHtml}
+    </button>`;
+}
 
-      <div class="sec-lbl">Cosa vuoi segnalare?</div>
-      <div class="segn-category-grid">${cats}</div>
-
-      <div class="form-group">
-        <label class="form-label">Descrizione *</label>
-        <textarea class="form-textarea" id="segn-desc" placeholder="Descrivi brevemente il problema..." rows="3"></textarea>
+/* ─── NEWS CARD ─────────────────────────────────── */
+function newsCard(n) {
+  const tone = n.tipo === 'Avviso' ? 'avviso' : n.tipo === 'Notizia' ? 'notizia' : 'comunicato';
+  return `
+    <button class="news-card" onclick="push('article', { id: ${n.id} })">
+      <div class="news-thumb"><div class="photo-ph ${n.hero || 'blue'}" style="height:72px"></div></div>
+      <div class="news-body">
+        ${pillHtml(tone, n.tipo)}
+        <div class="news-title">${esc(n.titolo)}</div>
+        <div class="news-meta">${icon('clock', { size:11, sw:2 })} ${esc(n.data)}</div>
       </div>
-
-      <div class="form-group">
-        <label class="form-label">Indirizzo / zona</label>
-        <input class="form-input" id="segn-indirizzo" placeholder="Es. Via Roma, angolo Via Garibaldi">
-        <div class="form-hint">Opzionale ma utile per localizzare il problema</div>
-      </div>
-
-      <button class="btn-primary" onclick="submitSegnalazione()">Invia segnalazione</button>
-
-      ${listHtml}
-    `;
-  }
-
-  el.innerHTML=html;
+    </button>`;
 }
 
-/* ─── UTILS ───────────────────────────────────────── */
-function pillClass(tipo){
-  if(tipo==='Notizia') return 'pill-notizia';
-  if(tipo==='Comunicato') return 'pill-comunicato';
-  return 'pill-avviso';
-}
-function thumbColors(tipo){
-  if(tipo==='Notizia') return {bg:'#DBEAFE',fg:'#2563EB'};
-  if(tipo==='Comunicato') return {bg:'#DCFCE7',fg:'#16A34A'};
-  return {bg:'#FEF3C7',fg:'#D97706'};
-}
-function thumbSVG(tipo){
-  const c=thumbColors(tipo);
-  return `<svg viewBox="0 0 54 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="54" height="48" rx="8" fill="${c.bg}"/><path d="M4 36l10-12 8 10 8-10 10 12H4z" fill="${c.fg}" opacity=".7"/></svg>`;
-}
-
-/* ─── RENDER HERO ─────────────────────────────────── */
-function renderHero(){
-  const n=NEWS[0];
-  document.getElementById('home-hero').innerHTML=`
-    <div class="hero-card" onclick="openArticle(0)">
-      <div class="hero-img">
-        <div class="hero-deco1"></div>
-        <div class="hero-deco2"></div>
-        <div class="hero-cat">${n.tipo}</div>
-        <div class="hero-title">${n.titolo}</div>
-        <div class="hero-date">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="9" rx="1.5" stroke="#99BBDD" stroke-width="1" fill="none"/><path d="M1 5h10M4 1v2M8 1v2" stroke="#99BBDD" stroke-width="1" stroke-linecap="round"/></svg>
-          ${n.data}
-        </div>
-      </div>
-      <div class="hero-body">
-        <div class="hero-snippet">${n.snippet}</div>
-        <div class="hero-cta">Leggi di pi\u00f9 <svg viewBox="0 0 12 12"><path d="M4 2l4 4-4 4"/></svg></div>
-      </div>
-    </div>`;
-}
-
-/* ─── RENDER NEWS ─────────────────────────────────── */
-function newsThumb(n){
-  if(n.img) return `<img src="${n.img}" alt="" onerror="this.parentNode.innerHTML='${thumbSVG(n.tipo).replace(/'/g,"\\'")}'">`;
-  return thumbSVG(n.tipo);
-}
-function renderNewsCard(n){
-  return `<div class="news-card" onclick="openArticle(${n.id})">
-    <div class="news-thumb">${newsThumb(n)}</div>
-    <div class="news-content">
-      <div class="pill ${pillClass(n.tipo)}">${n.tipo}</div>
-      <div class="news-title">${n.titolo}</div>
-      <div class="news-date">${n.data}</div>
-    </div>
-  </div>`;
-}
-
-function renderNewsList(filter,containerId){
-  const filtered=filter==='tutte'?NEWS:NEWS.filter(n=>{
-    if(filter==='notizie') return n.tipo==='Notizia';
-    if(filter==='avvisi') return n.tipo==='Avviso';
-    if(filter==='comunicati') return n.tipo==='Comunicato';
+/* ─── NEWS LIST ─────────────────────────────────── */
+function renderNewsList() {
+  const filter = state.newsFilter;
+  const q = state.newsQuery;
+  const filtered = NEWS.filter(n => {
+    if (filter === 'notizie' && n.tipo !== 'Notizia') return false;
+    if (filter === 'avvisi' && n.tipo !== 'Avviso') return false;
+    if (filter === 'comunicati' && n.tipo !== 'Comunicato') return false;
+    if (q && !n.titolo.toLowerCase().includes(q.toLowerCase())) return false;
     return true;
   });
-  const el=document.getElementById(containerId);
-  if(!el) return;
-  if(filtered.length===0){
-    el.innerHTML=`<div class="empty-state">
-      <svg viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="28" rx="4"/><path d="M16 20h16M16 28h10"/></svg>
-      <p>Nessuna notizia in questa categoria</p>
-    </div>`;
-  } else {
-    el.innerHTML=filtered.map(renderNewsCard).join('');
-  }
+
+  const filters = [
+    ['tutte','Tutte', NEWS.length],
+    ['notizie','Notizie', NEWS.filter(n=>n.tipo==='Notizia').length],
+    ['avvisi','Avvisi', NEWS.filter(n=>n.tipo==='Avviso').length],
+    ['comunicati','Comunicati', NEWS.filter(n=>n.tipo==='Comunicato').length],
+  ];
+
+  return `
+    <div class="search-wrap">
+      <div class="search-box">
+        ${icon('search', { size:18, stroke:'var(--ink-mute)', sw:2 })}
+        <input type="search" placeholder="Cerca in novità, eventi, avvisi" value="${esc(q)}" oninput="state.newsQuery=this.value; renderNewsListOnly()">
+      </div>
+    </div>
+    <div class="filter-strip">
+      ${filters.map(([id, label, count]) => `
+        <button class="filter-pill ${filter===id?'active':''}" onclick="state.newsFilter='${id}'; render()">
+          ${esc(label)} <span class="count">${count}</span>
+        </button>`).join('')}
+    </div>
+    <div class="news-list" id="news-list-items">
+      ${filtered.map(n => newsCard(n)).join('')}
+    </div>
+  `;
 }
 
-/* ─── RENDER ATTIVITA ─────────────────────────────── */
-function renderAttivita(cat){
-  const filtered=cat==='tutte'?ATTIVITA:ATTIVITA.filter(a=>a.cat===cat);
-  const el=document.getElementById('att-list');
-  if(!el) return;
-  if(filtered.length===0){
-    el.innerHTML=`<div class="empty-state">
-      <svg viewBox="0 0 48 48"><rect x="8" y="8" width="14" height="14" rx="3"/><rect x="26" y="8" width="14" height="14" rx="3"/><rect x="8" y="26" width="14" height="14" rx="3"/><rect x="26" y="26" width="14" height="14" rx="3"/></svg>
-      <p>Nessuna attivit\u00e0 in questa categoria</p>
-    </div>`;
-    return;
-  }
-  const ctaHtml=(!plusUser)?`
-    <div class="cta-plus" onclick="goScreen('richiesta-plus')">
-      <div class="cta-plus-star">\u2B50</div>
-      <div class="cta-plus-title">La tua attivit\u00e0 su Calcinato?</div>
-      <div class="cta-plus-desc">Con la scheda Plus i cittadini vedranno orari, servizi, foto e contatti diretti della tua attivit\u00e0.</div>
-      <div class="cta-plus-btn">Scopri Plus \u2192</div>
-    </div>`:'';
-
-  let cards=filtered.map((a,i)=>{
-    const isOwn=plusUser&&ATTIVITA.indexOf(a)===plusUser.attivitaIdx;
-    return `<div class="att-card" ${isOwn?'style="border-left:3px solid var(--blu)"':''}>
-      <div class="att-header">
-        <div>
-          <div class="att-nome">${a.nome} ${isOwn?' <span style="font-size:10px;color:var(--blu);font-weight:400">(La tua)</span>':''}</div>
-          <div class="att-cat">${a.catLabel}</div>
-        </div>
-        ${a.plus?'<div class="plus-badge">Plus</div>':''}
-      </div>
-      <div class="att-meta">
-        <div class="att-meta-item">
-          <svg viewBox="0 0 12 12"><path d="M6 1C4.34 1 3 2.34 3 4c0 2.25 3 6 3 6s3-3.75 3-6c0-1.66-1.34-3-3-3z"/><circle cx="6" cy="4" r="1" style="fill:#ccc;stroke:none"/></svg>
-          ${a.indirizzo}
-        </div>
-        <div class="att-meta-item">
-          <svg viewBox="0 0 12 12"><path d="M2.5 2h2l1 2.5-1.5 1a7 7 0 003 3l1-1.5 2.5 1V10a1 1 0 01-1 1C5 11 1 7 1 3a1 1 0 011-1z"/></svg>
-          ${a.tel}
-        </div>
-      </div>
-    </div>`;
+function renderNewsListOnly() {
+  const q = state.newsQuery;
+  const filter = state.newsFilter;
+  const filtered = NEWS.filter(n => {
+    if (filter === 'notizie' && n.tipo !== 'Notizia') return false;
+    if (filter === 'avvisi' && n.tipo !== 'Avviso') return false;
+    if (filter === 'comunicati' && n.tipo !== 'Comunicato') return false;
+    if (q && !n.titolo.toLowerCase().includes(q.toLowerCase())) return false;
+    return true;
   });
-
-  // Insert CTA after 3rd card
-  if(ctaHtml&&cards.length>3) cards.splice(3,0,ctaHtml);
-  else if(ctaHtml) cards.push(ctaHtml);
-
-  el.innerHTML=cards.join('');
+  const el = document.getElementById('news-list-items');
+  if (el) el.innerHTML = filtered.map(n => newsCard(n)).join('');
 }
+window.renderNewsListOnly = renderNewsListOnly;
 
-/* ─── RENDER CONTATTI ─────────────────────────────── */
-function renderContatti(){
-  const el=document.getElementById('contatti-list');
-  if(!el) return;
-  el.innerHTML=`<div class="sec-lbl" style="margin-top:4px">Uffici Comunali</div>`+
-    CONTATTI.map(c=>`
-    <div class="cont-card">
-      <div class="cont-nome">${c.nome}</div>
-      <div class="cont-meta">
-        ${c.tel?`<div class="cont-meta-item">
-          <svg viewBox="0 0 14 14"><path d="M3 1.5h2.5l1.2 3-1.8 1.2a8.5 8.5 0 003.6 3.6l1.2-1.8 3 1.2V11.5a1.2 1.2 0 01-1.2 1.2C6 12.7 1.3 8 1.3 3.5A1.2 1.2 0 012.5 2.3" stroke-linecap="round"/></svg>
-          <a href="tel:${c.tel.replace(/\s/g,'')}">${c.tel}</a>
-        </div>`:''}
-        ${c.email?`<div class="cont-meta-item">
-          <svg viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="1.5"/><path d="M1 4.5l6 4 6-4"/></svg>
-          <a href="mailto:${c.email}">${c.email}</a>
-        </div>`:''}
-        ${c.indirizzo?`<div class="cont-meta-item">
-          <svg viewBox="0 0 14 14"><path d="M7 1.5C5.07 1.5 3.5 3.07 3.5 5c0 2.8 3.5 7 3.5 7s3.5-4.2 3.5-7c0-1.93-1.57-3.5-3.5-3.5z"/><circle cx="7" cy="5" r="1.2" style="fill:var(--blu);stroke:none"/></svg>
-          ${c.indirizzo}
-        </div>`:''}
+/* ─── ARTICLE ───────────────────────────────────── */
+function renderArticle() {
+  const id = state.stack[state.stack.length - 1].data?.id;
+  const n = NEWS.find(x => x.id === id);
+  if (!n) return '<div style="padding:40px;text-align:center;color:var(--ink-mute)">Articolo non trovato</div>';
+  const tone = n.tipo === 'Avviso' ? 'avviso' : n.tipo === 'Notizia' ? 'notizia' : 'comunicato';
+  const paragraphs = (n.testo || n.snippet || '').split('\n\n').map(p => `<p>${esc(p)}</p>`).join('');
+  return `
+    <div class="photo-ph article-hero ${n.hero || 'blue'}"></div>
+    <div class="article-body-wrap">
+      <div class="article-pills">
+        ${pillHtml(tone, n.tipo)}
+        ${pillHtml('neutral', n.categoria)}
       </div>
-    </div>`).join('');
+      <h1 class="article-title">${esc(n.titolo)}</h1>
+      <div class="article-meta">
+        <span class="article-meta-item">${icon('calendar', { size:13, sw:2 })} ${esc(n.data)}</span>
+        <span>·</span>
+        <span class="article-meta-item">${icon('eye', { size:13, sw:2 })} 1.2k letture</span>
+      </div>
+      <div class="article-body">${paragraphs}</div>
+      <div class="article-actions">
+        <button class="btn-secondary">${icon('bookmark', { size:16, sw:2 })} Salva</button>
+        <button class="btn-dark">${icon('share', { size:16, sw:2 })} Condividi</button>
+      </div>
+    </div>
+  `;
 }
 
-/* ─── RENDER INFO ─────────────────────────────────── */
-function renderInfo(){
-  const el=document.getElementById('info-content');
-  if(!el) return;
-  el.innerHTML=`
-    <div class="info-header">
-      <img class="info-logo" src="assets/stemma-calcinato.png" alt="Stemma Calcinato" style="object-fit:cover">
-      <div class="info-name">Comune di Calcinato</div>
-      <div class="info-prov">Provincia di Brescia \u2014 Lombardia</div>
+/* ─── SERVIZI ───────────────────────────────────── */
+function renderServizi() {
+  const gruppi = [
+    { label:'Per il cittadino', items: [
+      { icon:'warning',  color:'orange', title:'Segnalazioni',   sub:'Buche, rifiuti, decoro',   onClick:"push('segnalazioni')" },
+      { icon:'recycle',  color:'green',  title:'Raccolta rifiuti', sub:'Calendario e guida',     onClick:"push('rifiuti')" },
+      { icon:'document', color:'yellow', title:'Bandi e avvisi', sub:'Opportunità per cittadini', onClick:"resetTo('news'); state.tab='news'; persist(); render()" },
+      { icon:'calendar', color:'purple', title:'Eventi',         sub:'Cultura e manifestazioni', onClick:"resetTo('news'); state.tab='news'; persist(); render()" },
+    ]},
+    { label:'Territorio', items: [
+      { icon:'map',      color:'teal',   title:'Mappa',          sub:'Punti di interesse',       onClick:"push('mappa')" },
+      { icon:'building', color:'indigo', title:'Uffici comunali',sub:'Orari e contatti',         onClick:"push('uffici')" },
+      { icon:'store',    color:'pink',   title:'Attività locali',sub:'Directory esercizi',       onClick:"resetTo('attivita'); state.tab='attivita'; persist(); render()" },
+      { icon:'bell',     color:'red',    title:'Notifiche',      sub:'Aggiornamenti dal Comune', onClick:"push('notifiche')" },
+    ]},
+    { label:'Informazioni utili', items: [
+      { icon:'phone',    color:'green',  title:'Numeri utili',   sub:'Emergenze e servizi' },
+      { icon:'sign',     color:'blue',   title:'Trasporti',      sub:'Orari e linee bus' },
+      { icon:'heart',    color:'pink',   title:'Sanità',         sub:'ASST, farmacie, guardia' },
+    ]},
+  ];
+  return `
+    <div style="padding-top:4px;padding-bottom:24px">
+      <div class="page-title">
+        <h1>Servizi</h1>
+        <div class="sub">Tutto quello che puoi fare dal tuo comune</div>
+      </div>
+      ${gruppi.map(g => `
+        <div class="section-label"><span class="title">${esc(g.label)}</span></div>
+        <div class="row-group"><div class="row-group-inner">
+          ${g.items.map((it, i) => rowHtml({ ...it, last: i === g.items.length - 1 })).join('')}
+        </div></div>
+      `).join('')}
     </div>
-
-    <div class="info-row">
-      <div class="info-ico"><svg viewBox="0 0 18 18"><path d="M9 2C6.79 2 5 3.79 5 6c0 3.5 4 8 4 8s4-4.5 4-8c0-2.21-1.79-4-4-4z"/><circle cx="9" cy="6" r="1.5" style="stroke-width:1"/></svg></div>
-      <div><div class="info-label">Indirizzo</div><div class="info-value">Piazza Municipio, 1 \u2014 25011 Calcinato (BS)</div></div>
-    </div>
-
-    <div class="info-row">
-      <div class="info-ico"><svg viewBox="0 0 18 18"><path d="M4 2.5h2.5l1.5 3.5-2 1.3a10 10 0 004.7 4.7l1.3-2 3.5 1.5V14a1.5 1.5 0 01-1.5 1.5C7 15.5 2.5 11 2.5 5A1.5 1.5 0 014 3.5" stroke-linecap="round"/></svg></div>
-      <div><div class="info-label">Centralino</div><div class="info-value"><a href="tel:0309989811">030 9989811</a></div></div>
-    </div>
-
-    <div class="info-row">
-      <div class="info-ico"><svg viewBox="0 0 18 18"><rect x="2" y="4" width="14" height="10" rx="2"/><path d="M2 6l7 5 7-5"/></svg></div>
-      <div><div class="info-label">PEC</div><div class="info-value"><a href="mailto:protocollo@pec.comune.calcinato.bs.it">protocollo@pec.comune.calcinato.bs.it</a></div></div>
-    </div>
-
-    <div class="info-row">
-      <div class="info-ico"><svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="7"/><path d="M2 9h14M9 2a11 11 0 013 7 11 11 0 01-3 7 11 11 0 01-3-7 11 11 0 013-7z"/></svg></div>
-      <div><div class="info-label">Sito web</div><div class="info-value"><a href="https://www.comune.calcinato.bs.it" target="_blank">www.comune.calcinato.bs.it</a></div></div>
-    </div>
-
-    <div class="info-row">
-      <div class="info-ico"><svg viewBox="0 0 18 18"><rect x="2" y="3" width="14" height="13" rx="2"/><path d="M2 8h14M6 3v5M12 3v5"/></svg></div>
-      <div><div class="info-label">Orari apertura</div><div class="info-value">Lun-Ven 8:30-12:30 / Mar-Gio 14:30-17:00</div></div>
-    </div>
-
-    <div class="info-row">
-      <div class="info-ico"><svg viewBox="0 0 18 18"><path d="M13 15v-1.5a3 3 0 00-3-3H8a3 3 0 00-3 3V15"/><circle cx="9" cy="6.5" r="2.5"/></svg></div>
-      <div><div class="info-label">Popolazione</div><div class="info-value">~ 13.000 abitanti</div></div>
-    </div>
-
-    <div class="info-row">
-      <div class="info-ico"><svg viewBox="0 0 18 18"><path d="M11 2H7a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6z"/><path d="M11 2v4h4"/></svg></div>
-      <div><div class="info-label">Codice Fiscale / P.IVA</div><div class="info-value">00550560176</div></div>
-    </div>
-
-    <div class="app-footer">
-      App sviluppata da Premier Srls<br>
-      per Comune di Calcinato (BS)<br>
-      Versione 0.1.0-demo
-    </div>`;
+  `;
 }
 
-/* ─── NAVIGAZIONE ─────────────────────────────────── */
-function goScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+/* ─── ATTIVITÀ ──────────────────────────────────── */
+function renderAttivita() {
+  const cat = state.attFilter;
+  const q = state.attQuery;
+  const cats = [
+    ['tutte','Tutte', null],
+    ['ristorazione','Ristoranti','fork'],
+    ['commercio','Negozi','bag'],
+    ['sport','Sport','dumbbell'],
+    ['salute','Salute','heart'],
+    ['servizi','Servizi','briefcase'],
+  ];
+  const filtered = ATTIVITA.filter(a => {
+    if (cat !== 'tutte' && a.cat !== cat) return false;
+    if (q && !a.nome.toLowerCase().includes(q.toLowerCase())) return false;
+    return true;
+  });
+  const catIcon = (c) => ({ ristorazione:'fork', commercio:'bag', sport:'dumbbell', salute:'heart', servizi:'briefcase' }[c] || 'store');
+  const catColor = (c) => ({ ristorazione:'orange', commercio:'pink', sport:'green', salute:'red', servizi:'blue' }[c] || 'blue');
 
-  const scr=document.getElementById('scr-'+id);
-  const nb=document.getElementById('nb-'+id);
-  if(scr) scr.classList.add('active');
-  if(nb) nb.classList.add('active');
+  return `
+    <div class="search-wrap">
+      <div class="search-box">
+        ${icon('search', { size:18, stroke:'var(--ink-mute)', sw:2 })}
+        <input type="search" placeholder="Cerca attività" value="${esc(q)}" oninput="state.attQuery=this.value; renderAttivitaListOnly()">
+      </div>
+    </div>
+    <div class="filter-strip">
+      ${cats.map(([id, label, ic]) => `
+        <button class="filter-pill ${cat===id?'active':''}" onclick="state.attFilter='${id}'; render()">
+          ${ic ? icon(ic, { size:14, sw:2 }) : ''} ${esc(label)}
+        </button>`).join('')}
+    </div>
+    <div class="activity-list" id="activity-list-items">
+      ${filtered.map(a => `
+        <button class="activity-card" onclick="push('attivita-detail', { id: ${a.id} })">
+          ${tile(catIcon(a.cat), catColor(a.cat), 52, 16)}
+          <div class="activity-body">
+            <div class="activity-name-wrap">
+              <div class="activity-name">${esc(a.nome)}</div>
+              ${a.certificata ? `<span style="color:var(--primary)">${icon('badge', { size:14, stroke:'var(--primary)', sw:2 })}</span>` : ''}
+            </div>
+            <div class="activity-meta">${esc(a.catLabel)} · ${esc(a.indirizzo)}</div>
+          </div>
+          <span class="row-chevron">${icon('chevronR', { size:18, sw:2.2 })}</span>
+        </button>`).join('')}
+    </div>
+  `;
+}
 
-  prevScreen=currentScreen;
-  currentScreen=id;
+function renderAttivitaListOnly() {
+  const q = state.attQuery;
+  const cat = state.attFilter;
+  const filtered = ATTIVITA.filter(a => {
+    if (cat !== 'tutte' && a.cat !== cat) return false;
+    if (q && !a.nome.toLowerCase().includes(q.toLowerCase())) return false;
+    return true;
+  });
+  const catIcon = (c) => ({ ristorazione:'fork', commercio:'bag', sport:'dumbbell', salute:'heart', servizi:'briefcase' }[c] || 'store');
+  const catColor = (c) => ({ ristorazione:'orange', commercio:'pink', sport:'green', salute:'red', servizi:'blue' }[c] || 'blue');
+  const el = document.getElementById('activity-list-items');
+  if (!el) return;
+  el.innerHTML = filtered.map(a => `
+    <button class="activity-card" onclick="push('attivita-detail', { id: ${a.id} })">
+      ${tile(catIcon(a.cat), catColor(a.cat), 52, 16)}
+      <div class="activity-body">
+        <div class="activity-name-wrap">
+          <div class="activity-name">${esc(a.nome)}</div>
+          ${a.certificata ? `<span style="color:var(--primary)">${icon('badge', { size:14, stroke:'var(--primary)', sw:2 })}</span>` : ''}
+        </div>
+        <div class="activity-meta">${esc(a.catLabel)} · ${esc(a.indirizzo)}</div>
+      </div>
+      <span class="row-chevron">${icon('chevronR', { size:18, sw:2.2 })}</span>
+    </button>`).join('');
+}
+window.renderAttivitaListOnly = renderAttivitaListOnly;
 
-  // topbar
-  const back=document.getElementById('topbar-back');
-  const logo=document.getElementById('topbar-logo');
-  const text=document.getElementById('topbar-text');
-  const weather=document.getElementById('topbar-weather');
-  const settBtn=document.getElementById('topbar-settings');
-  back.classList.remove('visible');
-  logo.style.display='block';
-  text.style.display='block';
-  if(weather) weather.style.display='flex';
-  if(settBtn) settBtn.style.display='flex';
+/* ─── ATTIVITÀ DETAIL ──────────────────────────── */
+function renderAttivitaDetail() {
+  const id = state.stack[state.stack.length - 1].data?.id;
+  const a = ATTIVITA.find(x => x.id === id);
+  if (!a) return '<div style="padding:40px;text-align:center;color:var(--ink-mute)">Attività non trovata</div>';
+  const catColor = { ristorazione:'orange', commercio:'pink', sport:'green', salute:'red', servizi:'blue' }[a.cat] || 'blue';
+  const catIcon = { ristorazione:'fork', commercio:'bag', sport:'dumbbell', salute:'heart', servizi:'briefcase' }[a.cat] || 'store';
+  const heroTone = catColor === 'orange' ? 'warm' : catColor === 'red' ? 'orange' : catColor;
 
-  const userBtn=document.getElementById('topbar-user');
-  if(userBtn) userBtn.style.display='flex';
+  return `
+    <div class="photo-ph detail-hero ${heroTone}"></div>
+    <div class="detail-body-wrap">
+      <div class="detail-header">
+        ${tile(catIcon, catColor, 56, 18)}
+        <div style="flex:1;padding-top:2px">
+          ${pillHtml('neutral', a.catLabel)}
+          <h1 class="detail-title">${esc(a.nome)}</h1>
+        </div>
+      </div>
+      ${a.certificata ? `
+        <div class="cert-banner">
+          ${tile('badge', 'blue', 40, 12)}
+          <div style="flex:1">
+            <div class="cert-title">Attività certificata</div>
+            <div class="cert-sub">Verificata dal Comune di Calcinato</div>
+          </div>
+        </div>` : ''}
+      <div style="margin-top:18px" class="row-group-inner">
+        ${rowHtml({ icon:'pin',    color:'red',    title: a.indirizzo, sub:'Indirizzo' })}
+        ${rowHtml({ icon:'phone',  color:'green',  title: a.tel,       sub:'Telefono' })}
+        ${rowHtml({ icon:'clock',  color:'orange', title: a.orari,     sub:'Orari', last: !a.sito })}
+        ${a.sito ? rowHtml({ icon:'external', color:'purple', title: a.sito, sub:'Sito web', last:true }) : ''}
+      </div>
+      <div class="article-actions">
+        <button class="btn-primary">${icon('phone', { size:16, sw:2 })} Chiama</button>
+        <button class="btn-dark">${icon('map', { size:16, sw:2 })} Indicazioni</button>
+      </div>
+    </div>
+  `;
+}
 
-  // Back-mode screens
-  const backScreens=['settings','login-plus','richiesta-plus','dashboard','contatti','info','segnalazioni'];
-  if(backScreens.includes(id)){
-    back.classList.add('visible');
-    logo.style.display='none';
-    text.style.display='none';
-    if(weather) weather.style.display='none';
-    if(settBtn) settBtn.style.display='none';
-    if(userBtn) userBtn.style.display='none';
-    if(id==='settings') updateSettingsUI();
-    if(id==='dashboard') renderDashboard();
-    if(id==='segnalazioni') renderSegnalazioni();
+/* ─── MAPPA ────────────────────────────────────── */
+function renderMappa() {
+  const layers = [['tutto','Tutto'],['uffici','Uffici'],['scuole','Scuole'],['parchi','Parchi'],['sanita','Sanità']];
+  const pins = [
+    { x:135, y:160, c:'indigo', ic:'building' },
+    { x:260, y:200, c:'orange', ic:'building' },
+    { x:95,  y:360, c:'green',  ic:'tree' },
+    { x:310, y:340, c:'red',    ic:'heart' },
+    { x:200, y:420, c:'green',  ic:'tree' },
+    { x:195, y:250, c:'indigo', ic:'building' },
+  ];
+  return `
+    <div class="mappa-wrap">
+      <div class="mappa-bg">
+        <svg width="100%" height="100%" viewBox="0 0 400 600" preserveAspectRatio="none" style="position:absolute">
+          <path d="M 0 120 Q 150 100 400 140" stroke="#C4CDDB" stroke-width="20" fill="none"/>
+          <path d="M 0 300 L 400 280" stroke="#D4DBE8" stroke-width="14" fill="none"/>
+          <path d="M 0 460 Q 200 440 400 480" stroke="#CCD5E2" stroke-width="18" fill="none"/>
+          <path d="M 80 0 L 120 600" stroke="#D4DBE8" stroke-width="12" fill="none"/>
+          <path d="M 240 0 Q 260 300 220 600" stroke="#C4CDDB" stroke-width="16" fill="none"/>
+          <path d="M 340 0 L 320 600" stroke="#D4DBE8" stroke-width="10" fill="none"/>
+          <rect x="160" y="330" width="80" height="110" rx="12" fill="#C8E0C6" opacity="0.8"/>
+          <rect x="30" y="160" width="50" height="60" rx="8" fill="#C8E0C6" opacity="0.8"/>
+        </svg>
+        ${pins.map(p => `
+          <div class="mappa-pin" style="left:${p.x}px;top:${p.y}px">
+            <div class="mappa-pin-tile" style="background:var(--t-${p.c})">${icon(p.ic, { size:18, sw:2.2 })}</div>
+            <div class="mappa-pin-arrow" style="background:var(--t-${p.c})"></div>
+          </div>`).join('')}
+      </div>
+      <div class="mappa-chips">
+        ${layers.map(([id, label]) => `
+          <button class="mappa-chip ${state.mappaLayer===id?'active':''}" onclick="state.mappaLayer='${id}'; render()">${esc(label)}</button>
+        `).join('')}
+      </div>
+      <div class="mappa-sheet">
+        <div class="mappa-sheet-handle"></div>
+        <div class="mappa-sheet-row">
+          ${tile('building', 'indigo', 48, 14)}
+          <div style="flex:1">
+            <div class="mappa-sheet-title">Palazzo Comunale</div>
+            <div class="mappa-sheet-sub">Piazza Aldo Moro, 1 · 320m</div>
+          </div>
+          <button style="padding:10px 16px;border-radius:12px;background:var(--ink);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px">${icon('map', { size:14, sw:2 })} Vai</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ─── UFFICI ───────────────────────────────────── */
+function renderUffici() {
+  const colors = ['indigo','blue','teal','purple','orange','green'];
+  return `
+    <div class="page-title">
+      <h1>Uffici</h1>
+      <div class="sub">Orari, contatti e prenotazioni</div>
+    </div>
+    <div class="uffici-list">
+      ${UFFICI.map((u, i) => {
+        const color = colors[i % colors.length];
+        const aperto = i % 2 === 0;
+        return `
+          <div class="ufficio-card">
+            <div class="ufficio-top">
+              ${tile('building', color, 48, 14)}
+              <div style="flex:1">
+                <div class="ufficio-name">${esc(u.nome)}</div>
+                <div class="ufficio-addr">${esc(u.indirizzo)}</div>
+              </div>
+              <span class="${aperto ? 'badge-open' : 'badge-closed'}">${aperto ? 'Aperto' : 'Chiuso'}</span>
+            </div>
+            <div class="ufficio-info">
+              <div class="ufficio-info-row">${icon('clock', { size:14, stroke:'var(--ink-mute)', sw:2 })} ${esc(u.orari)}</div>
+              <div class="ufficio-info-row">${icon('phone', { size:14, stroke:'var(--ink-mute)', sw:2 })} ${esc(u.tel)}</div>
+              <div class="ufficio-info-row">${icon('mail',  { size:14, stroke:'var(--ink-mute)', sw:2 })} ${esc(u.email)}</div>
+            </div>
+            <div class="ufficio-actions">
+              <button class="btn-primary">${icon('calendar', { size:14, sw:2 })} Prenota</button>
+              <button class="btn-secondary">${icon('phone', { size:14, sw:2 })} Chiama</button>
+            </div>
+          </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+/* ─── NOTIFICHE ────────────────────────────────── */
+function renderNotifiche() {
+  const gruppoOf = (n) => /oggi/i.test(n.data) ? 'Oggi' : /ieri/i.test(n.data) ? 'Ieri' : 'Precedenti';
+  const raggruppate = NOTIFICHE.reduce((acc, n) => {
+    const g = gruppoOf(n);
+    (acc[g] = acc[g] || []).push(n);
+    return acc;
+  }, {});
+  const iconMap = { avviso:'warning', rifiuti:'recycle', notizia:'newspaper', segnalazione:'megaphone' };
+  const colorMap = { avviso:'orange', rifiuti:'green', notizia:'indigo', segnalazione:'pink' };
+  const nonLette = NOTIFICHE.filter(n => !n.letto).length;
+  return `
+    <div class="page-title">
+      <h1>Notifiche</h1>
+      <div class="sub">${nonLette} non lette</div>
+    </div>
+    <div style="padding:0 20px 24px">
+      ${Object.entries(raggruppate).map(([gruppo, items]) => `
+        <div class="notif-section">
+          <div class="notif-section-label">${esc(gruppo)}</div>
+          <div class="notif-group">
+            ${items.map(n => `
+              <div class="notif-item">
+                ${tile(iconMap[n.tipo] || 'info', colorMap[n.tipo] || 'blue', 40, 12)}
+                <div style="flex:1;min-width:0">
+                  <div class="notif-title ${!n.letto ? 'unread' : ''}">${esc(n.titolo)}</div>
+                  <div class="notif-text">${esc(n.testo)}</div>
+                  <div class="notif-date">${esc(n.data)}</div>
+                </div>
+                ${!n.letto ? '<div class="notif-dot"></div>' : ''}
+              </div>`).join('')}
+          </div>
+        </div>`).join('')}
+    </div>
+  `;
+}
+
+/* ─── PROFILO ──────────────────────────────────── */
+function renderProfilo() {
+  if (!state.loggedIn) {
+    return `
+      <div class="profile-empty">
+        <div class="profile-empty-head">
+          ${stemma(72)}
+          <div class="profile-empty-title">Accedi al tuo profilo</div>
+          <div class="profile-empty-sub">Accedi con SPID o CIE per seguire le tue segnalazioni e ricevere avvisi personalizzati.</div>
+        </div>
+        <div class="profile-empty-actions">
+          <button class="btn-login-dark" onclick="state.loggedIn=true; persist(); render()">Entra con SPID</button>
+          <button class="btn-login-light">Entra con CIE</button>
+          <div style="text-align:center;font-size:12px;color:var(--ink-mute);margin-top:8px;font-weight:500">Accesso sicuro e conforme a SPID/CIE</div>
+        </div>
+      </div>
+    `;
   }
-
-  // close weather panel if open
-  document.getElementById('weather-panel').classList.remove('open');
-
-  if(id==='news') renderNewsList(currentNewsFilter,'news-list');
-  if(id==='attivita') renderAttivita(currentAttCat);
-  if(id==='contatti') renderContatti();
-  if(id==='info') renderInfo();
+  return `
+    <div style="padding-bottom:24px">
+      <div class="profile-hero">
+        <div class="profile-avatar">MR</div>
+        <div class="profile-name">Marco Rossi</div>
+        <div class="profile-email">marco.rossi@email.it · CF: RSSMRC80...</div>
+      </div>
+      <div style="padding:0 20px">
+        <div class="row-group-inner">
+          ${rowHtml({ icon:'megaphone', color:'orange', title:'Le mie segnalazioni', sub:'2 aperte · 5 risolte' })}
+          ${rowHtml({ icon:'bookmark',  color:'purple', title:'Salvati',             sub:'3 articoli' })}
+          ${rowHtml({ icon:'pin',       color:'teal',   title:'La mia zona',         sub:'Via Roma · Zona A', last:true })}
+        </div>
+        <div class="section-label"><span class="title">Preferenze</span></div>
+        <div class="row-group-inner">
+          ${rowHtml({ icon:'bell',     color:'red',    title:'Notifiche',    sub:'Personalizza gli avvisi' })}
+          ${rowHtml({ icon:'lock',     color:'ink',    title:'Privacy',      sub:'Gestisci i dati' })}
+          ${rowHtml({ icon:'settings', color:'indigo', title:'Impostazioni', sub:'Lingua, tema, accessibilità', last:true })}
+        </div>
+        <button style="width:100%;padding:14px;border-radius:14px;background:transparent;margin-top:20px;font-size:14px;font-weight:700;color:var(--t-red)" onclick="state.loggedIn=false; persist(); render()">Esci</button>
+      </div>
+    </div>
+  `;
 }
 
-function openArticle(id){
-  const n=NEWS.find(x=>x.id===id);
-  if(!n) return;
-  prevScreen=currentScreen;
+/* ─── SEGNALAZIONI ─────────────────────────────── */
+function renderSegnalazioni() {
+  const statoPill = (s) => s==='in-lavorazione' ? pillHtml('notizia','In lavorazione')
+                        : s==='risolta' ? pillHtml('success','Risolta')
+                        : s==='aperta' ? pillHtml('avviso','Aperta')
+                        : pillHtml('neutral', s);
+  const categorie = [
+    { icon:'road',    color:'orange', label:'Strade' },
+    { icon:'trash',   color:'green',  label:'Rifiuti' },
+    { icon:'bulb',    color:'yellow', label:'Illuminazione' },
+    { icon:'tree',    color:'teal',   label:'Verde' },
+    { icon:'paint',   color:'pink',   label:'Decoro' },
+    { icon:'sign',    color:'blue',   label:'Segnaletica' },
+  ];
+  return `
+    <div style="padding-bottom:24px">
+      <div class="page-title">
+        <h1>Segnalazioni</h1>
+        <div class="sub">Aiuta a migliorare la tua città</div>
+      </div>
 
-  const artImg=document.getElementById('art-img');
-  if(n.img){
-    artImg.innerHTML=`<img src="${n.img}" alt="">`;
-  } else {
-    artImg.innerHTML=`<svg width="56" height="56" viewBox="0 0 56 56" fill="none"><rect width="56" height="56" rx="8" fill="#D4E6F8"/><path d="M8 40l12-14 10 12 8-10 10 12H8z" fill="#0055A5"/></svg>`;
-  }
-  document.getElementById('art-pill').innerHTML=`<div class="pill ${pillClass(n.tipo)}">${n.tipo}</div>`;
-  document.getElementById('art-title').textContent=n.titolo;
-  document.getElementById('art-meta').innerHTML=`
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="stroke:#bbb;stroke-width:1.1;fill:none">
-      <rect x="1" y="2" width="11" height="10" rx="1.5"/>
-      <path d="M1 6h11M4.5 1v2.5M8.5 1v2.5"/>
-    </svg>
-    ${n.data}`;
-  document.getElementById('art-body').textContent=n.testo;
-  document.getElementById('art-tags').innerHTML=n.tags.map(t=>`<div class="article-tag">${t}</div>`).join('');
+      <div class="segn-cta">
+        <button class="segn-cta-card">
+          <div class="segn-cta-icon">${icon('plus', { size:28, sw:2.2 })}</div>
+          <div class="segn-cta-body">
+            <div class="segn-cta-title">Nuova segnalazione</div>
+            <div class="segn-cta-sub">Invia foto e posizione in 30 secondi</div>
+          </div>
+          ${icon('arrowR', { size:20, sw:2.2 })}
+        </button>
+      </div>
 
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
-  document.getElementById('scr-article').classList.add('active');
-  currentScreen='article';
+      <div class="section-label"><span class="title">Cosa vuoi segnalare?</span></div>
+      <div class="segn-cats">
+        ${categorie.map(c => `
+          <button class="segn-cat">
+            ${tile(c.icon, c.color, 44, 14)}
+            <span class="segn-cat-label">${esc(c.label)}</span>
+          </button>`).join('')}
+      </div>
 
-  // topbar back mode
-  document.getElementById('topbar-back').classList.add('visible');
-  document.getElementById('topbar-logo').style.display='none';
-  document.getElementById('topbar-text').style.display='none';
-  const w=document.getElementById('topbar-weather');
-  if(w) w.style.display='none';
+      <div class="segn-tabs-wrap">
+        <div class="segn-tabs">
+          ${[['mie','Le mie'],['zona','Nella zona']].map(([k,l]) => `
+            <button class="segn-tab ${state.segnTab===k?'active':''}" onclick="state.segnTab='${k}'; render()">${esc(l)}</button>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="segn-list">
+        ${SEGNALAZIONI_UTENTE.map(s => `
+          <div class="segn-card">
+            <div class="segn-thumb"><div class="photo-ph stone" style="height:56px"></div></div>
+            <div class="segn-body">
+              <div class="segn-top">
+                <div class="segn-tipo">${esc(s.tipo)}</div>
+                ${statoPill(s.stato)}
+              </div>
+              <div class="segn-addr">${icon('pin', { size:11, sw:2 })} ${esc(s.indirizzo)}</div>
+              <div class="segn-id">#${s.id} · ${esc(s.data)}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+  `;
 }
 
-function goBack(){
-  const backMap={'settings':'home','login-plus':'home','richiesta-plus':'attivita','dashboard':'home','article':'news','contatti':'home','info':'home','segnalazioni':'home'};
-  const target=backMap[currentScreen];
-  if(target) goScreen(prevScreen===currentScreen?target:prevScreen);
-  else goScreen(prevScreen||'home');
+/* ─── RIFIUTI ──────────────────────────────────── */
+function renderRifiuti() {
+  const giorni = RIFIUTI_CAL.slice(0, 7);
+  const prossimo = giorni.find(g => g.tipo) || giorni[0];
+  const info = prossimo.tipo ? RIFIUTI_TIPI[prossimo.tipo] : null;
+  return `
+    <div style="padding-bottom:24px">
+      <div class="page-title">
+        <h1>Raccolta rifiuti</h1>
+        <div class="sub">Via Roma · Zona A · porta a porta</div>
+      </div>
+
+      ${info ? `
+        <div class="rifiuti-hero-wrap">
+          <div class="rifiuti-hero" style="background:${info.colore}">
+            <div class="over">Prossima raccolta · ${prossimo.giorno} ${prossimo.num} ${prossimo.mese}</div>
+            <div class="title">${esc(info.nome)}</div>
+            <div class="note">Esporre il contenitore entro le 6:00</div>
+          </div>
+        </div>` : ''}
+
+      <div class="section-label"><span class="title">Prossimi 7 giorni</span></div>
+      <div class="rifiuti-cal">
+        ${giorni.map(g => {
+          const i = g.tipo ? RIFIUTI_TIPI[g.tipo] : null;
+          return `
+            <div class="rifiuti-day">
+              <div class="rifiuti-day-date">
+                <div class="rifiuti-day-name">${esc(g.giorno)}</div>
+                <div class="rifiuti-day-num">${g.num}</div>
+              </div>
+              <div class="rifiuti-day-body">
+                ${i ? `
+                  <div class="rifiuti-day-title">${esc(i.nome)}</div>
+                  <div class="rifiuti-day-note">Esporre entro le 6:00</div>
+                ` : `<div class="rifiuti-day-none">Nessuna raccolta</div>`}
+              </div>
+              ${i ? `<div class="rifiuti-day-icon" style="background:${i.colore}">${icon(i.icon, { size:18, sw:2.2 })}</div>` : ''}
+            </div>`;
+        }).join('')}
+      </div>
+
+      <div class="section-label"><span class="title">Guida differenziata</span><button class="action">Tutti i rifiuti</button></div>
+      <div class="rifiuti-guide">
+        ${Object.entries(RIFIUTI_TIPI).slice(0, 4).map(([k, t]) => `
+          <div class="rifiuti-guide-card">
+            <div class="rifiuti-guide-icon" style="background:${t.colore}">${icon(t.icon, { size:20, sw:2.2 })}</div>
+            <div class="rifiuti-guide-title">${esc(t.nome)}</div>
+            <div class="rifiuti-guide-sub">Contenitore dedicato</div>
+          </div>`).join('')}
+      </div>
+    </div>
+  `;
 }
 
-function setNewsTab(el){
-  currentNewsFilter=el.dataset.filter;
-  document.querySelectorAll('#scr-news .tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderNewsList(currentNewsFilter,'news-list');
-}
+/* ═══════════════════════════════════════════════════
+   MAIN RENDER
+   ═══════════════════════════════════════════════════ */
+function render() {
+  persist();
+  const current = state.stack[state.stack.length - 1];
+  const cfg = SCREEN_CONFIG[current.screen] || SCREEN_CONFIG.home;
+  const isRoot = state.stack.length === 1 && ROOT_SCREENS.includes(current.screen);
 
-function setAttTab(el){
-  currentAttCat=el.dataset.cat;
-  document.querySelectorAll('#scr-attivita .tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderAttivita(currentAttCat);
-}
-
-/* ─── METEO (Open-Meteo API — gratuita, no API key) ── */
-const WEATHER_ICONS={
-  0:'\u2600\uFE0F',1:'\uD83C\uDF24\uFE0F',2:'\u26C5',3:'\u2601\uFE0F',
-  45:'\uD83C\uDF2B\uFE0F',48:'\uD83C\uDF2B\uFE0F',
-  51:'\uD83C\uDF26\uFE0F',53:'\uD83C\uDF26\uFE0F',55:'\uD83C\uDF27\uFE0F',
-  56:'\uD83C\uDF27\uFE0F',57:'\uD83C\uDF27\uFE0F',
-  61:'\uD83C\uDF27\uFE0F',63:'\uD83C\uDF27\uFE0F',65:'\uD83C\uDF27\uFE0F',
-  66:'\uD83C\uDF27\uFE0F',67:'\uD83C\uDF27\uFE0F',
-  71:'\uD83C\uDF28\uFE0F',73:'\uD83C\uDF28\uFE0F',75:'\uD83C\uDF28\uFE0F',
-  77:'\uD83C\uDF28\uFE0F',
-  80:'\uD83C\uDF26\uFE0F',81:'\uD83C\uDF27\uFE0F',82:'\uD83C\uDF27\uFE0F',
-  85:'\uD83C\uDF28\uFE0F',86:'\uD83C\uDF28\uFE0F',
-  95:'\u26C8\uFE0F',96:'\u26C8\uFE0F',99:'\u26C8\uFE0F'
-};
-const DAY_NAMES=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
-
-function getWeatherIcon(code){ return WEATHER_ICONS[code]||'\u2601\uFE0F'; }
-
-async function loadWeather(){
-  try{
-    const res=await fetch('https://api.open-meteo.com/v1/forecast?latitude=45.4558&longitude=10.4107&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Europe/Rome&forecast_days=7');
-    const d=await res.json();
-
-    // Today in header
-    document.getElementById('weather-icon').textContent=getWeatherIcon(d.current.weather_code);
-    document.getElementById('weather-temp').innerHTML=Math.round(d.current.temperature_2m)+'&deg;';
-
-    // Weekly panel
-    const weekEl=document.getElementById('weather-week');
-    const today=new Date().toISOString().slice(0,10);
-    weekEl.innerHTML=d.daily.time.map((date,i)=>{
-      const dayDate=new Date(date);
-      const isToday=date===today;
-      const dayName=isToday?'Oggi':DAY_NAMES[dayDate.getDay()];
-      return `<div class="weather-day ${isToday?'today':''}">
-        <div class="weather-day-name">${dayName}</div>
-        <div class="weather-day-icon">${getWeatherIcon(d.daily.weather_code[i])}</div>
-        <div class="weather-day-temp">${Math.round(d.daily.temperature_2m_max[i])}&deg;</div>
-        <div class="weather-day-min">${Math.round(d.daily.temperature_2m_min[i])}&deg;</div>
+  // Render header
+  let headerHtml = '';
+  const headerless = typeof cfg.headerless === 'function' ? cfg.headerless() : cfg.headerless;
+  if (headerless) {
+    headerHtml = `<button class="backbtn-floating" onclick="pop()">${icon('chevronL', { size:20, sw:2 })}</button>`;
+  } else if (cfg.fullHeader) {
+    // Brand header (home)
+    headerHtml = `
+      <div class="topbar brand">
+        <button style="background:transparent;padding:0" onclick="resetTo('profilo'); state.tab='profilo'; persist(); render()">${stemma(44, true)}</button>
+        <div class="topbar-text">
+          <div class="title">${esc(cfg.title)}</div>
+          <div class="sub">${esc(cfg.sub)}</div>
+        </div>
+        <button class="topbar-btn">${icon('search', { size:18, sw:2 })}</button>
+        <button class="topbar-btn" onclick="push('notifiche')">
+          ${icon('bell', { size:18, sw:2 })}
+          <span class="badge-dot"></span>
+        </button>
       </div>`;
-    }).join('');
-  }catch(e){
-    console.warn('Meteo non disponibile:',e);
-    document.getElementById('weather-icon').textContent='\u2601\uFE0F';
-    document.getElementById('weather-temp').innerHTML='--&deg;';
+  } else if (cfg.bigTitle || isRoot) {
+    // Simple top bar without back button for root screens
+    headerHtml = `
+      <div class="topbar">
+        ${stemma(44)}
+        <div class="topbar-text">
+          <div class="title">${esc(cfg.title)}</div>
+          <div class="sub">${esc(cfg.sub)}</div>
+        </div>
+        <button class="topbar-btn" onclick="push('notifiche')">
+          ${icon('bell', { size:18, sw:2 })}
+          <span class="badge-dot"></span>
+        </button>
+      </div>`;
+  } else {
+    // Light top bar with back button
+    headerHtml = `
+      <div class="topbar simple">
+        ${state.stack.length > 1 ? `<button class="back-btn" onclick="pop()">${icon('chevronL', { size:20, sw:2 })}</button>` : ''}
+        <div style="flex:1;min-width:0">
+          <div style="font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.2px;line-height:1.1">${esc(cfg.title)}</div>
+          <div style="font-size:11px;color:var(--ink-mute);margin-top:2px;letter-spacing:0.3px">${esc(cfg.sub)}</div>
+        </div>
+        <button style="background:transparent;padding:6px;position:relative;color:var(--ink)" onclick="push('notifiche')">
+          ${icon('bell', { size:22, sw:1.6 })}
+          <span style="position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--t-orange);border:1.5px solid #fff"></span>
+        </button>
+      </div>`;
   }
+
+  // Render screen body
+  let bodyHtml = '';
+  switch (current.screen) {
+    case 'home':              bodyHtml = renderHome(); break;
+    case 'news':              bodyHtml = renderNewsList(); break;
+    case 'article':           bodyHtml = renderArticle(); break;
+    case 'servizi':           bodyHtml = renderServizi(); break;
+    case 'attivita':          bodyHtml = renderAttivita(); break;
+    case 'attivita-detail':   bodyHtml = renderAttivitaDetail(); break;
+    case 'mappa':             bodyHtml = renderMappa(); break;
+    case 'uffici':            bodyHtml = renderUffici(); break;
+    case 'notifiche':         bodyHtml = renderNotifiche(); break;
+    case 'profilo':           bodyHtml = renderProfilo(); break;
+    case 'segnalazioni':      bodyHtml = renderSegnalazioni(); break;
+    case 'rifiuti':           bodyHtml = renderRifiuti(); break;
+    default:                  bodyHtml = renderHome();
+  }
+
+  const scrollHtml = cfg.fullHeight
+    ? `<div class="scroll" style="display:flex;flex-direction:column">${bodyHtml}</div>`
+    : `<div class="scroll">${bodyHtml}</div>`;
+
+  document.getElementById('screen-host').innerHTML = `${headerHtml}${scrollHtml}`;
+
+  // Render tab bar (hide when in deep screen)
+  const tabbar = document.getElementById('tabbar');
+  const showTabs = state.stack.length === 1;
+  if (showTabs) {
+    tabbar.style.display = 'flex';
+    const items = [
+      { id:'home',     icon:'home',      label:'Home' },
+      { id:'news',     icon:'newspaper', label:'Novità' },
+      { id:'servizi',  icon:'grid',      label:'Servizi' },
+      { id:'attivita', icon:'store',     label:'Attività' },
+      { id:'profilo',  icon:'user',      label:'Profilo' },
+    ];
+    tabbar.innerHTML = items.map(it => {
+      const on = state.tab === it.id;
+      return `
+        <button class="tab ${on?'active':''}" onclick="goTab('${it.id}')">
+          <div class="tab-icon-wrap">${icon(it.icon, { size:20, sw: on?2.2:2, fill: on?'currentColor':'none' })}</div>
+          <span class="tab-label">${esc(it.label)}</span>
+        </button>`;
+    }).join('');
+  } else {
+    tabbar.style.display = 'none';
+  }
+
+  // Scroll to top on screen change
+  const scrollEl = document.querySelector('.scroll');
+  if (scrollEl) scrollEl.scrollTop = 0;
 }
 
-function toggleWeeklyWeather(){
-  document.getElementById('weather-panel').classList.toggle('open');
-}
-
-/* ─── INIT ────────────────────────────────────────── */
-loadSettings();
-loadPlusSession();
-loadSegnSession();
-// Load custom users into memory for login
-getPlusUsers().forEach(u=>{ if(!DEMO_USERS.some(d=>d.email===u.email)) DEMO_USERS.push(u); });
-renderHero();
-renderNewsList('tutte','home-news-list');
-renderNewsList('tutte','news-list');
-renderAttivita('tutte');
-loadWeather();
+/* ─── INIT ─────────────────────────────────────── */
+render();
