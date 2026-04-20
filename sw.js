@@ -1,56 +1,52 @@
-/* Service Worker — App Comune di Calcinato */
+// Comune di Calcinato — Service Worker v3
+// Strategy: network-first for everything (cache only as offline fallback)
+// This ensures new deployments are visible immediately without hard refresh.
 
-const CACHE_NAME = 'calcinato-v1';
-const ASSETS = [
+const CACHE = 'calcinato-v3';
+const SHELL = [
   '/',
   '/index.html',
-  '/manifest.json',
   '/css/style.css',
   '/js/app.js',
-  '/assets/stemma-calcinato.png',
+  '/manifest.json',
 ];
 
-// Install: pre-cache shell
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS))
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE)
+      .then(c => c.addAll(SHELL).catch(() => {}))
       .then(() => self.skipWaiting())
   );
 });
 
-// Activate: clean old caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-      )
-    ).then(() => self.clients.claim())
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
-// Fetch: network-first for API, cache-first for assets
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
+self.addEventListener('fetch', (e) => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
 
-  // Network-first for API calls
-  if (url.hostname.includes('municipiumapp.it') || url.hostname.includes('supabase.co')) {
-    event.respondWith(
-      fetch(event.request)
-        .then(res => {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-          return res;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  // Cache-first for app shell
-  event.respondWith(
-    caches.match(event.request)
-      .then(cached => cached || fetch(event.request))
+  // Network-first: try fresh from network, fall back to cache only if offline
+  e.respondWith(
+    fetch(req)
+      .then(res => {
+        // Update cache with latest version
+        if (res && res.status === 200 && res.type === 'basic') {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+        }
+        return res;
+      })
+      .catch(() => caches.match(req).then(r => r || caches.match('/')))
   );
+});
+
+// Listen for manual update trigger from the page
+self.addEventListener('message', (e) => {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
 });

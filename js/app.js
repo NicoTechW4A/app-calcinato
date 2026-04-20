@@ -31,14 +31,71 @@ const NEWS = [
 ];
 
 const ATTIVITA = [
-  { id:0, nome:'Trattoria da Marco',   cat:'ristorazione', catLabel:'Ristorazione',   indirizzo:'Via Roma 14',         tel:'030 998 8123', orari:'Mar–Dom 12:00–14:30, 19:00–22:30', certificata:true, sito:'trattoriadamarco.it' },
-  { id:1, nome:'Farmacia Centrale',    cat:'salute',       catLabel:'Salute',         indirizzo:'Piazza Aldo Moro 3',  tel:'030 998 8001', orari:'Lun–Sab 8:30–19:30',                certificata:false },
-  { id:2, nome:'Palestra FitLife',     cat:'sport',        catLabel:'Sport e benessere', indirizzo:'Via Industriale 7',tel:'030 998 8055', orari:'Lun–Ven 7:00–22:00, Sab 9:00–20:00', certificata:true },
-  { id:3, nome:'Ferramenta Rossi',     cat:'commercio',    catLabel:'Commercio',      indirizzo:'Via Brescia 22',      tel:'030 998 8042', orari:'Lun–Sab 8:00–12:00, 15:00–19:00',   certificata:false },
-  { id:4, nome:'Ristorante Al Lago',   cat:'ristorazione', catLabel:'Ristorazione',   indirizzo:'Via Lago 5',          tel:'030 998 8099', orari:'Mer–Lun 12:00–15:00, 19:00–23:00',  certificata:true },
-  { id:5, nome:'Studio Legale Bianchi',cat:'servizi',      catLabel:'Servizi professionali', indirizzo:'Corso Italia 5', tel:'030 998 8077', orari:'Lun–Ven 9:00–13:00, 14:30–18:30', certificata:false },
-  { id:6, nome:'Centro Estetico Sole', cat:'salute',       catLabel:'Benessere',      indirizzo:'Via Milano 18',       tel:'030 998 8033', orari:'Mar–Sab 9:00–19:00',                certificata:true },
-  { id:7, nome:'Bar Centrale',         cat:'ristorazione', catLabel:'Bar e caffè',    indirizzo:'Piazza Aldo Moro 7',  tel:'030 998 8022', orari:'Tutti i giorni 6:30–20:00',         certificata:false },
+  { id:0, nome:'Grafiche Tagliani Stampa e Comunicazione', cat:'servizi', catLabel:'Tipografia',
+    indirizzo:'Via Cairoli 13', tel:'030 963114', orari:'Lun–Ven 8:00–18:00',
+    certificata:true, sito:'grafichetagliani.com', email:'lucia@grafichetagliani.com',
+    facebook:'https://www.facebook.com/grafichetagliani/',
+    descrizione:'Attiva nel mondo della stampa da oltre 50 anni. Offre servizi di stampa online e tradizionale: volantini, biglietti da visita, etichette, cartellini, buste, cartoline, locandine.',
+    servizi:['Stampa online (SpeedyStampa)','Preventivi personalizzati','Consegna in tutta Italia','Stampa digitale e offset','Grafica e comunicazione'] },
+
+  { id:1, nome:'Ristorante Al Baratello', cat:'ristorazione', catLabel:'Ristorante/Pizzeria',
+    indirizzo:'Via Baratello 34', tel:'030 963285',
+    orari:'Mer–Ven e Dom 12:00–14:00 / 18:30–22:00, Sab solo sera',
+    certificata:true, sito:'baratello.it',
+    facebook:'https://www.facebook.com/al.baratello',
+    descrizione:'Ristorante-pizzeria Cascina Al Baratello. Cucina italiana e mediterranea con opzioni vegetariane, vegane e senza glutine. Specialità: pizza fritta, pesce, antipasti, tiramisù.',
+    servizi:['Pizza','Cucina italiana','Senza glutine','Vegetariano','Vegano','Parcheggio'] },
+
+  { id:2, nome:'Manenti Glass', cat:'servizi', catLabel:'Serramenti e infissi',
+    indirizzo:'Via Bixio 38', tel:'030 7994131', orari:'Lun–Ven 8:00–18:00',
+    certificata:false },
+
+  { id:3, nome:'Idroelettrica MCL', cat:'servizi', catLabel:'Impianti idroelettrici',
+    indirizzo:'Via Sottopassaggio 1', tel:'030 9636056', orari:'Lun–Ven 8:00–18:00',
+    certificata:false, sito:'idroelettricamcl.it' },
+
+  { id:4, nome:'Tapita Beer and Grill', cat:'ristorazione', catLabel:'Birreria/Ristopub',
+    indirizzo:'Via XX Settembre 11', tel:'030 5231449',
+    orari:'Lun–Mar e Ven–Sab 17:30–01:00',
+    certificata:false,
+    facebook:'https://www.facebook.com/tapitacalcinato/' },
+
+  { id:5, nome:'Tecnocasa Calcinato', cat:'servizi', catLabel:'Agenzia immobiliare',
+    indirizzo:'Via G. Marconi 22', tel:'030 9174447',
+    orari:'Lun–Ven 9:00–12:30 / 15:00–19:00',
+    certificata:false, sito:'calcinato1.tecnocasa.it' },
+
+  { id:6, nome:'Atelier Patrizia Concari', cat:'commercio', catLabel:'Abiti sposa e cerimonia',
+    indirizzo:'Contrada Cavalletto 7/A, Brescia', tel:'329 4083012',
+    orari:'Su appuntamento',
+    certificata:false, sito:'patriziaconcari.it',
+    facebook:'https://www.facebook.com/concaripatriziastilista',
+    instagram:'https://www.instagram.com/patriziaconcaristilista' },
+
+  { id:7, nome:'Novauto', cat:'commercio', catLabel:'Concessionaria auto',
+    indirizzo:'Via Beretta Cavaliere 25/A, Calcinate (BG)', tel:'035 4426000',
+    orari:'Lun–Ven 8:30–12:30 / 14:30–18:30, Sab 8:30–12:30',
+    certificata:true, sito:'novauto-srl.it',
+    descrizione:'Concessionaria auto con vendita nuovo e usato, assistenza post-vendita e ricambi originali.',
+    servizi:['Vendita nuovo','Usato certificato','Assistenza','Ricambi originali','Finanziamenti'] },
+
+  { id:8, nome:'Capretti Liscio Internazionale', cat:'ristorazione', catLabel:'Discoteca/Sala da ballo',
+    indirizzo:'Via Carlo Alberto 62', tel:'030 963385',
+    orari:'Ven–Dom sera, vedi calendario',
+    certificata:false, sito:'caprettiliscio.com', email:'info@capretti.info',
+    facebook:'https://www.facebook.com/capretti.liscio' },
+
+  { id:9, nome:'Forneria di Valgonio Italo', cat:'commercio', catLabel:'Panetteria',
+    indirizzo:'Via Vittorio Emanuele II 58', tel:'030 9636065',
+    orari:'Chiusa (gennaio 2026)',
+    certificata:true,
+    descrizione:'Storica panetteria di Calcinato, attiva per oltre 65 anni. Pane fresco, prodotti da forno artigianali, focacce e specialità locali.',
+    servizi:['Pane artigianale','Focacce','Dolci da forno','Specialità locali'] },
+
+  { id:10, nome:'Pasticceria Lady Rose', cat:'ristorazione', catLabel:'Pasticceria',
+    indirizzo:'Via Vittorio Emanuele 6', tel:'030 9969990',
+    orari:'Mar–Sab 7:15–12:30 / 15:00–19:00',
+    certificata:false },
 ];
 
 const UFFICI = [
@@ -590,6 +647,33 @@ function renderAttivitaDetail() {
   const catIcon = { ristorazione:'fork', commercio:'bag', sport:'dumbbell', salute:'heart', servizi:'briefcase' }[a.cat] || 'store';
   const heroTone = catColor === 'orange' ? 'warm' : catColor === 'red' ? 'orange' : catColor;
 
+  const serviziHtml = a.certificata && a.servizi && a.servizi.length ? `
+    <div style="margin-top:20px">
+      <div class="sec-small" style="padding:0 4px 10px">Servizi</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        ${a.servizi.map(s => `<span class="pill pill-notizia" style="text-transform:none;letter-spacing:0;font-size:12px">${esc(s)}</span>`).join('')}
+      </div>
+    </div>` : '';
+
+  const descHtml = a.certificata && a.descrizione ? `
+    <div style="margin-top:18px;font-size:14px;line-height:1.6;color:var(--ink-2);font-weight:500">${esc(a.descrizione)}</div>` : '';
+
+  const contattiRows = [];
+  contattiRows.push(rowHtml({ icon:'pin',   color:'red',    title: a.indirizzo, sub:'Indirizzo' }));
+  contattiRows.push(rowHtml({ icon:'phone', color:'green',  title: a.tel,       sub:'Telefono' }));
+  contattiRows.push(rowHtml({ icon:'clock', color:'orange', title: a.orari,     sub:'Orari' }));
+  if (a.email) contattiRows.push(rowHtml({ icon:'mail', color:'indigo', title: a.email, sub:'Email' }));
+  if (a.sito) contattiRows.push(rowHtml({ icon:'external', color:'purple', title: a.sito, sub:'Sito web' }));
+
+  const socialRows = [];
+  if (a.facebook) socialRows.push(rowHtml({ icon:'share', color:'blue', title:'Facebook', sub: a.facebook.replace('https://', '').replace('www.', '') }));
+  if (a.instagram) socialRows.push(rowHtml({ icon:'share', color:'pink', title:'Instagram', sub: a.instagram.replace('https://', '').replace('www.', '') }));
+
+  // Mark last row
+  const allRows = [...contattiRows, ...socialRows];
+  const lastIdx = allRows.length - 1;
+  const contattiHtml = allRows.map((r, i) => i === lastIdx ? r.replace('<button class="row"', '<button class="row last"') : r).join('');
+
   return `
     <div class="photo-ph detail-hero ${heroTone}"></div>
     <div class="detail-body-wrap">
@@ -604,16 +688,15 @@ function renderAttivitaDetail() {
         <div class="cert-banner">
           ${tile('badge', 'blue', 40, 12)}
           <div style="flex:1">
-            <div class="cert-title">Attività certificata</div>
+            <div class="cert-title">Attività certificata Plus</div>
             <div class="cert-sub">Verificata dal Comune di Calcinato</div>
           </div>
         </div>` : ''}
+      ${descHtml}
       <div style="margin-top:18px" class="row-group-inner">
-        ${rowHtml({ icon:'pin',    color:'red',    title: a.indirizzo, sub:'Indirizzo' })}
-        ${rowHtml({ icon:'phone',  color:'green',  title: a.tel,       sub:'Telefono' })}
-        ${rowHtml({ icon:'clock',  color:'orange', title: a.orari,     sub:'Orari', last: !a.sito })}
-        ${a.sito ? rowHtml({ icon:'external', color:'purple', title: a.sito, sub:'Sito web', last:true }) : ''}
+        ${contattiHtml}
       </div>
+      ${serviziHtml}
       <div class="article-actions">
         <button class="btn-primary">${icon('phone', { size:16, sw:2 })} Chiama</button>
         <button class="btn-dark">${icon('map', { size:16, sw:2 })} Indicazioni</button>
