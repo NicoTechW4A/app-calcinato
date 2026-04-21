@@ -122,6 +122,29 @@ img { display: block; max-width: 100%; }
   background: var(--primary-deep);
   position: relative;
   z-index: 3;
+  /* Subtle radial for depth */
+  background:
+    radial-gradient(ellipse 420px 160px at 20% 0%, var(--primary-bright) 0%, transparent 60%),
+    radial-gradient(ellipse 360px 160px at 120% 100%, var(--t-indigo) 0%, transparent 60%),
+    linear-gradient(180deg, var(--primary) 0%, var(--primary-deep) 100%);
+}
+
+/* Brand extension: blue band right under the topbar on non-home brand screens */
+.brand-ext {
+  height: 30px;
+  background: linear-gradient(180deg, var(--primary-deep) 0%, transparent 100%);
+  margin-top: -1px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+.brand-ext::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 50%;
+  background: var(--primary-deep);
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
 }
 
 .stemma {

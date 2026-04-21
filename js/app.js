@@ -519,18 +519,18 @@ function pillHtml(tone, text) {
 
 /* ─── SCREEN CONFIGS ───────────────────────────── */
 const SCREEN_CONFIG = {
-  home:              { title:'Calcinato',        sub:'Brescia · BS',         variant:'brand',  fullHeader:true },
-  news:              { title:'Novità',           sub:'Notizie e avvisi',     variant:'light' },
+  home:              { title:'Calcinato',        sub:'Brescia · BS',         variant:'brand', fullHeader:true, homeHero:true },
+  news:              { title:'Novità',           sub:'Notizie e avvisi',     variant:'brand', fullHeader:true },
   article:           { headerless:true },
-  servizi:           { title:'Servizi',          sub:'Comune di Calcinato',  variant:'light', bigTitle:true },
-  attivita:          { title:'Attività locali',  sub:'Directory del territorio', variant:'light' },
+  servizi:           { title:'Servizi',          sub:'Comune di Calcinato',  variant:'brand', fullHeader:true },
+  attivita:          { title:'Attività locali',  sub:'Directory del territorio', variant:'brand', fullHeader:true },
   'attivita-detail': { headerless:true },
   mappa:             { title:'Mappa',            sub:'Punti di interesse',   variant:'light', noPad:true, fullHeight:true },
-  uffici:            { title:'Uffici comunali',  sub:'Contatti e orari',     variant:'light', bigTitle:true },
-  notifiche:         { title:'Notifiche',        sub:'Aggiornamenti dal Comune', variant:'light', bigTitle:true },
-  profilo:           { title:'Profilo',          sub:'Area riservata',       variant:'light' },
-  segnalazioni:      { title:'Segnalazioni',     sub:'Città che funziona',   variant:'light', bigTitle:true },
-  rifiuti:           { title:'Raccolta rifiuti', sub:'Calendario porta a porta', variant:'light', bigTitle:true },
+  uffici:            { title:'Uffici comunali',  sub:'Contatti e orari',     variant:'light' },
+  notifiche:         { title:'Notifiche',        sub:'Aggiornamenti dal Comune', variant:'light' },
+  profilo:           { title:'Profilo',          sub:'Area riservata',       variant:'brand', fullHeader:true },
+  segnalazioni:      { title:'Segnalazioni',     sub:'Città che funziona',   variant:'light' },
+  rifiuti:           { title:'Raccolta rifiuti', sub:'Calendario porta a porta', variant:'light' },
   'richiesta-plus':  { title:'Passa a Plus',     sub:'Richiesta al Comune',  variant:'light' },
   'comune-admin':    { title:'Dashboard Comune', sub:'Gestione richieste Plus', variant:'light' },
 };
@@ -1473,7 +1473,8 @@ function render() {
     // Floating back button over hero
     headerHtml = `<button class="backbtn-floating" onclick="pop()">${icon('chevronL', { size:20, sw:2 })}</button>`;
   } else if (cfg.fullHeader) {
-    // Brand header (home) — blue gradient background
+    // Brand header (all root screens) — blue gradient background
+    const ext = cfg.homeHero ? '' : '<div class="brand-ext"></div>';
     headerHtml = `
       <div class="topbar brand">
         <button style="background:transparent;padding:0" onclick="resetTo('profilo'); state.tab='profilo'; persist(); render()">${stemma(44, true)}</button>
@@ -1486,7 +1487,8 @@ function render() {
           ${icon('bell', { size:18, sw:2 })}
           <span class="badge-dot"></span>
         </button>
-      </div>`;
+      </div>
+      ${ext}`;
   } else {
     // Unified light top bar — with back button if deep, stemma if root
     headerHtml = `
