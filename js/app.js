@@ -7,27 +7,33 @@ const NEWS = [
   { id:0, tipo:'Avviso', titolo:'Risultati del referendum popolare confermativo', data:'24 marzo 2026',
     snippet:'Sì 61,29% — No 38,71%. Pubblicati i risultati ufficiali.',
     testo:"Si sono concluse le operazioni di scrutinio del referendum popolare confermativo tenutosi domenica 22 marzo 2026. Il risultato finale registra il 61,29% di voti favorevoli (Sì) e il 38,71% di voti contrari (No), con un'affluenza alle urne del 54,3% degli aventi diritto.\n\nL'Amministrazione Comunale ringrazia tutti i cittadini che hanno partecipato alla consultazione democratica e desidera sottolineare l'importanza della partecipazione attiva alla vita della comunità. I risultati dettagliati per seggio sono disponibili presso l'Ufficio Elettorale.",
-    tags:['Elezioni','Democrazia','Referendum'], categoria:'Elettorale', hero:'warm' },
+    tags:['Elezioni','Democrazia','Referendum'], categoria:'Elettorale', hero:'warm',
+    icon:'megaphone', iconColor:'orange' },
   { id:1, tipo:'Notizia', titolo:'Consulenza Notarile Aprile 2026 — Iniziativa gratuita', data:'24 marzo 2026',
     snippet:'Servizio di consulenza notarile gratuita per tutti i residenti.',
     testo:"Il Comune di Calcinato, in collaborazione con il Consiglio Notarile di Brescia, mette a disposizione dei cittadini un servizio di consulenza notarile gratuita per il mese di aprile 2026.\n\nIl servizio è rivolto a tutti i residenti che necessitano di informazioni preliminari su atti notarili, successioni, donazioni, compravendite immobiliari e altri aspetti giuridici. Gli appuntamenti si svolgeranno presso la sede municipale, Piazza Aldo Moro 1.\n\nPer prenotare contattare l'Ufficio Servizi Sociali al numero 030/99891-214.",
-    tags:['Servizi sociali','Assistenza legale'], categoria:'Servizi al cittadino', hero:'slate' },
+    tags:['Servizi sociali','Assistenza legale'], categoria:'Servizi al cittadino', hero:'slate',
+    icon:'document', iconColor:'indigo' },
   { id:2, tipo:'Avviso', titolo:'Bando di Servizio Civile Universale — Anno 2026', data:'18 marzo 2026',
     snippet:'Scadenza bando: 8 aprile 2026 alle ore 14:00.',
     testo:"È aperto il bando per la selezione di operatori volontari da impiegare in progetti di Servizio Civile Universale per l'anno 2026 presso il Comune di Calcinato.\n\nI giovani di età compresa tra i 18 e i 28 anni non compiuti possono presentare domanda esclusivamente attraverso la piattaforma DOL, previa autenticazione con SPID di secondo livello.\n\nScadenza tassativa: 8 aprile 2026, ore 14:00.",
-    tags:['Giovani','Volontariato','Bandi'], categoria:'Giovani', hero:'blue' },
+    tags:['Giovani','Volontariato','Bandi'], categoria:'Giovani', hero:'blue',
+    icon:'user', iconColor:'blue' },
   { id:3, tipo:'Avviso', titolo:'Servizio mensa scolastica 2026/2027 — Riapertura iscrizioni', data:'13 marzo 2026',
     snippet:'Iscrizioni aperte fino al 18 aprile 2026.',
     testo:"È possibile inoltrare domanda di iscrizione al servizio mensa scolastica per l'anno scolastico 2026/2027 fino al 18 aprile 2026.\n\nLe domande devono essere presentate esclusivamente online tramite il Portale dei Servizi Scolastici del Comune di Calcinato, previa autenticazione con SPID, CIE o CNS.",
-    tags:['Istruzione','Scuola','Mensa'], categoria:'Istruzione', hero:'orange' },
+    tags:['Istruzione','Scuola','Mensa'], categoria:'Istruzione', hero:'orange',
+    icon:'fork', iconColor:'yellow' },
   { id:4, tipo:'Comunicato', titolo:'Dote Scuola — Materiale Didattico a.s. 2026/27', data:'13 marzo 2026',
     snippet:'Contributo regionale per le spese scolastiche delle famiglie.',
     testo:"Il bando di Regione Lombardia 'Dote Scuola — Materiale Didattico' mette a disposizione un contributo economico a sostegno delle famiglie per l'acquisto di libri di testo e dotazioni tecnologiche.\n\nPossono accedere al contributo le famiglie con ISEE non superiore a 15.748,78 €, con figli iscritti ai corsi di istruzione secondaria.",
-    tags:['Istruzione','Contributi regionali'], categoria:'Istruzione', hero:'purple' },
+    tags:['Istruzione','Contributi regionali'], categoria:'Istruzione', hero:'purple',
+    icon:'document', iconColor:'purple' },
   { id:5, tipo:'Notizia', titolo:'"Non solo compiti" — Proposta pomeridiana scuola primaria', data:'18 marzo 2026',
     snippet:'Attività pomeridiane per bambine e bambini della Scuola Primaria.',
     testo:"Il Comune di Calcinato, in collaborazione con la Cooperativa Tempo Libero, propone un'attività pomeridiana strutturata.\n\nIl progetto 'Non solo compiti' offre supporto allo studio individualizzato, attività ludico-educative, laboratori creativi e momenti di socializzazione. Attivo dal lunedì al venerdì dalle 14:00 alle 18:00.",
-    tags:['Istruzione','Bambini','Doposcuola'], categoria:'Istruzione', hero:'pink' },
+    tags:['Istruzione','Bambini','Doposcuola'], categoria:'Istruzione', hero:'pink',
+    icon:'heart', iconColor:'pink' },
 ];
 
 const ATTIVITA = [
@@ -656,9 +662,11 @@ function rowHtml({ icon: ic, color, title, sub, onClick, last, right }) {
 /* ─── NEWS CARD ─────────────────────────────────── */
 function newsCard(n) {
   const tone = n.tipo === 'Avviso' ? 'avviso' : n.tipo === 'Notizia' ? 'notizia' : 'comunicato';
+  const iconName = n.icon || (n.tipo === 'Avviso' ? 'megaphone' : n.tipo === 'Comunicato' ? 'document' : 'newspaper');
+  const iconColor = n.iconColor || (n.tipo === 'Avviso' ? 'orange' : n.tipo === 'Comunicato' ? 'purple' : 'indigo');
   return `
     <button class="news-card" onclick="push('article', { id: ${n.id} })">
-      <div class="news-thumb"><div class="photo-ph ${n.hero || 'blue'}" style="height:72px"></div></div>
+      <div class="news-thumb">${tile(iconName, iconColor, 72, 14, 32)}</div>
       <div class="news-body">
         ${pillHtml(tone, n.tipo)}
         <div class="news-title">${esc(n.titolo)}</div>
