@@ -294,7 +294,7 @@ img { display: block; max-width: 100%; }
   color: var(--ink-faint);
 }
 .tab.active .tab-icon-wrap {
-  background: var(--primary-soft);
+  background: transparent;
   color: var(--primary);
 }
 .tab-label {

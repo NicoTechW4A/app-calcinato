@@ -1560,7 +1560,7 @@ function render() {
       const on = state.tab === it.id && state.stack.length === 1;
       return `
         <button class="tab ${on?'active':''}" onclick="goTab('${it.id}')">
-          <div class="tab-icon-wrap">${icon(it.icon, { size:20, sw: on?2.2:2, fill: on?'currentColor':'none' })}</div>
+          <div class="tab-icon-wrap">${icon(it.icon, { size:22, sw: on?2.4:1.8, fill: 'none' })}</div>
           <span class="tab-label">${esc(it.label)}</span>
         </button>`;
     }).join('');
