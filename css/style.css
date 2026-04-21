@@ -379,7 +379,7 @@ img { display: block; max-width: 100%; }
   position: relative;
   z-index: 1;
   padding: 0 20px;
-  margin-bottom: 22px;
+  margin-bottom: 40px;
 }
 .pickup-card {
   background: #fff;
