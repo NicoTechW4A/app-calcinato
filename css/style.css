@@ -553,25 +553,28 @@ img { display: block; max-width: 100%; }
 .row-body { flex: 1; min-width: 0; }
 .row-chevron { color: var(--ink-faint); flex-shrink: 0; }
 
-/* ─── Icon tile (outline style) ───────────────────── */
+/* ─── Icon tile (soft pastel style) ──────────────── */
 .tile {
   border-radius: 12px;
-  color: var(--primary);
-  background: var(--surface);
-  border: 1.5px solid var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   position: relative;
+  border: none;
 }
-/* All color variants use the same blue outline — color is preserved as data attribute if needed later */
-.tile-blue, .tile-sky, .tile-purple, .tile-green, .tile-orange,
-.tile-red, .tile-pink, .tile-teal, .tile-yellow, .tile-indigo, .tile-ink {
-  color: var(--primary);
-  background: var(--surface);
-  border-color: var(--primary);
-}
+/* Soft pastel bg + full-color icon per category */
+.tile-blue   { background: #DCE4FD; color: var(--t-blue);   }
+.tile-sky    { background: #E0EBFF; color: var(--t-sky);    }
+.tile-purple { background: #E8E0FF; color: var(--t-purple); }
+.tile-green  { background: #D4F0DE; color: var(--t-green);  }
+.tile-orange { background: #FFE3CC; color: var(--t-orange); }
+.tile-red    { background: #FDD8DC; color: var(--t-red);    }
+.tile-pink   { background: #FCDCE9; color: var(--t-pink);   }
+.tile-teal   { background: #CEEAF0; color: var(--t-teal);   }
+.tile-yellow { background: #FBEFD1; color: var(--t-yellow); }
+.tile-indigo { background: #DDE1F7; color: var(--t-indigo); }
+.tile-ink    { background: #E5E7EB; color: var(--ink);      }
 
 /* ─── Pill ────────────────────────────────────────── */
 .pill {
