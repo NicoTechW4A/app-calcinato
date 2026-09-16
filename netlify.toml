@@ -1,0 +1,22 @@
+# Deploy continuo: ogni push su main pubblica in produzione.
+# Il sito e' statico (PWA vanilla, nessun bundler): build.sh copia in dist/
+# solo i file dell'app, cosi' node_modules e la parte Capacitor restano fuori.
+
+[build]
+  command = "bash scripts/build.sh"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Il service worker e la shell non devono mai restare in cache del browser,
+# altrimenti un nuovo deploy resta invisibile fino a hard refresh.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
