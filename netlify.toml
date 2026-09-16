@@ -7,7 +7,8 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  # Allineato a quanto impostato nella dashboard Netlify.
+  NODE_VERSION = "22"
 
 # Il service worker e la shell non devono mai restare in cache del browser,
 # altrimenti un nuovo deploy resta invisibile fino a hard refresh.
