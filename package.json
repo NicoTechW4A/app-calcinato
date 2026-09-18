@@ -5,10 +5,14 @@
   "main": "index.html",
   "scripts": {
     "dev": "npx serve . -l 3000",
+    "presync": "bash scripts/build.sh",
     "sync": "npx cap sync",
     "open:ios": "npx cap open ios",
     "open:android": "npx cap open android",
-    "import:attivita": "node scripts/import-attivita.js"
+    "import:attivita": "node scripts/import-attivita.js",
+    "review": "codex exec review --uncommitted",
+    "review:commit": "codex exec review --commit HEAD",
+    "review:main": "codex exec review --base main"
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",
